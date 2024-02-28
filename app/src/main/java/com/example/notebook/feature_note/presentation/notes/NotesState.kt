@@ -1,4 +1,4 @@
-package com.example.notebook.feature_note.presentation.notes.components
+package com.example.notebook.feature_note.presentation.notes
 
 import com.example.notebook.feature_note.domain.model.Note
 import com.example.notebook.feature_note.domain.utils.NoteOrder
