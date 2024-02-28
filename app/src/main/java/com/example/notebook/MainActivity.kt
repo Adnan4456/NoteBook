@@ -3,10 +3,8 @@ package com.example.notebook
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,7 +19,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         super.onCreate(savedInstanceState)
+
         setContent {
             NoteBookTheme {
                 // A surface container using the 'background' color from the theme
@@ -65,33 +66,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-
-    var name by remember { mutableStateOf("") }
-
-    Column {
-        if (name.isNotEmpty()){
-            Text(text = "Hello $name!")
-        }
-       OutlinedTextField(
-           label  = {Text(text = name)},
-           value = name ,
-           onValueChange = {name  = it}
-       )
-    }
-
-
-
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    NoteBookTheme {
-        Greeting("Android")
     }
 }
