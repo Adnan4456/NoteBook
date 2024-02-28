@@ -141,7 +141,6 @@ fun NotesScreen(
                     verticalArrangement = Arrangement.spacedBy(10.dp),
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ){
-
                     items(state.notes){ note ->
                         NoteItem(
                             note = note,
