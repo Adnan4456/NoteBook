@@ -5,6 +5,9 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -23,6 +26,8 @@ import com.example.notebook.feature_note.presentation.notes.NotesViewModel
 import com.example.notebook.feature_note.presentation.notes.components.NoteItem
 import com.example.notebook.feature_note.presentation.notes.components.OrderSection
 import com.example.notebook.feature_note.presentation.util.Screen
+import com.example.notebook.ui.theme.AppTheme
+import com.example.notebook.ui.theme.Orientation
 import kotlinx.coroutines.launch
 
 
@@ -94,37 +99,80 @@ fun NotesScreen(
             }
             Spacer(modifier = Modifier.height(16.dp))
 
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-            ){
-                items(state.notes){ note ->
-                    NoteItem(
-                        note = note,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                navController.navigate(
-                                    Screen.AddEditNoteScreen.route +
-                                            "?noteId=${note.id}&noteColor=${note.color}"
-                                )
-                            },
-                        onDeleteClick = {
-                          viewModel.onEvent(NotesEvent.DeleteNote(note))
+            if (AppTheme.orientation == Orientation.Portrait){
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                ){
+                    items(state.notes){ note ->
+                        NoteItem(
+                            note = note,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    navController.navigate(
+                                        Screen.AddEditNoteScreen.route +
+                                                "?noteId=${note.id}&noteColor=${note.color}"
+                                    )
+                                },
+                            onDeleteClick = {
+                                viewModel.onEvent(NotesEvent.DeleteNote(note))
 
-                            scope.launch {
-                                val result = scaffoldState.snackbarHostState.showSnackbar(
-                                    "Note deleted",
-                                    actionLabel = "Undo"
-                                )
-                                if (result == SnackbarResult.ActionPerformed){
-                                    viewModel.onEvent(NotesEvent.RestoreNote)
+                                scope.launch {
+                                    val result = scaffoldState.snackbarHostState.showSnackbar(
+                                        "Note deleted",
+                                        actionLabel = "Undo"
+                                    )
+                                    if (result == SnackbarResult.ActionPerformed){
+                                        viewModel.onEvent(NotesEvent.RestoreNote)
+                                    }
                                 }
                             }
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
                 }
             }
+            else
+            {
+                //show lazy Grid in landscap mode
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ){
+
+                    items(state.notes){ note ->
+                        NoteItem(
+                            note = note,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    navController.navigate(
+                                        Screen.AddEditNoteScreen.route +
+                                                "?noteId=${note.id}&noteColor=${note.color}"
+                                    )
+                                },
+                            onDeleteClick = {
+                                viewModel.onEvent(NotesEvent.DeleteNote(note))
+
+                                scope.launch {
+                                    val result = scaffoldState.snackbarHostState.showSnackbar(
+                                        "Note deleted",
+                                        actionLabel = "Undo"
+                                    )
+                                    if (result == SnackbarResult.ActionPerformed){
+                                        viewModel.onEvent(NotesEvent.RestoreNote)
+                                    }
+                                }
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                }
+
+            }
+
         }
     }
 }
