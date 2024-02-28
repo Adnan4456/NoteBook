@@ -1,13 +1,11 @@
 package com.example.notebook.feature_note.presentation.add_edit_note.ui
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.notebook.feature_note.domain.model.InvalidNoteException
 import com.example.notebook.feature_note.domain.model.Note
 import com.example.notebook.feature_note.domain.use_cases.NoteUseCases
@@ -15,7 +13,6 @@ import com.example.notebook.feature_note.presentation.add_edit_note.AddEditNoteE
 import com.example.notebook.feature_note.presentation.add_edit_note.NoteTextFieldState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -90,7 +87,7 @@ class AddEditNoteViewModel
                     text = event.value
                 )
             }
-            is AddEditNoteEvent.ChangeTitleFocus -> {
+            is AddEditNoteEvent.ChangeContentFocus -> {
                 _noteContent.value = _noteContent.value.copy(
                     isHintVisible = !event.focusState.isFocused &&
                             _noteContent.value.text.isBlank()
@@ -123,7 +120,6 @@ class AddEditNoteViewModel
                     }
                 }
             }
-            else -> {}
         }
 
     }

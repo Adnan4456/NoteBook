@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.room.FtsOptions.Order
 import com.example.notebook.feature_note.domain.utils.NoteOrder
 import com.example.notebook.feature_note.domain.utils.OrderType
 
