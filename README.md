@@ -5,7 +5,8 @@ Users can create new notes, enabling them to capture and organize their thoughts
 
 ### Sorting Options:
 Implemented sorting functionality, allowing users to arrange their notes based on various criteria such as date, title, and color. This enhances the user's ability to manage and find specific notes easily.
-Note Editing:
+
+### Note Editing:
 Enabled users to edit existing notes, providing the flexibility to update or modify the content as needed.
 
 ### Note Deletion:
@@ -21,11 +22,11 @@ Implemented Clean Architecture principles to separate concerns and maintain a cl
 
 ### MVVM (Model-View-ViewModel) Design Pattern:
 Adopted the MVVM design pattern to organize and structure the application, facilitating the separation of UI logic from business logic and promoting a more modular and maintainable codebase.
-UI State Handling in ViewModel:
+
+### UI State Handling in ViewModel:
 Managed UI state efficiently by utilizing ViewModels to handle the presentation logic, ensuring a seamless and reactive user experience.
 
-Hilt for Dependency Injection:
-
+### Hilt for Dependency Injection:
 Incorporated Hilt, a dependency injection library for Android, to simplify and streamline dependency management. This ensures a more modular and maintainable codebase, promoting testability and scalability.
 
 ### Multi-Screen Size Support:
