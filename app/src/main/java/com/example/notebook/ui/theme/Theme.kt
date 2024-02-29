@@ -1,6 +1,5 @@
 package com.example.notebook.ui.theme
 
-import androidx.annotation.Dimension
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
