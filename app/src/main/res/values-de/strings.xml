@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Notizbuch</string>
+    <string name="notetitle">Meine Notizen</string>
+    <string name="note_delete">Notiz gelöscht</string>
+    <string name="undo">Rückgängig machen</string>
+    <string name="title">Titel</string>
+    <string name="date">Datum</string>
+    <string name="color">Farbe</string>
+    <string name="ascending">Aufsteigend</string>
+    <string name="descending">Absteigend</string>
+
+</resources>

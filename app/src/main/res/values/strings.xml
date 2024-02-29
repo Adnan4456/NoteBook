@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">NoteBook</string>
+    <string name="notetitle">My Notes</string>
+    <string name="note_delete">Note deleted</string>
+    <string name="undo">Undo</string>
+    <string name="title">Title</string>
+    <string name="date">Date</string>
+    <string name="color">Color</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
 </resources>
