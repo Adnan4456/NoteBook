@@ -23,6 +23,9 @@ Implemented Clean Architecture principles to separate concerns and maintain a cl
 ### MVVM (Model-View-ViewModel) Design Pattern:
 Adopted the MVVM design pattern to organize and structure the application, facilitating the separation of UI logic from business logic and promoting a more modular and maintainable codebase.
 
+### Room database 
+Implementd Room database to store Notes locally.
+
 ### UI State Handling in ViewModel:
 Managed UI state efficiently by utilizing ViewModels to handle the presentation logic, ensuring a seamless and reactive user experience.
 
