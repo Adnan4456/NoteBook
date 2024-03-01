@@ -10,5 +10,6 @@
     <string name="color">Farbe</string>
     <string name="ascending">Aufsteigend</string>
     <string name="descending">Absteigend</string>
-
+    <string name="readmore">Mehr lesen</string>
+    <string name="readless">Lese weniger</string>
 </resources>
