@@ -8,4 +8,8 @@
     <string name="color">Color</string>
     <string name="ascending">Ascending</string>
     <string name="descending">Descending</string>
+    <string name="Hi">Hi there</string>
+    <string name="create_account">Create account</string>
+    <string name="label_email">Email</string>
+    <string name="label_pass">Password</string>
 </resources>
