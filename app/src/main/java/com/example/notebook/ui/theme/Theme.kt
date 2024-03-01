@@ -1,5 +1,6 @@
 package com.example.notebook.ui.theme
 
+
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
@@ -9,18 +10,19 @@ import androidx.compose.ui.graphics.Color
 import com.example.notebook.WindowSize
 import com.example.notebook.WindowSizeClass
 
+
 private val DarkColorPalette = darkColors(
     primary =  Color.White,
     background = DarkGray,
-    onBackground = Color.White,
-    surface = LightBlue,
-    onSurface = DarkGray
+//    onBackground = Color.White,
+    surface = DarkGray,
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
+    primary = Primary,
     primaryVariant = Purple700,
-    secondary = Teal200
+    secondary = Secondary,
+    surface = Color.White
 )
 
 @Composable
@@ -34,7 +36,6 @@ fun NoteBookTheme(
         LightColorPalette
     }
 
-    //first check orientation
     val orientation = when {
         windowSizeClass.width.size > windowSizeClass.height.size -> Orientation.LandScape
         else -> Orientation.Portrait

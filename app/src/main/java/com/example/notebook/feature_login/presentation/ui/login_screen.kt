@@ -1,55 +1,74 @@
 package com.example.notebook.feature_login.presentation.ui
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.notebook.R
-import com.example.notebook.feature_login.presentation.components.MyTextFieldComponent
-import com.example.notebook.feature_login.presentation.components.TextFields
+import com.example.notebook.feature_login.presentation.components.*
 
 
 @Composable
 fun LoginScreen(){
 
-    Surface(
-        color = Color.White,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-                .clip(RoundedCornerShape(4.dp)
-                ),
-            horizontalAlignment = Alignment.Start
+    Box(
+        modifier = Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ){
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(28.dp),
+            color = MaterialTheme.colors.surface
         ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
 
-            TextFields(
-                value = stringResource(id = R.string.Hi),
-                Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center)
+                NormalTextComponent(
+                    value = stringResource(id = R.string.Hi),
+                )
 
-            TextFields(
-                value = stringResource(id = R.string.create_account),
-                Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
-            MyTextFieldComponent(
-                labelValue = stringResource(id = R.string.label_email)
-            )
+                HeadingTextComponent(
+                    value = stringResource(id = R.string.create_account),
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                MyTextFieldComponent(
+                    labelValue = stringResource(id = R.string.label_email),
+                    painterResource(id = R.drawable.message),
+                    { },
+                    true
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                PasswordTextFieldComponent(
+                    labelValue = stringResource(id = R.string.label_pass),
+                    painterResource(id = R.drawable.ic_lock)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                LoginButton("Login")
+            }
         }
     }
+
 }
 
 @Preview
 @Composable
 fun LoginScreenPreview(){
-    LoginScreen()
+    MaterialTheme{
+
+        LoginScreen()
+    }
+
 }
