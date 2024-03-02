@@ -1,8 +1,6 @@
 package com.example.notebook.feature_login.presentation.ui
 
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,10 +9,10 @@ import com.example.notebook.feature_internet_connectivity.domain.ConnectivityObs
 import com.example.notebook.feature_login.domain.use_case.EmailAndPasswordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.nio.channels.Channel
+
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,7 +33,7 @@ class LoginViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             networkConnectivityObserver.observe().onEach {status ->
-                Log.d("TAG","internet status = ${status}")
+//                Log.d("TAG","internet status = ${status}")
                 networkState = status
             }
         }
