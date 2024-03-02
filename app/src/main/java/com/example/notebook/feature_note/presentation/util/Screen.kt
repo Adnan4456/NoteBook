@@ -6,4 +6,5 @@ sealed class Screen(
     object NotesScreen: Screen("notes_screen")
     object AddEditNoteScreen: Screen("add_edit_notes_screen")
 
+    object LoginScreen:Screen("login_screen")
 }

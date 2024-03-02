@@ -10,5 +10,11 @@
     <string name="color">Farbe</string>
     <string name="ascending">Aufsteigend</string>
     <string name="descending">Absteigend</string>
+    <string name="Hi">Hallo there</string>
+    <string name="create_account">Benutzerkonto erstellen</string>
+    <string name="label_email">Email</string>
+    <string name="label_pass">Passwort</string>
+    <string name="hide_password">Hide Password</string>
+    <string name="show_password">Show Password</string>
 
 </resources>

@@ -96,6 +96,10 @@ dependencies {
 
     //Splash screen
     implementation("androidx.core:core-splashscreen:1.0.0")
+
+    //
+//    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
+
 }
 
 // Allow references to generated code

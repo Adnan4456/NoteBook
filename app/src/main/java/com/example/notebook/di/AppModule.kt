@@ -2,6 +2,13 @@ package com.example.notebook.di
 
 import android.app.Application
 import androidx.room.Room
+import com.example.notebook.feature_login.data.repository.DefaultEmailValidator
+import com.example.notebook.feature_login.data.repository.DefaultPasswordValidator
+import com.example.notebook.feature_login.domain.repository.EmailValidator
+import com.example.notebook.feature_login.domain.repository.PasswordValidator
+import com.example.notebook.feature_login.domain.use_case.EmailAndPasswordUseCase
+import com.example.notebook.feature_login.domain.use_case.ValideteEmailUseCase
+import com.example.notebook.feature_login.domain.use_case.ValidetePasswordUseCase
 import com.example.notebook.feature_note.data.data_source.NoteDatabase
 import com.example.notebook.feature_note.data.repository.NoteRepositoryImpl
 import com.example.notebook.feature_note.domain.repository.NoteRepository
@@ -42,6 +49,27 @@ object AppModule {
             deleteNoteUseCase = DeleteNoteUseCase(repository),
             addNoteUseCase = AddNoteUseCase( repository),
             getNote = GetNoteUseCase(repository)
+        )
+    }
+
+
+    @Provides
+    fun providesEmailValidator(): EmailValidator{
+        return DefaultEmailValidator()
+    }
+
+    @Provides
+    fun providesPasswordValidator():PasswordValidator{
+        return DefaultPasswordValidator()
+    }
+
+    @Provides
+    @Singleton
+    fun providesEmailAndPasswordUseCase(emailUseCase: ValideteEmailUseCase ,passwordUseCase: ValidetePasswordUseCase)
+    : EmailAndPasswordUseCase{
+        return  EmailAndPasswordUseCase(
+            emailUseCase = emailUseCase,
+            passwordUseCase = passwordUseCase
         )
     }
 }
