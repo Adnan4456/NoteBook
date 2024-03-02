@@ -11,12 +11,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.notebook.R
 import com.example.notebook.feature_login.presentation.components.*
+import com.example.notebook.feature_note.presentation.util.Screen
 
 
 @Composable
-fun LoginScreen(){
+fun LoginScreen(
+    navController: NavController,
+){
 
     Box(
         modifier = Modifier
@@ -26,7 +30,7 @@ fun LoginScreen(){
         Surface(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(28.dp),
+                .padding(8.dp),
             color = MaterialTheme.colors.surface
         ) {
             Column(
@@ -56,19 +60,17 @@ fun LoginScreen(){
                     painterResource(id = R.drawable.ic_lock)
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                LoginButton("Login")
+                LoginButton("Login" , onClick = {
+                    navController.navigate(Screen.NotesScreen.route)
+                })
             }
         }
     }
-
 }
 
 @Preview
 @Composable
 fun LoginScreenPreview(){
     MaterialTheme{
-
-        LoginScreen()
     }
-
 }

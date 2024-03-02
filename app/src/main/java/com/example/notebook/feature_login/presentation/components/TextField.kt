@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -119,7 +120,15 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource:Painter){
     var passwordVisible by remember {
         mutableStateOf(false)
     }
+    val localFocusManager = LocalFocusManager.current
+
     OutlinedTextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(4.dp)
+            ),
+        label = { Text(text = labelValue) },
+        maxLines = 1,
         leadingIcon =
         {
             Icon(painter = painterResource, contentDescription = labelValue)
@@ -142,7 +151,7 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource:Painter){
                 Icon(imageVector =iconImage , contentDescription = decription)
             }
         },
-        label = { Text(text = labelValue) },
+
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = Primary,
             focusedLabelColor = Primary,
@@ -156,14 +165,20 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource:Painter){
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,
         imeAction = ImeAction.Done),
-        modifier = Modifier.fillMaxWidth(),
+        singleLine = true,
+        keyboardActions = KeyboardActions {
+            localFocusManager.clearFocus()
+        },
         visualTransformation = if (passwordVisible) VisualTransformation.None
                                 else PasswordVisualTransformation()
     )
 }
 
 @Composable
-fun LoginButton(value: String){
+fun LoginButton(
+    value: String,
+    onClick: () -> Unit
+){
 
     Button(
         modifier = Modifier.fillMaxWidth()
@@ -171,8 +186,8 @@ fun LoginButton(value: String){
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(Color.Transparent),
         shape = RoundedCornerShape(48.dp),
-        onClick = {
-    }) {
+        onClick = onClick
+    ) {
 
         Box(
             modifier = Modifier
