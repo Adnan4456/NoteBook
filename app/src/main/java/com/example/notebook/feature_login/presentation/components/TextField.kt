@@ -111,7 +111,11 @@ fun MyTextFieldComponent(
 }
 
 @Composable
-fun PasswordTextFieldComponent(labelValue: String, painterResource:Painter){
+fun PasswordTextFieldComponent(labelValue: String,
+                               painterResource:Painter ,
+                               onTextChanged: (String) -> Unit,
+                                errorStatus: Boolean = false
+ ){
 
     var password by remember {
         mutableStateOf("")
@@ -161,6 +165,7 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource:Painter){
         value = password,
         onValueChange = {
             password = it
+            onTextChanged(it)
         },
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password,
@@ -170,7 +175,8 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource:Painter){
             localFocusManager.clearFocus()
         },
         visualTransformation = if (passwordVisible) VisualTransformation.None
-                                else PasswordVisualTransformation()
+                                else PasswordVisualTransformation(),
+        isError = errorStatus
     )
 }
 
@@ -186,7 +192,9 @@ fun LoginButton(
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(Color.Transparent),
         shape = RoundedCornerShape(48.dp),
-        onClick = onClick
+        onClick = {
+            onClick.invoke()
+        }
     ) {
 
         Box(

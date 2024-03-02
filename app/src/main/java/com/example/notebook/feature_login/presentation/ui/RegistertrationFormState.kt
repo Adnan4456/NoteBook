@@ -4,8 +4,9 @@ import java.util.Objects
 
 data class RegistertrationFormState(
     val email: String = "",
-    val emailError: String? = null,
-
+    val emailError: Boolean = false,
+    val emailErrorMessage: String? = null,
     val password: String = "",
-    val passwordError: String? = null
+    val passwordError: Boolean = false,
+    val passwordErrorMessage: String? = null,
 )

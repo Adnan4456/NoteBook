@@ -4,7 +4,8 @@ import com.example.notebook.feature_login.domain.repository.PasswordValidator
 import javax.inject.Inject
 
 class DefaultPasswordValidator
-@Inject constructor(): PasswordValidator {
+    @Inject constructor()
+    : PasswordValidator {
 
     override fun isLengthValid(password: String): Boolean {
 

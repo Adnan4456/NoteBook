@@ -31,5 +31,4 @@ class ValideteEmailUseCase @Inject constructor(
             successful = true
         )
     }
-
 }
