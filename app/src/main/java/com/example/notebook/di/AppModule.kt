@@ -15,6 +15,8 @@ import com.example.notebook.feature_note.data.data_source.NoteDatabase
 import com.example.notebook.feature_note.data.repository.NoteRepositoryImpl
 import com.example.notebook.feature_note.domain.repository.NoteRepository
 import com.example.notebook.feature_note.domain.use_cases.*
+import com.example.notebook.feature_signup.data.repository.SignUpRepositoryImpl
+import com.example.notebook.feature_signup.domain.repository.SignUpRepository
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -38,6 +40,13 @@ object AppModule {
     fun providesLoginRepository(firebaseAuth : FirebaseAuth): LoginRepository{
         return LoginRepositoryImpl(firebaseAuth)
     }
+
+    @Provides
+    @Singleton
+    fun providesSignUpRespository(firebaseAuth : FirebaseAuth): SignUpRepository{
+        return SignUpRepositoryImpl(firebaseAuth)
+    }
+
     @Provides
     @Singleton
     fun providesNoteDatabase(application: Application): NoteDatabase{

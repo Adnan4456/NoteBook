@@ -2,9 +2,9 @@ package com.example.notebook.feature_login.presentation.ui
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -14,18 +14,19 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.notebook.R
-import com.example.notebook.feature_login.presentation.components.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
+import com.example.notebook.components.*
 import com.example.notebook.feature_internet_connectivity.domain.ConnectivityObserver
 import com.example.notebook.feature_login.domain.model.LoginResult
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
+import com.example.notebook.feature_note.presentation.util.Screen
+import com.example.notebook.ui.theme.Primary
 import kotlinx.coroutines.launch
 
-
-@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun LoginScreen(
     navController: NavController,
@@ -35,7 +36,12 @@ fun LoginScreen(
     val networkStatus by  viewModel.networkStatus.collectAsState()
     val loginState by viewModel.loginState.collectAsState()
 
+    var showDialog by remember { mutableStateOf(false) }
+
     val snackbarHostState = remember { SnackbarHostState() }
+
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     if (networkStatus == ConnectivityObserver.Status.Available) {
         LaunchedEffect(networkStatus) {
@@ -47,7 +53,7 @@ fun LoginScreen(
                     ConnectivityObserver.Status.Losing -> "Losing network connection."
                     ConnectivityObserver.Status.Lost -> "Lost network connection."
                 },
-                actionLabel = "Dismiss"
+                actionLabel = context.getString(R.string.dismiss)
             )
         }
     }
@@ -63,8 +69,6 @@ fun LoginScreen(
                 .padding(8.dp),
             color = MaterialTheme.colors.surface
         ) {
-
-
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -83,7 +87,7 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.height(20.dp))
 
                 NormalTextComponent(
-                    value = stringResource(id = R.string.Hi),
+                    value = stringResource(id = R.string.login),
                 )
 
                 HeadingTextComponent(
@@ -92,11 +96,11 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                MyTextFieldComponent(
+                EmailTextFieldComponent(
                     labelValue = stringResource(id = R.string.label_email),
                     painterResource(id = R.drawable.message),
                     onTextChanged = {email ->
-                    viewModel.onEvent(RegistrationFormEvent.EmailChanged(email))
+                    viewModel.onEvent(LoginFormEvent.EmailChanged(email))
                     },
                     errorStatus = !viewModel.state.emailError
                 )
@@ -119,7 +123,7 @@ fun LoginScreen(
                     labelValue = stringResource(id = R.string.label_pass),
                     painterResource(id = R.drawable.ic_lock),
                     onTextChanged = {passsword ->
-                        viewModel.onEvent(RegistrationFormEvent.PasswordChanged(passsword))
+                        viewModel.onEvent(LoginFormEvent.PasswordChanged(passsword))
                     },
                     errorStatus = viewModel.state.passwordError
                 )
@@ -143,26 +147,26 @@ fun LoginScreen(
                     "Login" ,
                     isEnabled = true,
                     onClick = {
-//                    navController.navigate(Screen.NotesScreen.route)
+
                     //firs check internet connection
                     when (networkStatus) {
                         ConnectivityObserver.Status.Available -> {
-                            GlobalScope.launch{
-
-                                snackbarHostState.showSnackbar(
-                                    message = "Connect to the internet.",
-                                    actionLabel = "Dismiss"
-                                )
-                            }
-                            viewModel.onEvent(RegistrationFormEvent.Submit)
+//                            coroutineScope.launch{
+//
+//                                snackbarHostState.showSnackbar(
+//                                    message = context.getString(R.string.connected),
+//                                    actionLabel = context.getString(R.string.dismiss)
+//                                )
+//                            }
+                            viewModel.onEvent(LoginFormEvent.Submit)
                         }
                         else -> {
                             // Show Snackbar if the network is not available
-                            GlobalScope.launch{
+                            coroutineScope.launch{
 
                                 snackbarHostState.showSnackbar(
-                                    message = "Connect to the internet first.",
-                                    actionLabel = "Dismiss"
+                                    message = context.getString(R.string.not_connected),
+                                    actionLabel = context.getString(R.string.dismiss)
                                 )
                             }
 
@@ -170,23 +174,45 @@ fun LoginScreen(
                     }
                 })
 
-                // UI elements based on loginState
                 when (loginState) {
                     is LoginResult.isLoading -> {
-                        // Show loading indicator
-                        CircularProgressIndicator()
+
+                        showDialog = true
+                        LoadingDialogBox(
+                            showDialog = showDialog,
+                            onDismiss = {
+                                showDialog = false
+                            }
+                        )
                     }
                     is LoginResult.isSuccessful -> {
-                        // Login successful, navigate or show success message
                         Toast.makeText(LocalContext.current ,"Login in successfully",Toast.LENGTH_SHORT).show()
+                        showDialog = false
+                        navController.navigate(Screen.NotesScreen.route)
                     }
                     is LoginResult.onFailure -> {
                         // Login failed, show error message
                         val errorMessage = (loginState as LoginResult.onFailure)
                         Toast.makeText(LocalContext.current ,errorMessage.message,Toast.LENGTH_SHORT).show()
-                        // Display error message in UI
+                        showDialog = false
                     }
+                    else -> {}
                 }
+                ClickableText(
+                    text = buildAnnotatedString {
+                            append("Don`t have account ? ")
+                            withStyle(style =  SpanStyle(
+                                color = Primary
+                            )
+                            ){
+                                append(" Sign up")
+                            }
+                        },
+
+                    onClick = {
+                        navController.navigate(Screen.SignUpScreen.route)
+                    }
+                )
             }
         }
     }

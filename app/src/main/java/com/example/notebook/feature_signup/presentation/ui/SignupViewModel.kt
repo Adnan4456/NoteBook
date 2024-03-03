@@ -1,31 +1,33 @@
-package com.example.notebook.feature_login.presentation.ui
+package com.example.notebook.feature_signup.presentation.ui
 
-
-import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.notebook.feature_internet_connectivity.data.NetworkConnectivityObserver
 import com.example.notebook.feature_internet_connectivity.domain.ConnectivityObserver
-import com.example.notebook.feature_login.domain.model.LoginResult
 import com.example.notebook.feature_login.domain.use_case.EmailAndPasswordUseCase
-import com.example.notebook.feature_login.domain.use_case.LoginEmailAndPasswordUseCase
+import com.example.notebook.feature_signup.domain.model.SignUpResult
+import com.example.notebook.feature_signup.domain.use_case.SignUpEmailAndPasswordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-
 import javax.inject.Inject
 
-@HiltViewModel
-class LoginViewModel @Inject constructor(
-    private val emailAndPasswordUseCase: EmailAndPasswordUseCase,
-    private val networkConnectivityObserver: NetworkConnectivityObserver,
-    private val loginEmailAndPasswordUseCase: LoginEmailAndPasswordUseCase
-) :ViewModel() {
 
-    var state by mutableStateOf(LoginFormState())
+@HiltViewModel
+class SignupViewModel
+    @Inject constructor(
+        private val emailAndPasswordUseCase: EmailAndPasswordUseCase,
+        private val networkConnectivityObserver: NetworkConnectivityObserver,
+        private val signUpEmailAndPasswordUseCase: SignUpEmailAndPasswordUseCase
+    ) :ViewModel() {
+
+    var state by mutableStateOf(RegistertrationFormState())
+
     private val _networkStatus = MutableStateFlow(ConnectivityObserver.Status.Unavailable)
 
     var networkState by mutableStateOf(ConnectivityObserver.Status.Available)
@@ -33,10 +35,10 @@ class LoginViewModel @Inject constructor(
 
     var allValidationPassed by mutableStateOf(true)
 
-    private val _loginState = MutableStateFlow<LoginResult>(LoginResult.initialState)
-    val loginState: StateFlow<LoginResult>
-        get() = _loginState
+    private var _signupState = MutableStateFlow<SignUpResult>(SignUpResult.initialState)
 
+    val signupState: StateFlow<SignUpResult>
+        get() = _signupState
 
     init {
         viewModelScope.launch {
@@ -44,7 +46,6 @@ class LoginViewModel @Inject constructor(
                 networkState = status
             }
         }
-
         observeNetworkStatus()
     }
     private fun observeNetworkStatus() {
@@ -54,20 +55,21 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
-    fun onEvent(event: LoginFormEvent){
+
+    fun onEvent(event: RegistrationFormEvent){
         when (event){
 
-            is LoginFormEvent.EmailChanged ->{
+            is RegistrationFormEvent.EmailChanged ->{
                 state = state.copy(
                     email = event.email
                 )
             }
-            is LoginFormEvent.PasswordChanged -> {
+            is RegistrationFormEvent.PasswordChanged -> {
                 state = state.copy(
                     password = event.password
                 )
             }
-            is LoginFormEvent.Submit ->{
+            is RegistrationFormEvent.Submit ->{
                 submitData()
                 allValidationPassed = false
             }
@@ -75,6 +77,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun submitData() {
+
         val emailResult = emailAndPasswordUseCase.emailUseCase.invoke(state.email)
         val passwordResult = emailAndPasswordUseCase.passwordUseCase.invoke(state.password)
 
@@ -87,38 +90,32 @@ class LoginViewModel @Inject constructor(
 
         allValidationPassed = emailResult.successful && passwordResult.successful
         if (allValidationPassed){
-
-            loginEmailAndPassword()
+            signUpEmailAndPassword()
         }
+
     }
 
-    private fun loginEmailAndPassword(){
-        viewModelScope.launch {
+    private fun signUpEmailAndPassword() {
+        viewModelScope.launch{
 
             try {
 
-                _loginState.value = LoginResult.isLoading
-
-                when(loginEmailAndPasswordUseCase.invoke(state.email,state.password)){
-                    is LoginResult.isLoading ->{
-                        _loginState.value = LoginResult.isLoading
+                _signupState.value = SignUpResult.initialState
+                when(signUpEmailAndPasswordUseCase.invoke(state.email,state.password)){
+                    is SignUpResult.isLoading ->{
+                        _signupState.value = SignUpResult.isLoading
                     }
-                    is LoginResult.isSuccessful ->{
-                        _loginState.value = LoginResult.isSuccessful(true)
+                    is SignUpResult.isSuccessful ->{
+                        _signupState.value = SignUpResult.isSuccessful(true)
                     }
-                    is LoginResult.onFailure ->{
-
-                        _loginState.value = LoginResult.onFailure("Failed to login. Try again")
+                    is SignUpResult.onFailure ->{
+                        _signupState.value = SignUpResult.onFailure("")
                     }
-
                     else -> {}
                 }
-
-            }catch (_:Exception){
+            }catch (_: Exception) {
 
             }
-
-
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.notebook.feature_login.presentation.ui
+package com.example.notebook.feature_signup.presentation.ui
 
 sealed class RegistrationFormEvent{
 

@@ -10,6 +10,7 @@
     <string name="descending">Descending</string>
     <string name="Hi">Hi there</string>
     <string name="create_account">Create account</string>
+    <string name="login">Login</string>
     <string name="label_email">Email</string>
     <string name="label_pass">Password</string>
     <string name="hide_password">Hide Password</string>
@@ -18,4 +19,7 @@
     <string name="invalide_email">That`s not valide email address </string>
     <string name="blank_password">The password should contain atleast 8 characters </string>
     <string name="invalide_password">The password should contain one letter and one digit </string>
+    <string name="dismiss">Dismiss</string>
+    <string name="connected">Connected to the internet.</string>
+    <string name="not_connected">Not Connect to the internet.</string>
 </resources>

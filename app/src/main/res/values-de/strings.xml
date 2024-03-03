@@ -16,5 +16,13 @@
     <string name="label_pass">Passwort</string>
     <string name="hide_password">Passwort verbergen</string>
     <string name="show_password">Passwort anzeigen</string>
+    <string name="login">Anmeldung</string>
+    <string name="blank_email">Die E-Mail-Adresse darf nicht leer sein </string>
+    <string name="invalide_email">Das ist keine gültige E-Mail-Adresse </string>
+    <string name="blank_password">Das Passwort sollte mindestens 8 Zeichen enthalten </string>
+    <string name="invalide_password">Das Passwort sollte einen Buchstaben und eine Ziffer enthalten</string>
+    <string name="dismiss">Zurückweisen</string>
+    <string name="connected">Mit dem Internet verbunden.</string>
+    <string name="not_connected">Keine Verbindung zum Internet.</string>
 
 </resources>

@@ -11,8 +11,7 @@ class LoginEmailAndPasswordUseCase
 ){
 
     suspend operator fun  invoke( email : String, password : String)
-    :LoginResult
-    {
+    :LoginResult {
         val repositoryResult =loginRepository.loginWithEmailAndPassword(email, password)
         return when(repositoryResult){
             is LoginResponse.isSuccessful -> {
