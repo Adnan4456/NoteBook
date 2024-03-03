@@ -1,5 +1,6 @@
 package com.example.notebook.feature_login.presentation.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -15,8 +16,10 @@ import androidx.navigation.NavController
 import com.example.notebook.R
 import com.example.notebook.feature_login.presentation.components.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import com.example.notebook.feature_internet_connectivity.domain.ConnectivityObserver
+import com.example.notebook.feature_login.domain.model.LoginResult
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -30,6 +33,7 @@ fun LoginScreen(
 ){
 
     val networkStatus by  viewModel.networkStatus.collectAsState()
+    val loginState by viewModel.loginState.collectAsState()
 
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -135,7 +139,10 @@ fun LoginScreen(
                 }
 
                 Spacer(modifier = Modifier.height(26.dp))
-                LoginButton("Login" , onClick = {
+                LoginButton(
+                    "Login" ,
+                    isEnabled = true,
+                    onClick = {
 //                    navController.navigate(Screen.NotesScreen.route)
                     //firs check internet connection
                     when (networkStatus) {
@@ -162,12 +169,28 @@ fun LoginScreen(
                         }
                     }
                 })
+
+                // UI elements based on loginState
+                when (loginState) {
+                    is LoginResult.isLoading -> {
+                        // Show loading indicator
+                        CircularProgressIndicator()
+                    }
+                    is LoginResult.isSuccessful -> {
+                        // Login successful, navigate or show success message
+                        Toast.makeText(LocalContext.current ,"Login in successfully",Toast.LENGTH_SHORT).show()
+                    }
+                    is LoginResult.onFailure -> {
+                        // Login failed, show error message
+                        val errorMessage = (loginState as LoginResult.onFailure)
+                        Toast.makeText(LocalContext.current ,errorMessage.message,Toast.LENGTH_SHORT).show()
+                        // Display error message in UI
+                    }
+                }
             }
         }
     }
 }
-
-
 
 @Preview
 @Composable

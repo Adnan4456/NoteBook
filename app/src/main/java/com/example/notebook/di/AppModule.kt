@@ -4,7 +4,9 @@ import android.app.Application
 import androidx.room.Room
 import com.example.notebook.feature_login.data.repository.DefaultEmailValidator
 import com.example.notebook.feature_login.data.repository.DefaultPasswordValidator
+import com.example.notebook.feature_login.data.repository.LoginRepositoryImpl
 import com.example.notebook.feature_login.domain.repository.EmailValidator
+import com.example.notebook.feature_login.domain.repository.LoginRepository
 import com.example.notebook.feature_login.domain.repository.PasswordValidator
 import com.example.notebook.feature_login.domain.use_case.EmailAndPasswordUseCase
 import com.example.notebook.feature_login.domain.use_case.ValideteEmailUseCase
@@ -13,6 +15,7 @@ import com.example.notebook.feature_note.data.data_source.NoteDatabase
 import com.example.notebook.feature_note.data.repository.NoteRepositoryImpl
 import com.example.notebook.feature_note.domain.repository.NoteRepository
 import com.example.notebook.feature_note.domain.use_cases.*
+import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +27,17 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+    @Provides
+    @Singleton
+    fun providesFirebaseAuth(): FirebaseAuth{
+        return FirebaseAuth.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun providesLoginRepository(firebaseAuth : FirebaseAuth): LoginRepository{
+        return LoginRepositoryImpl(firebaseAuth)
+    }
     @Provides
     @Singleton
     fun providesNoteDatabase(application: Application): NoteDatabase{

@@ -79,7 +79,7 @@ fun MyTextFieldComponent(
     val textValue = remember {
         mutableStateOf("")
     }
-    val localFocusManager = LocalFocusManager.current
+//    val localFocusManager = LocalFocusManager.current
 
     OutlinedTextField(
         modifier = Modifier
@@ -183,7 +183,8 @@ fun PasswordTextFieldComponent(labelValue: String,
 @Composable
 fun LoginButton(
     value: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    isEnabled: Boolean = true
 ){
 
     Button(
@@ -194,7 +195,8 @@ fun LoginButton(
         shape = RoundedCornerShape(48.dp),
         onClick = {
             onClick.invoke()
-        }
+        },
+        enabled = isEnabled
     ) {
 
         Box(
