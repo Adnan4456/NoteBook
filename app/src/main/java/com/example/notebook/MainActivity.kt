@@ -15,17 +15,32 @@ import com.example.notebook.feature_note.presentation.add_edit_note.ui.AddEditNo
 import com.example.notebook.feature_note.presentation.notes.ui.NotesScreen
 import com.example.notebook.feature_note.presentation.util.Screen
 import com.example.notebook.feature_signup.presentation.ui.SignUpScreen
-import com.example.notebook.ui.theme.AppTheme
 import com.example.notebook.ui.theme.NoteBookTheme
-import com.example.notebook.ui.theme.Orientation
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+
+    @Inject
+    lateinit var firbaseAuth: FirebaseAuth
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
         super.onCreate(savedInstanceState)
+
+        val user = firbaseAuth.currentUser
+
+        val startDestination = if (user != null){
+            Screen.NotesScreen.route
+        }else
+        {
+            Screen.LoginScreen.route
+        }
 
         setContent {
 
@@ -39,7 +54,7 @@ class MainActivity : ComponentActivity() {
                         val navController  = rememberNavController()
                         NavHost(
                             navController = navController,
-                            startDestination = Screen.LoginScreen.route) {
+                            startDestination = startDestination) {
 
                             composable(route = Screen.LoginScreen.route){
 
