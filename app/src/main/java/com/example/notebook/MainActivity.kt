@@ -14,6 +14,7 @@ import com.example.notebook.feature_login.presentation.ui.LoginScreen
 import com.example.notebook.feature_note.presentation.add_edit_note.ui.AddEditNoteScreen
 import com.example.notebook.feature_note.presentation.notes.ui.NotesScreen
 import com.example.notebook.feature_note.presentation.util.Screen
+import com.example.notebook.feature_signup.presentation.ui.SignUpScreen
 import com.example.notebook.ui.theme.AppTheme
 import com.example.notebook.ui.theme.NoteBookTheme
 import com.example.notebook.ui.theme.Orientation
@@ -45,6 +46,9 @@ class MainActivity : ComponentActivity() {
                                 LoginScreen(navController = navController)
                             }
 
+                            composable(route = Screen.SignUpScreen.route){
+                               SignUpScreen(navController = navController)
+                            }
                             composable(route = Screen.NotesScreen.route){
                                 NotesScreen(navController = navController)
                             }
