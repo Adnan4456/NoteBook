@@ -1,6 +1,7 @@
 package com.example.notebook.feature_note.presentation.notes.ui
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -105,35 +106,40 @@ fun NotesScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             if (AppTheme.orientation == Orientation.Portrait){
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                ){
-                    items(state.notes){ note ->
-                        NoteItem(
-                            note = note,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    navController.navigate(
-                                        Screen.AddEditNoteScreen.route +
-                                                "?noteId=${note.id}&noteColor=${note.color}"
-                                    )
-                                },
-                            onDeleteClick = {
-                                viewModel.onEvent(NotesEvent.DeleteNote(note))
+                if(state.notes.size<=0){
+                    NoNotesImage()
+                }else {
 
-                                scope.launch {
-                                    val result = scaffoldState.snackbarHostState.showSnackbar(
-                                        context.getString(R.string.note_delete),
-                                        actionLabel = context.getString(R.string.undo)
-                                    )
-                                    if (result == SnackbarResult.ActionPerformed){
-                                        viewModel.onEvent(NotesEvent.RestoreNote)
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                    ){
+                        items(state.notes){ note ->
+                            NoteItem(
+                                note = note,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        navController.navigate(
+                                            Screen.AddEditNoteScreen.route +
+                                                    "?noteId=${note.id}&noteColor=${note.color}"
+                                        )
+                                    },
+                                onDeleteClick = {
+                                    viewModel.onEvent(NotesEvent.DeleteNote(note))
+
+                                    scope.launch {
+                                        val result = scaffoldState.snackbarHostState.showSnackbar(
+                                            context.getString(R.string.note_delete),
+                                            actionLabel = context.getString(R.string.undo)
+                                        )
+                                        if (result == SnackbarResult.ActionPerformed){
+                                            viewModel.onEvent(NotesEvent.RestoreNote)
+                                        }
                                     }
                                 }
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
                     }
                 }
             }
@@ -179,4 +185,8 @@ fun NotesScreen(
 
         }
     }
+}
+@Composable
+fun NoNotesImage(){
+    Text(text = "You did not add any Note. Please add notes")
 }
