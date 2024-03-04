@@ -26,7 +26,7 @@ fun NormalTextComponent(value: String) {
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal
         ), color = TextColor,
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Start
     )
 }
 
@@ -42,7 +42,7 @@ fun HeadingTextComponent(value: String) {
             fontWeight = FontWeight.Bold,
             fontStyle = FontStyle.Normal
         ), color = TextColor,
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Start
     )
 }
 

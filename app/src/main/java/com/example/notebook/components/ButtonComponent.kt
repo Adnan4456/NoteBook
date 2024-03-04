@@ -1,10 +1,7 @@
 package com.example.notebook.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -30,10 +27,10 @@ fun LoginButton(
 
     Button(
         modifier = Modifier.fillMaxWidth()
-            .heightIn(48.dp),
+            .height(50.dp),
         contentPadding = PaddingValues(),
         colors = ButtonDefaults.buttonColors(Color.Transparent),
-        shape = RoundedCornerShape(48.dp),
+        shape = RoundedCornerShape(10.dp),
         onClick = {
             onClick.invoke()
         },
@@ -43,23 +40,22 @@ fun LoginButton(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(48.dp)
+                .height(50.dp)
                 .background(
                     brush = Brush.horizontalGradient(
                         listOf(Purple500, Purple700)
                     ),
-                    shape = RoundedCornerShape(50.dp)
+                    shape = RoundedCornerShape(10.dp)
                 ),
             contentAlignment = Alignment.Center
         ){
 
-            Text(text = value ,
+            Text(
+                text = value ,
                 fontSize = 18.sp ,
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
-
-                )
+            )
         }
-
     }
 }
