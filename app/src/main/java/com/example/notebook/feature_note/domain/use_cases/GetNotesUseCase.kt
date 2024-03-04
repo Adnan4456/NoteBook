@@ -12,27 +12,60 @@ class GetNotesUseCase(
 ) {
 
     operator fun invoke(
-        noteOrder: NoteOrder = NoteOrder.Date(OrderType.Descending)
+        noteOrder: NoteOrder = NoteOrder.Date(OrderType.Descending),
+        searchQuery: String = ""
     ): Flow<List<Note>>{
 
         return noteRepository.getNotes()
             .map {note ->
-                when (noteOrder.orderType){
+
+
+                // Filter notes based on the search query
+                val filteredNotes = if (searchQuery.isNotBlank()) {
+                    note.filter { note ->
+
+                        val titleMatch = note.title.contains(searchQuery, ignoreCase = true)
+                        val contentMatch = note.content.contains(searchQuery, ignoreCase = true)
+
+                        titleMatch || contentMatch
+                    }
+                } else {
+                    note
+                }
+
+                // Sort the filtered notes based on the specified order
+                when (noteOrder.orderType) {
                     is OrderType.Ascending -> {
-                        when(noteOrder){
-                            is NoteOrder.Title -> note.sortedBy { it.title.lowercase() }
-                            is NoteOrder.Date -> note.sortedBy { it.timestamp }
-                            is NoteOrder.Color -> note.sortedBy { it.color }
+                        when (noteOrder) {
+                            is NoteOrder.Title -> filteredNotes.sortedBy { it.title.lowercase() }
+                            is NoteOrder.Date -> filteredNotes.sortedBy { it.timestamp }
+                            is NoteOrder.Color -> filteredNotes.sortedBy { it.color }
                         }
                     }
-                    is OrderType.Descending ->{
-                        when(noteOrder){
-                            is NoteOrder.Title -> note.sortedByDescending { it.title }
-                            is NoteOrder.Date -> note.sortedByDescending { it.timestamp }
-                            is NoteOrder.Color -> note.sortedByDescending { it.color }
+                    is OrderType.Descending -> {
+                        when (noteOrder) {
+                            is NoteOrder.Title -> filteredNotes.sortedByDescending { it.title }
+                            is NoteOrder.Date -> filteredNotes.sortedByDescending { it.timestamp }
+                            is NoteOrder.Color -> filteredNotes.sortedByDescending { it.color }
                         }
                     }
                 }
+//                when (noteOrder.orderType){
+//                    is OrderType.Ascending -> {
+//                        when(noteOrder){
+//                            is NoteOrder.Title -> note.sortedBy { it.title.lowercase() }
+//                            is NoteOrder.Date -> note.sortedBy { it.timestamp }
+//                            is NoteOrder.Color -> note.sortedBy { it.color }
+//                        }
+//                    }
+//                    is OrderType.Descending ->{
+//                        when(noteOrder){
+//                            is NoteOrder.Title -> note.sortedByDescending { it.title }
+//                            is NoteOrder.Date -> note.sortedByDescending { it.timestamp }
+//                            is NoteOrder.Color -> note.sortedByDescending { it.color }
+//                        }
+//                    }
+//                }
 
             }
     }

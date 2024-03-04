@@ -1,6 +1,5 @@
 package com.example.notebook.feature_note.presentation.notes.components
 
-import android.R
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
@@ -75,7 +74,7 @@ fun NoteItem(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 16.dp , end = 16.dp , top = 16.dp ,)
+                .padding(start = 16.dp , end = 16.dp , top = 16.dp)
                 .padding(end = 16.dp)
         ) {
             Text(

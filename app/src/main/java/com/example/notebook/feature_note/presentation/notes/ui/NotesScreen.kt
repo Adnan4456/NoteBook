@@ -3,7 +3,6 @@ package com.example.notebook.feature_note.presentation.notes.ui
 import android.annotation.SuppressLint
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -13,10 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Logout
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Sort
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +39,6 @@ import com.example.notebook.ui.theme.Orientation
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun NotesScreen(
@@ -58,6 +53,9 @@ fun NotesScreen(
 
     val context = LocalContext.current
     val density = LocalDensity.current
+
+    val searchQuery = remember { viewModel.searchQuery }
+
 
     Scaffold(
         floatingActionButton = {
@@ -83,7 +81,7 @@ fun NotesScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
 
-                Row( verticalAlignment = Alignment.CenterVertically,) {
+                Row( verticalAlignment = Alignment.CenterVertically) {
 
 
                     IconButton(onClick = {
@@ -137,20 +135,27 @@ fun NotesScreen(
                 ){
                     BasicTextField(
                         modifier = Modifier.weight(1f),
-                        value = "Search",
-
+                        value = searchQuery.value,
                         singleLine = true,
-                        onValueChange = {})
+                        onValueChange = {
+                            viewModel.onSearchQueryChanged(it)
+                        })
                     IconButton(
-                        onClick = {}
+                        onClick = {
+                            viewModel.onSearchQueryChanged("")
+                        }
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = "Sort Note"
+                            imageVector = if(searchQuery.value.isEmpty()){
+                                Icons.Default.Search
+                            }else
+                            {
+                                Icons.Default.Cancel
+                            },
+                            contentDescription = "Search Note"
                         )
                     }
                 }
-
             }
             AnimatedVisibility(
                 visible = state.isOrderSectionVisible,
@@ -177,7 +182,7 @@ fun NotesScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             if (AppTheme.orientation == Orientation.Portrait){
-                if(state.notes.size<=0){
+                if(state.notes.isEmpty()){
                     NoNotesImage()
                 }else {
 
@@ -265,12 +270,11 @@ fun NoNotesImage(){
 
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie))
 
-    // Specify repeat count and duration for infinite repeat
     val repeatableSpec = rememberInfiniteTransition().animateFloat(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(5000), // Adjust the duration as needed
+            animation = tween(5000),
             repeatMode = RepeatMode.Restart
         )
     )
