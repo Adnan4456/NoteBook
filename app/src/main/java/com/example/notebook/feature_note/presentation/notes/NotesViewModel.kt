@@ -68,8 +68,6 @@ class NotesViewModel
             }
         }
     }
-
-    // Inside your ViewModel
     fun onSearchQueryChanged(query: String) {
         _searchQuery.value = query
         searchNotes(query, state.value.noteOrder)
