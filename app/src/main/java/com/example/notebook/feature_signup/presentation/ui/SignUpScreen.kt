@@ -3,6 +3,7 @@ package com.example.notebook.feature_signup.presentation.ui
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +27,6 @@ import com.example.notebook.feature_note.presentation.util.Screen
 import com.example.notebook.feature_signup.domain.model.SignUpResult
 import com.example.notebook.ui.theme.Primary
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @OptIn(DelicateCoroutinesApi::class)
@@ -42,6 +42,7 @@ fun SignUpScreen(
     var showDialog by remember { mutableStateOf(false) }
 
     val snackbarHostState = remember { SnackbarHostState() }
+
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
@@ -70,7 +71,7 @@ fun SignUpScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(8.dp),
-            color = MaterialTheme.colors.surface
+            color = MaterialTheme.colorScheme.surface
         ) {
             Box(
                 modifier = Modifier

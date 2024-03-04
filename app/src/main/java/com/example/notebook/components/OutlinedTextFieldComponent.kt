@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -21,11 +22,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.notebook.R
-import com.example.notebook.ui.theme.BgColor
 import com.example.notebook.ui.theme.Primary
-import dagger.hilt.android.lifecycle.HiltViewModel
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmailTextFieldComponent(
     labelValue: String, painterResource: Painter,
@@ -50,7 +50,7 @@ fun EmailTextFieldComponent(
             focusedBorderColor = Primary,
             focusedLabelColor = Primary,
             cursorColor = Primary,
-            backgroundColor = BgColor
+//            backgroundColor = BgColor
         ),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next
@@ -70,6 +70,7 @@ fun EmailTextFieldComponent(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordTextFieldComponent(
     labelValue: String,
@@ -122,7 +123,7 @@ fun PasswordTextFieldComponent(
             focusedBorderColor = Primary,
             focusedLabelColor = Primary,
             cursorColor = Primary,
-            backgroundColor = BgColor
+//            backgroundColor = BgColor
         ),
         value = password,
         onValueChange = {

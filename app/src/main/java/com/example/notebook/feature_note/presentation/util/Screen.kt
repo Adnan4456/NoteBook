@@ -1,12 +1,20 @@
 package com.example.notebook.feature_note.presentation.util
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.ui.graphics.vector.ImageVector
+
 sealed class Screen(
     val route: String,
+    val icon: ImageVector? = null
 ){
-    object NotesScreen: Screen("notes_screen")
+    object NotesScreen: Screen("notes_screen" , icon = Icons.Default.Home)
     object AddEditNoteScreen: Screen("add_edit_notes_screen")
 
     object LoginScreen:Screen("login_screen")
 
     object SignUpScreen:Screen("sign_up_screen")
+
+    object BookMarkedScreen:Screen("bookmark" , icon = Icons.Default.Bookmark)
 }

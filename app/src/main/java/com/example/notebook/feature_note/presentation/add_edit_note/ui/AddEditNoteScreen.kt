@@ -13,16 +13,20 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.notebook.feature_note.domain.model.Note
@@ -33,7 +37,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AddEditNoteScreen(
     navController: NavController,
@@ -45,20 +50,18 @@ fun AddEditNoteScreen(
     val titleState = viewModel.noteTitle.value
     val contentState = viewModel.noteContent.value
 
-    val scaffoldState = rememberScaffoldState()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(key1 = true){
         viewModel.eventFlow.collectLatest {event ->
             when(event){
                 is AddEditNoteViewModel.UiEvent.ShowSnackBar ->{
-                    scaffoldState.snackbarHostState.showSnackbar(
+                    snackbarHostState.showSnackbar(
                         message = event.message
                     )
                 }
                 is AddEditNoteViewModel.UiEvent.SaveNote ->{
-
                     navController.navigateUp()
-
                 }
             }
         }
@@ -74,17 +77,20 @@ fun AddEditNoteScreen(
     val scope = rememberCoroutineScope()
     
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
+        floatingActionButtonPosition = FabPosition.Center,
+
         floatingActionButton = {
             FloatingActionButton(onClick = {
             viewModel.onEvent(AddEditNoteEvent.SaveNote)
             },
-                backgroundColor =  MaterialTheme.colors.primary
             ) {
                 Icon(imageVector = Icons.Default.Save,
                     contentDescription = "Save Note")
             }
         },
-        scaffoldState = scaffoldState,
     ) {
         Column(
             modifier = Modifier
@@ -131,19 +137,38 @@ fun AddEditNoteScreen(
             }
             
             Spacer(modifier = Modifier.height(24.dp))
-            TransparentHintTextField(
-                text =titleState.text ,
-                hint = titleState.hint,
-                onValueChanged = {
-                    viewModel.onEvent(AddEditNoteEvent.EnterTitle(it))
-                },
-                onFocusChange = {
-                    viewModel.onEvent(AddEditNoteEvent.ChangeTitleFocus(it))
-                },
-                isHintVisible = titleState.isHintVisible,
-                singleLine = true,
-                textStyle = MaterialTheme.typography.h5
-            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+
+            ) {
+                TransparentHintTextField(
+                    text =titleState.text ,
+                    hint = titleState.hint,
+                    onValueChanged = {
+                        viewModel.onEvent(AddEditNoteEvent.EnterTitle(it))
+                    },
+                    onFocusChange = {
+                        viewModel.onEvent(AddEditNoteEvent.ChangeTitleFocus(it))
+                    },
+                    isHintVisible = titleState.isHintVisible,
+                    singleLine = true,
+                    textStyle = TextStyle(
+                        fontSize = 25.sp
+                    )
+                )
+
+                FilledIconButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                    viewModel.onEvent(AddEditNoteEvent.SaveNote)
+                }) {
+                    Icon(Icons.Default.Save, contentDescription = "")
+                }
+            }
+
             Spacer(modifier = Modifier.height(16.dp))
             TransparentContentTextField(
                 text =contentState.text ,
@@ -156,8 +181,10 @@ fun AddEditNoteScreen(
                 },
                 isHintVisible = contentState.isHintVisible,
                 singleLine = true,
-                textStyle = MaterialTheme.typography.body1,
-                modifier = Modifier.fillMaxHeight()
+                textStyle = TextStyle(
+                    fontSize = 20.sp
+                ),
+                modifier = Modifier.weight(1f)
             )
         }
     }
