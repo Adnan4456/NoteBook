@@ -4,6 +4,8 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -83,8 +85,14 @@ fun LoginScreen(
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
+                
+                IconButton(onClick = {
 
-                Spacer(modifier = Modifier.height(20.dp))
+                }) {
+                    Icon(Icons.Filled.ArrowBack, contentDescription = "" )
+                }
+                
+                Spacer(modifier = Modifier.height(50.dp))
 
                 NormalTextComponent(
                     value = stringResource(id = R.string.login),
@@ -147,33 +155,20 @@ fun LoginScreen(
                     "Login" ,
                     isEnabled = true,
                     onClick = {
-
-                    //firs check internet connection
                     when (networkStatus) {
                         ConnectivityObserver.Status.Available -> {
-//                            coroutineScope.launch{
-//
-//                                snackbarHostState.showSnackbar(
-//                                    message = context.getString(R.string.connected),
-//                                    actionLabel = context.getString(R.string.dismiss)
-//                                )
-//                            }
                             viewModel.onEvent(LoginFormEvent.Submit)
                         }
                         else -> {
-                            // Show Snackbar if the network is not available
                             coroutineScope.launch{
-
                                 snackbarHostState.showSnackbar(
                                     message = context.getString(R.string.not_connected),
                                     actionLabel = context.getString(R.string.dismiss)
                                 )
                             }
-
                         }
                     }
                 })
-
                 when (loginState) {
                     is LoginResult.isLoading -> {
 
@@ -191,7 +186,6 @@ fun LoginScreen(
                         navController.navigate(Screen.NotesScreen.route)
                     }
                     is LoginResult.onFailure -> {
-                        // Login failed, show error message
                         val errorMessage = (loginState as LoginResult.onFailure)
                         Toast.makeText(LocalContext.current ,errorMessage.message,Toast.LENGTH_SHORT).show()
                         showDialog = false

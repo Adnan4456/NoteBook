@@ -1,14 +1,12 @@
 package com.example.notebook.feature_note.presentation.notes.components
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -17,9 +15,12 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.graphics.ColorUtils
 import com.example.notebook.feature_note.domain.model.Note
 
@@ -32,12 +33,15 @@ fun NoteItem(
     cutCornerSize:  Dp = 30.dp,
     onDeleteClick : () -> Unit
 ) {
+    var expanded by remember { mutableStateOf(false) }
 
     Box(
         modifier = modifier
+            .animateContentSize()
     ) {
         Canvas(
-            modifier = modifier.matchParentSize(),
+            modifier = modifier
+                .matchParentSize(),
         ) {
 
             val clipPath = Path().apply {
@@ -70,8 +74,8 @@ fun NoteItem(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
-                .padding(end = 32.dp)
+                .padding(start = 16.dp , end = 16.dp , top = 16.dp)
+                .padding(end = 16.dp)
         ) {
             Text(
                 text = note.title,
@@ -87,10 +91,25 @@ fun NoteItem(
                 text = note.content,
                 style = MaterialTheme.typography.body1,
                 color = MaterialTheme.colors.onSurface,
-                maxLines = 10,
+                maxLines =  if (expanded) 10 else 5,
                 overflow = TextOverflow.Ellipsis
             )
+
+            TextButton(
+                onClick = {
+                    expanded = !expanded
+                })
+            {
+                Text(text = if (expanded) "Read Less" else "Read More" ,
+                    style = TextStyle(
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    )
+                )
+            }
         }
+
 
         IconButton(
             onClick = onDeleteClick,

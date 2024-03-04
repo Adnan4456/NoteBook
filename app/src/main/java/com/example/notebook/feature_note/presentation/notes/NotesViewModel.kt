@@ -22,6 +22,9 @@ class NotesViewModel
 ):ViewModel() {
 
 
+    private val _searchQuery = mutableStateOf("")
+    val searchQuery: State<String> = _searchQuery
+
     private val _state = mutableStateOf(NotesState())
     val state: State<NotesState> = _state
 
@@ -60,7 +63,26 @@ class NotesViewModel
                     isOrderSectionVisible = !state.value.isOrderSectionVisible
                 )
             }
+            is NotesEvent.Search -> {
+                onSearchQueryChanged(event.query)
+            }
         }
+    }
+    fun onSearchQueryChanged(query: String) {
+        _searchQuery.value = query
+        searchNotes(query, state.value.noteOrder)
+    }
+
+    private fun searchNotes(query: String, noteOrder: NoteOrder) {
+        getNotesJob?.cancel()
+        getNotesJob = noteUseCases.getNotes(noteOrder, query)
+            .onEach { notes ->
+                _state.value = state.value.copy(
+                    notes = notes,
+                    noteOrder = noteOrder
+                )
+            }
+            .launchIn(viewModelScope)
     }
 
     private fun getNotes(noteOrder: NoteOrder) {

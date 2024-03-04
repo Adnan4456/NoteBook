@@ -27,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.notebook.feature_note.domain.model.Note
 import com.example.notebook.feature_note.presentation.add_edit_note.AddEditNoteEvent
+import com.example.notebook.feature_note.presentation.add_edit_note.components.TransparentContentTextField
 import com.example.notebook.feature_note.presentation.add_edit_note.components.TransparentHintTextField
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -98,6 +99,7 @@ fun AddEditNoteScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Note.noteColors.forEach {color ->
+
                     val colorInt = color.toArgb()
                     
                     Box(
@@ -128,7 +130,7 @@ fun AddEditNoteScreen(
                 }
             }
             
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(24.dp))
             TransparentHintTextField(
                 text =titleState.text ,
                 hint = titleState.hint,
@@ -143,7 +145,7 @@ fun AddEditNoteScreen(
                 textStyle = MaterialTheme.typography.h5
             )
             Spacer(modifier = Modifier.height(16.dp))
-            TransparentHintTextField(
+            TransparentContentTextField(
                 text =contentState.text ,
                 hint = contentState.hint,
                 onValueChanged = {
