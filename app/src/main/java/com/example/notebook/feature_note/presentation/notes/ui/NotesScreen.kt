@@ -49,7 +49,6 @@ fun NotesScreen(
 ) {
 
     val state = viewModel.state.value
-//    val scaffoldState = rememberScaffoldState()
     val snackbarHostState = remember { SnackbarHostState() }
 
     val scope = rememberCoroutineScope()
@@ -64,18 +63,6 @@ fun NotesScreen(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    navController.navigate(Screen.AddEditNoteScreen.route)
-                },
-                containerColor = FloatingActionButtonDefaults.containerColor
-//                backgroundColor = MaterialTheme.colors.primary,
-            ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add note")
-            }
-        },
-//        scaffoldState = scaffoldState
     ) {
         Column(
             modifier = Modifier
@@ -119,7 +106,6 @@ fun NotesScreen(
                         )
                     }
                 }
-
             }
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -186,6 +172,7 @@ fun NotesScreen(
                     }
                 )
             }
+
             Spacer(modifier = Modifier.height(16.dp))
 
             if (AppTheme.orientation == Orientation.Portrait){
@@ -216,11 +203,6 @@ fun NotesScreen(
                                     viewModel.onEvent(NotesEvent.DeleteNote(note))
 
                                     scope.launch {
-//                                        val result = scaffoldState.snackbarHostState.showSnackbar(
-//                                            context.getString(R.string.note_delete),
-//                                            actionLabel = context.getString(R.string.undo)
-//                                        )
-
                                             val result = snackbarHostState.showSnackbar(
                                                 context.getString(R.string.note_delete),
                                             actionLabel = context.getString(R.string.undo)

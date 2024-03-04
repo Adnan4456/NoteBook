@@ -12,13 +12,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -80,17 +80,18 @@ fun AddEditNoteScreen(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         },
-        floatingActionButtonPosition = FabPosition.Center,
 
-        floatingActionButton = {
-            FloatingActionButton(onClick = {
-            viewModel.onEvent(AddEditNoteEvent.SaveNote)
-            },
-            ) {
-                Icon(imageVector = Icons.Default.Save,
-                    contentDescription = "Save Note")
-            }
-        },
+//        floatingActionButtonPosition = FabPosition.Center,
+//
+//        floatingActionButton = {
+//            FloatingActionButton(onClick = {
+//            viewModel.onEvent(AddEditNoteEvent.SaveNote)
+//            },
+//            ) {
+//                Icon(imageVector = Icons.Default.Save,
+//                    contentDescription = "Save Note")
+//            }
+//        },
     ) {
         Column(
             modifier = Modifier
@@ -140,8 +141,7 @@ fun AddEditNoteScreen(
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+                horizontalArrangement = Arrangement.SpaceEvenly,
 
             ) {
                 TransparentHintTextField(
@@ -157,16 +157,38 @@ fun AddEditNoteScreen(
                     singleLine = true,
                     textStyle = TextStyle(
                         fontSize = 25.sp
-                    )
+                    ),
+                    modifier = Modifier.weight(1.3f)
                 )
 
-                FilledIconButton(
-                    modifier = Modifier.weight(1f),
-                    onClick = {
-                    viewModel.onEvent(AddEditNoteEvent.SaveNote)
-                }) {
-                    Icon(Icons.Default.Save, contentDescription = "")
+                Row(
+                    modifier = Modifier
+                        .weight(.7f)
+                        .padding(start = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+
+                    ElevatedButton(onClick = {
+//                        viewModel.onEvent(AddEditNoteEvent.SaveNote)
+                    }) {
+                        Icon(Icons.Default.Bookmark, contentDescription = "")
+                    }
+
+                    ElevatedButton(onClick = {
+                        viewModel.onEvent(AddEditNoteEvent.SaveNote)
+                    }) {
+                        Icon(Icons.Default.Check, contentDescription = "")
+                    }
+//                    FilledIconButton(
+////                        modifier = Modifier.fillMaxWidth(),
+//
+//                        onClick = {
+//                            viewModel.onEvent(AddEditNoteEvent.SaveNote)
+//                        }) {
+//                        Icon(Icons.Default.Save, contentDescription = "")
+//                    }
                 }
+
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -180,11 +202,10 @@ fun AddEditNoteScreen(
                     viewModel.onEvent(AddEditNoteEvent.ChangeContentFocus(it))
                 },
                 isHintVisible = contentState.isHintVisible,
-                singleLine = true,
+                singleLine = false,
                 textStyle = TextStyle(
                     fontSize = 20.sp
                 ),
-                modifier = Modifier.weight(1f)
             )
         }
     }

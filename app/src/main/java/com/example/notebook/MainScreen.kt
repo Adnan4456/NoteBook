@@ -1,10 +1,7 @@
 package com.example.notebook
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -80,9 +77,11 @@ fun MainScreen(
                 }
             )
         }
-            ){
+            ){innerPadding ->
+        Box(modifier = Modifier.padding(innerPadding)){
+            NavGraph(startDestination = startDestination, firbaseAuth =firbaseAuth  , navController)
+        }
 
-        NavGraph(startDestination = startDestination, firbaseAuth =firbaseAuth  , navController)
     }
 }
 
