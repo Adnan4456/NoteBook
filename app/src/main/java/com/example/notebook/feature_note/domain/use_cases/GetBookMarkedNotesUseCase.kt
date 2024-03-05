@@ -10,7 +10,6 @@ class GetBookMarkedNotesUseCase
 @Inject constructor(
     private val noteRepository: NoteRepository
     ){
-
     operator fun invoke(): Flow<List<Note>> {
         return noteRepository.getBookMarkedNotes()
     }

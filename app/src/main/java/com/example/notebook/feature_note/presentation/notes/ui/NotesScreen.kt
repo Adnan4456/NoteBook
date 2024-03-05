@@ -1,6 +1,7 @@
 package com.example.notebook.feature_note.presentation.notes.ui
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.clickable
@@ -211,6 +212,16 @@ fun NotesScreen(
                                             viewModel.onEvent(NotesEvent.RestoreNote)
                                         }
                                     }
+                                },
+                                onBookMarkChange = {
+
+                                    Log.d("TAG", "Bookmark in screen")
+                                    viewModel.onEvent(NotesEvent.Bookmark(note))
+                                    scope.launch {
+                                        snackbarHostState.showSnackbar(
+                                            "Note is Bookmarked",
+                                        )
+                                    }
                                 }
                             )
                             Spacer(modifier = Modifier.height(16.dp))
@@ -254,6 +265,16 @@ fun NotesScreen(
                                         viewModel.onEvent(NotesEvent.RestoreNote)
                                     }
                                 }
+                            },
+                            onBookMarkChange = {
+                                Log.d("TAG", "Bookmark in screen")
+                                viewModel.onEvent(NotesEvent.Bookmark(note))
+                                scope.launch {
+                                  snackbarHostState.showSnackbar(
+                                        "Note is Bookmarked",
+                                    )
+                                }
+
                             }
                         )
                         Spacer(modifier = Modifier.height(16.dp))

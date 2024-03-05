@@ -1,10 +1,14 @@
 package com.example.notebook.feature_note.presentation.notes.components
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.BookmarkRemove
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -31,10 +35,14 @@ fun NoteItem(
     modifier: Modifier = Modifier,
     cornerRadius: Dp = 10.dp,
     cutCornerSize:  Dp = 30.dp,
-    onDeleteClick : () -> Unit
+    onDeleteClick : () -> Unit,
+    onBookMarkChange: () -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
+    val icon  = if(note.isBookMarked) Icons.Default.BookmarkRemove
+                else Icons.Outlined.BookmarkAdd
+    Log.d("TAG", "bookmarked  = ${note.isBookMarked}")
     Box(
         modifier = modifier
             .animateContentSize()
@@ -74,7 +82,7 @@ fun NoteItem(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 16.dp , end = 16.dp , top = 16.dp)
+                .padding(start = 16.dp, end = 16.dp, top = 16.dp)
                 .padding(end = 16.dp)
         ) {
             Text(
@@ -110,13 +118,26 @@ fun NoteItem(
             }
         }
 
-
-        IconButton(
-            onClick = onDeleteClick,
+        Row (
             modifier  = Modifier.align(Alignment.BottomEnd)
-        ) {
-            Icon(imageVector = Icons.Default.Delete,
-                contentDescription = "Note Deleted")
+                ){
+            IconButton(
+
+                onClick = {
+                    Log.d("TAG", "icon is clicked ")
+                    onBookMarkChange.invoke()
+                },
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = "Bookmark changed")
+            }
+            IconButton(
+                onClick = onDeleteClick,
+            ) {
+                Icon(imageVector = Icons.Default.Delete,
+                    contentDescription = "Note Deleted")
+            }
         }
     }
  }

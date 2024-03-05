@@ -162,6 +162,7 @@ fun AddEditNoteScreen(
 
                     ElevatedButton(
                         onClick = {
+//                            viewModel.isBookmarked = !viewModel.isBookmarked
 //                        viewModel.onEvent(AddEditNoteEvent.SaveNote)
                     }) {
                         Icon(Icons.Default.BookmarkBorder, contentDescription = "")

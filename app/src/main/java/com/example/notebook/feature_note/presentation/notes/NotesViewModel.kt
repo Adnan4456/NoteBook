@@ -1,10 +1,12 @@
 package com.example.notebook.feature_note.presentation.notes
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.notebook.feature_note.domain.model.Note
+import com.example.notebook.feature_note.domain.use_cases.GetBookMarkedNotesUseCase
 import com.example.notebook.feature_note.domain.use_cases.NoteUseCases
 import com.example.notebook.feature_note.domain.utils.NoteOrder
 import com.example.notebook.feature_note.domain.utils.OrderType
@@ -18,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class NotesViewModel
     @Inject constructor(
-    private val noteUseCases: NoteUseCases
+    private val noteUseCases: NoteUseCases,
+
 ):ViewModel() {
 
 
@@ -62,6 +65,11 @@ class NotesViewModel
                 _state.value = state.value.copy(
                     isOrderSectionVisible = !state.value.isOrderSectionVisible
                 )
+            }
+            is NotesEvent.Bookmark -> {
+                viewModelScope.launch {
+                    noteUseCases.addNoteUseCase(event.note.copy(isBookMarked = !event.note.isBookMarked))
+                }
             }
             is NotesEvent.Search -> {
                 onSearchQueryChanged(event.query)

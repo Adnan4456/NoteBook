@@ -9,4 +9,6 @@ sealed class NotesEvent{
     object ToggleOrderSection: NotesEvent()
     data class Search(val query: String) : NotesEvent()
 
+    data class Bookmark(val note: Note): NotesEvent()
+
 }

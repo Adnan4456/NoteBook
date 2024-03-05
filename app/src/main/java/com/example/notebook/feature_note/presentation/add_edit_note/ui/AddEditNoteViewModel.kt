@@ -37,6 +37,7 @@ class AddEditNoteViewModel
     private val _noteContent = mutableStateOf(NoteTextFieldState(
         hint = "Enter content"
     ))
+
     val noteContent : State<NoteTextFieldState> = _noteContent
 
     private val _noteColor = mutableStateOf(Note.noteColors.random().toArgb())
@@ -46,6 +47,10 @@ class AddEditNoteViewModel
     val eventFlow = _eventFlow.asSharedFlow()
 
     private var currentNoteId: Int ? = null
+
+//    private fun bookmark(){
+//        isBookmarked
+//    }
 
     init {
 
