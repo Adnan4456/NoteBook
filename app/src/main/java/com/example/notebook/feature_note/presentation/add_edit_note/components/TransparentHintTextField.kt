@@ -30,12 +30,12 @@ fun TransparentHintTextField(
 
     Box(
         modifier = modifier
-
+            .padding(8.dp)
             .border(
                 1.dp,
                 Color.DarkGray
-            )
-            .padding(8.dp),
+            ),
+
 
     ){
         BasicTextField(
@@ -74,7 +74,7 @@ fun TransparentContentTextField(
             .fillMaxWidth()
             .padding(8.dp)
             .border(
-                width = 1.dp,
+                width = .5.dp,
                 Color.DarkGray
             ),
 
@@ -93,9 +93,9 @@ fun TransparentContentTextField(
                 textStyle = textStyle,
                 singleLine = singleLine,
                 modifier = Modifier
-                    .padding(16.dp)
                     .fillMaxWidth()
                     .fillMaxHeight()
+                    .padding(16.dp)
                     .onFocusChanged {
                         onFocusChange(it)
                     }

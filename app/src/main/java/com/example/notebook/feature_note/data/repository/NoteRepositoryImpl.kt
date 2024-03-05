@@ -4,8 +4,10 @@ import com.example.notebook.feature_note.data.data_source.NoteDao
 import com.example.notebook.feature_note.domain.model.Note
 import com.example.notebook.feature_note.domain.repository.NoteRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class NoteRepositoryImpl(
+class NoteRepositoryImpl
+    @Inject constructor(
     private val dao: NoteDao
 ): NoteRepository {
 
@@ -26,5 +28,9 @@ class NoteRepositoryImpl(
 
     override suspend fun deleteNote(note: Note) {
         dao.deleteNote(note)
+    }
+
+    override fun getBookMarkedNotes(): Flow<List<Note>> {
+       return dao.getBookMarkedNotes()
     }
 }

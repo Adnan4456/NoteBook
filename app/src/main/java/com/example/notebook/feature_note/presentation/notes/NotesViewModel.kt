@@ -72,7 +72,6 @@ class NotesViewModel
         _searchQuery.value = query
         searchNotes(query, state.value.noteOrder)
     }
-
     private fun searchNotes(query: String, noteOrder: NoteOrder) {
         getNotesJob?.cancel()
         getNotesJob = noteUseCases.getNotes(noteOrder, query)

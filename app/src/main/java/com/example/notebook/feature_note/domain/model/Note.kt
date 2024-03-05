@@ -14,6 +14,7 @@ data  class Note (
     val content : String,
     val timestamp: Long,
     val color: Int,
+    val isBookMarked : Boolean = false,
 ){
 
     companion object {

@@ -28,6 +28,10 @@ class AddEditNoteViewModel
     private val _noteTitle = mutableStateOf(NoteTextFieldState(
         hint = "Enter title..."
     ))
+
+    private val _isBookmarked = mutableStateOf(false)
+    val isBookmarked: State<Boolean> = _isBookmarked
+
     val noteTitle : State<NoteTextFieldState> = _noteTitle
 
     private val _noteContent = mutableStateOf(NoteTextFieldState(
@@ -42,7 +46,6 @@ class AddEditNoteViewModel
     val eventFlow = _eventFlow.asSharedFlow()
 
     private var currentNoteId: Int ? = null
-
 
     init {
 

@@ -13,6 +13,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.BookmarkAdd
+import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -20,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -81,17 +84,6 @@ fun AddEditNoteScreen(
             SnackbarHost(hostState = snackbarHostState)
         },
 
-//        floatingActionButtonPosition = FabPosition.Center,
-//
-//        floatingActionButton = {
-//            FloatingActionButton(onClick = {
-//            viewModel.onEvent(AddEditNoteEvent.SaveNote)
-//            },
-//            ) {
-//                Icon(imageVector = Icons.Default.Save,
-//                    contentDescription = "Save Note")
-//            }
-//        },
     ) {
         Column(
             modifier = Modifier
@@ -165,16 +157,18 @@ fun AddEditNoteScreen(
                     modifier = Modifier
                         .weight(.7f)
                         .padding(start = 8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
 
-                    ElevatedButton(onClick = {
+                    ElevatedButton(
+                        onClick = {
 //                        viewModel.onEvent(AddEditNoteEvent.SaveNote)
                     }) {
-                        Icon(Icons.Default.Bookmark, contentDescription = "")
+                        Icon(Icons.Default.BookmarkBorder, contentDescription = "")
                     }
 
-                    ElevatedButton(onClick = {
+                    ElevatedButton(
+                        onClick = {
                         viewModel.onEvent(AddEditNoteEvent.SaveNote)
                     }) {
                         Icon(Icons.Default.Check, contentDescription = "")
@@ -193,6 +187,9 @@ fun AddEditNoteScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
             TransparentContentTextField(
+                modifier = Modifier.background(
+                    color = noteBackgroundAnimatable.value
+                ),
                 text =contentState.text ,
                 hint = contentState.hint,
                 onValueChanged = {
