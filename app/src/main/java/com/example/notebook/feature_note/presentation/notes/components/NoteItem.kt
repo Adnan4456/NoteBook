@@ -1,11 +1,10 @@
 package com.example.notebook.feature_note.presentation.notes.components
 
-import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bookmark
+
 import androidx.compose.material.icons.filled.BookmarkRemove
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.outlined.BookmarkAdd
@@ -26,6 +25,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.ColorUtils
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.rememberLottieComposition
+import com.example.notebook.R
 import com.example.notebook.feature_note.domain.model.Note
 
 
@@ -42,7 +45,18 @@ fun NoteItem(
 
     val icon  = if(note.isBookMarked) Icons.Default.BookmarkRemove
                 else Icons.Outlined.BookmarkAdd
-    Log.d("TAG", "bookmarked  = ${note.isBookMarked}")
+
+    var isPlaying by remember { mutableStateOf(false) }
+
+    val composition by rememberLottieComposition(
+        spec = LottieCompositionSpec.RawRes(R.raw.bookmark)
+    )
+
+
+    LaunchedEffect(note.isBookMarked) {
+        isPlaying = true
+    }
+
     Box(
         modifier = modifier
             .animateContentSize()
@@ -124,14 +138,21 @@ fun NoteItem(
             IconButton(
 
                 onClick = {
-                    Log.d("TAG", "icon is clicked ")
                     onBookMarkChange.invoke()
+                    isPlaying = true
                 },
             ) {
+
+                LottieAnimation(
+                    modifier = Modifier.size(30.dp),
+                    composition = composition,
+                    progress = if (isPlaying) 1f else 0f,
+                )
                 Icon(
                     imageVector = icon,
                     contentDescription = "Bookmark changed")
             }
+
             IconButton(
                 onClick = onDeleteClick,
             ) {

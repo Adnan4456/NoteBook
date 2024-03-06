@@ -215,13 +215,7 @@ fun NotesScreen(
                                 },
                                 onBookMarkChange = {
 
-                                    Log.d("TAG", "Bookmark in screen")
                                     viewModel.onEvent(NotesEvent.Bookmark(note))
-                                    scope.launch {
-                                        snackbarHostState.showSnackbar(
-                                            "Note is Bookmarked",
-                                        )
-                                    }
                                 }
                             )
                             Spacer(modifier = Modifier.height(16.dp))
