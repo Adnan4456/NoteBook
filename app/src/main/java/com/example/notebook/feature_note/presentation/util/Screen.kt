@@ -3,6 +3,7 @@ package com.example.notebook.feature_note.presentation.util
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.outlined.Security
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class Screen(
@@ -17,4 +18,6 @@ sealed class Screen(
     object SignUpScreen:Screen("sign_up_screen")
 
     object BookMarkedScreen:Screen("bookmark" , icon = Icons.Default.Bookmark)
+
+    object SecretNotes : Screen("secret_notes" , icon = Icons.Outlined.Security)
 }

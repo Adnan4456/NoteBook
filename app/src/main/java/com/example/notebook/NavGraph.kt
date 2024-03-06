@@ -13,6 +13,7 @@ import com.example.notebook.feature_note.presentation.add_edit_note.ui.AddEditNo
 import com.example.notebook.feature_note.presentation.bookmarked_notes.BookMarkedScreen
 import com.example.notebook.feature_note.presentation.notes.ui.NotesScreen
 import com.example.notebook.feature_note.presentation.util.Screen
+import com.example.notebook.feature_secret_note.presentation.ui.SecretNotes
 import com.example.notebook.feature_signup.presentation.ui.SignUpScreen
 import com.google.firebase.auth.FirebaseAuth
 
@@ -42,6 +43,9 @@ fun NavGraph(
             BookMarkedScreen(navController = navController)
         }
 
+        composable(route = Screen.SecretNotes.route){
+            SecretNotes(navController = navController)
+        }
         composable(
             route = Screen.AddEditNoteScreen.route +
                     "?noteId={noteId}&noteColor={noteColor}",

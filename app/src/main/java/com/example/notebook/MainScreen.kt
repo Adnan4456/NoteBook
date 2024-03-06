@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.outlined.Security
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -48,7 +49,7 @@ fun MainScreen(
                             trailingIcon = {
                                 Icon(imageVector = Icons.Default.Home, contentDescription = "Home") }
                         )
-                        Spacer(modifier = Modifier.Companion.size(12.dp))
+                        Spacer(modifier = Modifier.Companion.size(8.dp))
 
                         InputChip(
                             selected = currentTab == TabScreen.BookMark,
@@ -64,6 +65,24 @@ fun MainScreen(
                             trailingIcon = {
                                 Icon(imageVector = Icons.Default.Bookmark, contentDescription = "BookMark") }
                         )
+
+                        Spacer(modifier = Modifier.Companion.size(8.dp))
+
+                        InputChip(
+                            selected = currentTab == TabScreen.SecretNotes,
+                            onClick = {
+                                currentTab = TabScreen.SecretNotes
+                                navController.navigateToSingleTop(
+                                    route = Screen.SecretNotes.route
+                                )
+                            },
+                            label = {
+                                Text(text = "Private")
+                            },
+                            trailingIcon = {
+                                Icon(imageVector = Icons.Outlined.Security, contentDescription = "Secret_note") }
+                        )
+
                     }
                 },
                 floatingActionButton = {
@@ -86,5 +105,5 @@ fun MainScreen(
 }
 
 enum class TabScreen{
-    Home , BookMark
+    Home , BookMark , SecretNotes
 }
