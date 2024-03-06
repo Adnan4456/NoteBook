@@ -1,6 +1,7 @@
 package com.example.notebook.feature_note.presentation.notes.ui
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.clickable
@@ -13,11 +14,11 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -39,7 +40,8 @@ import com.example.notebook.ui.theme.Orientation
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NotesScreen(
     navController: NavController,
@@ -48,7 +50,8 @@ fun NotesScreen(
 ) {
 
     val state = viewModel.state.value
-    val scaffoldState = rememberScaffoldState()
+    val snackbarHostState = remember { SnackbarHostState() }
+
     val scope = rememberCoroutineScope()
 
     val context = LocalContext.current
@@ -58,17 +61,9 @@ fun NotesScreen(
 
 
     Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    navController.navigate(Screen.AddEditNoteScreen.route)
-                },
-                backgroundColor = MaterialTheme.colors.primary,
-            ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add note")
-            }
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
         },
-        scaffoldState = scaffoldState
     ) {
         Column(
             modifier = Modifier
@@ -96,7 +91,7 @@ fun NotesScreen(
 
                     Text(
                         text = stringResource(id = R.string.notetitle),
-                        style = MaterialTheme.typography.h4,
+                        style = MaterialTheme.typography.displayMedium,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.weight(1f))
 
@@ -112,16 +107,15 @@ fun NotesScreen(
                         )
                     }
                 }
-
             }
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Card(
-                Modifier
-                    .fillMaxWidth(),
-                backgroundColor = Color.White,
-                elevation = 10.dp,
+            ElevatedCard(
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 10.dp
+                ),
+                modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(5.dp)
             ){
 
@@ -179,9 +173,11 @@ fun NotesScreen(
                     }
                 )
             }
+
             Spacer(modifier = Modifier.height(16.dp))
 
             if (AppTheme.orientation == Orientation.Portrait){
+
                 if(state.notes.isEmpty()){
                     NoNotesImage()
                 }else {
@@ -208,14 +204,18 @@ fun NotesScreen(
                                     viewModel.onEvent(NotesEvent.DeleteNote(note))
 
                                     scope.launch {
-                                        val result = scaffoldState.snackbarHostState.showSnackbar(
-                                            context.getString(R.string.note_delete),
+                                            val result = snackbarHostState.showSnackbar(
+                                                context.getString(R.string.note_delete),
                                             actionLabel = context.getString(R.string.undo)
-                                        )
+                                            )
                                         if (result == SnackbarResult.ActionPerformed){
                                             viewModel.onEvent(NotesEvent.RestoreNote)
                                         }
                                     }
+                                },
+                                onBookMarkChange = {
+
+                                    viewModel.onEvent(NotesEvent.Bookmark(note))
                                 }
                             )
                             Spacer(modifier = Modifier.height(16.dp))
@@ -247,7 +247,11 @@ fun NotesScreen(
                                 viewModel.onEvent(NotesEvent.DeleteNote(note))
 
                                 scope.launch {
-                                    val result = scaffoldState.snackbarHostState.showSnackbar(
+//                                    val result = scaffoldState.snackbarHostState.showSnackbar(
+//                                        context.getString(R.string.note_delete),
+//                                        actionLabel = context.getString(R.string.undo)
+//                                    )
+                                    val result = snackbarHostState.showSnackbar(
                                         context.getString(R.string.note_delete),
                                         actionLabel = context.getString(R.string.undo)
                                     )
@@ -255,6 +259,16 @@ fun NotesScreen(
                                         viewModel.onEvent(NotesEvent.RestoreNote)
                                     }
                                 }
+                            },
+                            onBookMarkChange = {
+                                Log.d("TAG", "Bookmark in screen")
+                                viewModel.onEvent(NotesEvent.Bookmark(note))
+                                scope.launch {
+                                  snackbarHostState.showSnackbar(
+                                        "Note is Bookmarked",
+                                    )
+                                }
+
                             }
                         )
                         Spacer(modifier = Modifier.height(16.dp))

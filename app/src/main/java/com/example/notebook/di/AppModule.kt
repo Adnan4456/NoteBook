@@ -54,6 +54,7 @@ object AppModule {
             application,
             NoteDatabase::class.java,
             NoteDatabase.DATABASE_NAME)
+            .fallbackToDestructiveMigration()
             .build()
     }
 

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.*
+
 import com.example.notebook.feature_note.presentation.util.Screen
 import com.example.notebook.ui.theme.NoteBookTheme
 import com.google.firebase.auth.FirebaseAuth
@@ -14,14 +15,11 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-
     @Inject
     lateinit var firbaseAuth: FirebaseAuth
 
-
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
-
 
         super.onCreate(savedInstanceState)
 
@@ -37,17 +35,11 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             val window = rememberWindowSizeClass()
-            NoteBookTheme(window) {
-            Scaffold(
-            ) {
 
-                Surface(
-                    color = MaterialTheme.colors.background
-                ) {
-                    NavGraph(startDestination = startDestination , firbaseAuth)
-                }
-            }
+            NoteBookTheme(window) {
+                MainScreen(startDestination = startDestination, firbaseAuth = firbaseAuth)
             }
         }
     }
 }
+

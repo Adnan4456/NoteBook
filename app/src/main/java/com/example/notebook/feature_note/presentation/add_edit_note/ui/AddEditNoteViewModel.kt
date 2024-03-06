@@ -28,11 +28,16 @@ class AddEditNoteViewModel
     private val _noteTitle = mutableStateOf(NoteTextFieldState(
         hint = "Enter title..."
     ))
+
+    private val _isBookmarked = mutableStateOf(false)
+    val isBookmarked: State<Boolean> = _isBookmarked
+
     val noteTitle : State<NoteTextFieldState> = _noteTitle
 
     private val _noteContent = mutableStateOf(NoteTextFieldState(
         hint = "Enter content"
     ))
+
     val noteContent : State<NoteTextFieldState> = _noteContent
 
     private val _noteColor = mutableStateOf(Note.noteColors.random().toArgb())
@@ -43,6 +48,9 @@ class AddEditNoteViewModel
 
     private var currentNoteId: Int ? = null
 
+//    private fun bookmark(){
+//        isBookmarked
+//    }
 
     init {
 

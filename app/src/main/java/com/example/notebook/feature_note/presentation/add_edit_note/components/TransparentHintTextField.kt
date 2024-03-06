@@ -2,9 +2,10 @@ package com.example.notebook.feature_note.presentation.add_edit_note.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,17 +30,20 @@ fun TransparentHintTextField(
 
     Box(
         modifier = modifier
-            .border(
-                1.dp ,
-                Color.DarkGray)
             .padding(8.dp)
+            .border(
+                1.dp,
+                Color.DarkGray
+            ),
+
+
     ){
         BasicTextField(
             value = text,
             onValueChange = onValueChanged,
             singleLine = singleLine,
             textStyle = textStyle,
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .onFocusChanged {
                     onFocusChange(it)
@@ -65,28 +69,38 @@ fun TransparentContentTextField(
 ){
 
     Box(
-        modifier = modifier.fillMaxHeight()
+        modifier = modifier
+            .fillMaxHeight()
             .fillMaxWidth()
+            .padding(8.dp)
             .border(
-                width = 1.dp ,
+                width = .5.dp,
                 Color.DarkGray
-            )
-            .padding(8.dp),
+            ),
+
         contentAlignment = Alignment.TopStart
     ){
-        BasicTextField(
-            value = text,
-            onValueChange = onValueChanged,
-            singleLine = singleLine,
-            textStyle = textStyle,
+        
+        Column(
             modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-                .fillMaxHeight()
-                .onFocusChanged {
-                    onFocusChange(it)
-                }
-        )
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+        ) {
+
+            BasicTextField(
+                value = text,
+                onValueChange = onValueChanged,
+                textStyle = textStyle,
+                singleLine = singleLine,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .padding(16.dp)
+                    .onFocusChanged {
+                        onFocusChange(it)
+                    }
+            )
+        }
 
         if (isHintVisible){
             Text(text = hint,

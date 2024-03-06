@@ -23,4 +23,7 @@ interface NoteDao {
 
     @Delete
     suspend fun deleteNote(note: Note)
+
+    @Query("Select * from note where isBookMarked = 1")
+    fun getBookMarkedNotes():Flow<List<Note>>
 }

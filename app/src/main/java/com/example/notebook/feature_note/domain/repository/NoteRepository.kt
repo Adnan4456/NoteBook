@@ -14,4 +14,6 @@ interface NoteRepository {
 
     suspend fun deleteNote(note: Note)
 
+    fun getBookMarkedNotes(): Flow<List<Note>>
+
 }
