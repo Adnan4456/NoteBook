@@ -40,16 +40,7 @@ fun SecretNotes(
 
     val context = LocalContext.current
 
-
-    PasswordDialog()
-
-    if (userEmail!= null ){
-
-    }else
-    {
-        Toast.makeText(context,"Please login again",Toast.LENGTH_LONG).show()
-
-    }
+    Text(text = "Secret notes screen")
 }
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)

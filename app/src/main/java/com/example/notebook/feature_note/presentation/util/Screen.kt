@@ -20,4 +20,6 @@ sealed class Screen(
     object BookMarkedScreen:Screen("bookmark" , icon = Icons.Default.Bookmark)
 
     object SecretNotes : Screen("secret_notes" , icon = Icons.Outlined.Security)
+
+    object VerificationScreen:Screen("verification_screen")
 }

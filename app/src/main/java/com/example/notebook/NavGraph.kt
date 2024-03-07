@@ -1,6 +1,7 @@
 package com.example.notebook
 
-import androidx.compose.runtime.Composable
+import android.util.Log
+import androidx.compose.runtime.*
 import androidx.navigation.NavGraph.Companion.findStartDestination
 
 import androidx.navigation.NavHostController
@@ -13,8 +14,10 @@ import com.example.notebook.feature_note.presentation.add_edit_note.ui.AddEditNo
 import com.example.notebook.feature_note.presentation.bookmarked_notes.BookMarkedScreen
 import com.example.notebook.feature_note.presentation.notes.ui.NotesScreen
 import com.example.notebook.feature_note.presentation.util.Screen
+import com.example.notebook.feature_secret_note.presentation.component.PasswordDialog
 import com.example.notebook.feature_secret_note.presentation.ui.SecretNotes
 import com.example.notebook.feature_signup.presentation.ui.SignUpScreen
+import com.example.notebook.feature_verify_user.presentation.ui.VerificationScreen
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -24,6 +27,8 @@ fun NavGraph(
     firbaseAuth: FirebaseAuth,
     navController : NavHostController
 ){
+
+    var showDialog by remember { mutableStateOf(false) }
 
     NavHost(
         navController = navController,
@@ -43,8 +48,20 @@ fun NavGraph(
             BookMarkedScreen(navController = navController)
         }
 
+//        composable(route = Screen.VerificationScreen.route){
+//
+//
+//        }
+
         composable(route = Screen.SecretNotes.route){
-            SecretNotes(navController = navController)
+
+            VerificationScreen(navController = navController)
+//            if (firbaseAuth.currentUser?.email != null ){
+//                PasswordDialog(navController,
+//                onSuccess = {
+//                    Log.d("TAG","Event is called onsucess")
+//                })
+//            }
         }
         composable(
             route = Screen.AddEditNoteScreen.route +
@@ -67,7 +84,8 @@ fun NavGraph(
             val color = it.arguments?.getInt("noteColor") ?: -1
             AddEditNoteScreen(
                 navController = navController,
-                noteColor = color)
+                noteColor = color
+            )
         }
     }
 }
