@@ -9,6 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navigation
 import com.example.notebook.feature_login.presentation.ui.LoginScreen
 import com.example.notebook.feature_note.presentation.add_edit_note.ui.AddEditNoteScreen
 import com.example.notebook.feature_note.presentation.bookmarked_notes.BookMarkedScreen
@@ -29,7 +30,9 @@ fun NavGraph(
 ){
 
     var showDialog by remember { mutableStateOf(false) }
-
+    var verified by remember {
+        mutableStateOf(false)
+    }
     NavHost(
         navController = navController,
         startDestination = startDestination) {
@@ -48,20 +51,17 @@ fun NavGraph(
             BookMarkedScreen(navController = navController)
         }
 
-//        composable(route = Screen.VerificationScreen.route){
-//
-//
-//        }
-
         composable(route = Screen.SecretNotes.route){
 
-            VerificationScreen(navController = navController)
-//            if (firbaseAuth.currentUser?.email != null ){
-//                PasswordDialog(navController,
-//                onSuccess = {
-//                    Log.d("TAG","Event is called onsucess")
-//                })
-//            }
+            if(verified){
+                SecretNotes(navController)
+            }else{
+                VerificationScreen(navController = navController,
+                    onCompleteListener = {
+                        verified = true
+                    }
+                )
+            }
         }
         composable(
             route = Screen.AddEditNoteScreen.route +

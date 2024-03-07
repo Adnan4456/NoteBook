@@ -17,10 +17,13 @@ import com.example.notebook.R
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.navigation.compose.rememberNavController
 import com.example.notebook.components.*
 import com.example.notebook.feature_login.domain.model.LoginResult
 import com.example.notebook.feature_note.presentation.util.Screen
 import com.example.notebook.feature_verify_user.presentation.VerifyUserEvent
+import com.example.notebook.navigateToSingleTop
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,17 +31,16 @@ import com.example.notebook.feature_verify_user.presentation.VerifyUserEvent
 @Composable
 fun VerificationScreen(
     navController: NavController,
-    viewModel: VerificationViewModel = hiltViewModel()
+    viewModel: VerificationViewModel = hiltViewModel(),
+    onCompleteListener: () -> Unit
 ){
-
 
     var showDialog by remember { mutableStateOf(false) }
 
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val coroutineScope = rememberCoroutineScope()
+    val navControllertest  = rememberNavController()
     val context = LocalContext.current
-
 
     val verificationState by viewModel.verificationState.collectAsState()
 
@@ -119,31 +121,33 @@ fun VerificationScreen(
                     onClick = {
                         viewModel.onEvent(VerifyUserEvent.onSubmit)
                     })
-
-                when(verificationState){
-
-                    is LoginResult.isLoading -> {
-
-                        showDialog = true
-                        LoadingDialogBox(
-                            showDialog = showDialog,
-                            onDismiss = {
-                                showDialog = false
-                            }
-                        )
+                LaunchedEffect(verificationState) {
+                    when (verificationState) {
+                        is LoginResult.isLoading -> {
+                            showDialog = true
+                        }
+                        is LoginResult.isSuccessful -> {
+                            Toast.makeText(context, "Verified successfully", Toast.LENGTH_SHORT).show()
+                            showDialog = false
+                            onCompleteListener.invoke()
+//                            navControllertest.navigate(
+//                                route = Screen.SecretNotes.route
+//                            )
+                        }
+                        is LoginResult.onFailure -> {
+                            Toast.makeText(context, "Wrong password. Please try again", Toast.LENGTH_SHORT).show()
+                            showDialog = false
+                        }
+                        else -> {}
                     }
-                    is  LoginResult.isSuccessful ->{
-
-                        Toast.makeText(LocalContext.current ,"Login in successfully", Toast.LENGTH_SHORT).show()
-                        showDialog = false
-                        navController.navigate(Screen.SecretNotes.route)
-                    }
-                    is  LoginResult.onFailure ->{
-                        Toast.makeText(LocalContext.current ,"Wrong password . Please try again",Toast.LENGTH_SHORT).show()
-                        showDialog = false
-                    }
-                    else -> {}
                 }
+
+                LoadingDialogBox(
+                    showDialog = showDialog,
+                    onDismiss = {
+                        showDialog = false
+                    }
+                )
             }
         }
     }
