@@ -160,13 +160,13 @@ fun AddEditNoteScreen(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
 
-                    ElevatedButton(
-                        onClick = {
-//                            viewModel.isBookmarked = !viewModel.isBookmarked
-//                        viewModel.onEvent(AddEditNoteEvent.SaveNote)
-                    }) {
-                        Icon(Icons.Default.BookmarkBorder, contentDescription = "")
-                    }
+//                    ElevatedButton(
+//                        onClick = {
+////                            viewModel.isBookmarked = !viewModel.isBookmarked
+////                        viewModel.onEvent(AddEditNoteEvent.SaveNote)
+//                    }) {
+//                        Icon(Icons.Default.BookmarkBorder, contentDescription = "")
+//                    }
 
                     ElevatedButton(
                         onClick = {
