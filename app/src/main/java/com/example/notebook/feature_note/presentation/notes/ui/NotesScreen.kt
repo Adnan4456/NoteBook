@@ -159,7 +159,7 @@ fun NotesScreen(
                 } + expandVertically(
                     expandFrom = Alignment.Top
                 ) + fadeIn(
-                    initialAlpha = 0.3f
+                    initialAlpha = 0.4f
                 ),
                 exit = slideOutVertically() + shrinkVertically() + fadeOut()
             ) {
@@ -189,36 +189,46 @@ fun NotesScreen(
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
                     ){
                         items(state.notes){ note ->
-                            NoteItem(
-                                note = note,
-                                modifier = Modifier
 
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        navController.navigate(
-                                            Screen.AddEditNoteScreen.route +
-                                                    "?noteId=${note.id}&noteColor=${note.color}"
-                                        )
-                                    },
-                                onDeleteClick = {
-                                    viewModel.onEvent(NotesEvent.DeleteNote(note))
+                            AnimatedVisibility(
+                                visible = true ,
+                                enter = fadeIn(animationSpec = tween(5000)),
+                                exit = fadeOut(animationSpec =  tween(5000))
+                            ) {
 
-                                    scope.launch {
+                                NoteItem(
+                                    note = note,
+                                    modifier = Modifier
+
+                                        .fillMaxWidth()
+                                        .clickable {
+                                            navController.navigate(
+                                                Screen.AddEditNoteScreen.route +
+                                                        "?noteId=${note.id}&noteColor=${note.color}"
+                                            )
+                                        },
+                                    onDeleteClick = {
+                                        viewModel.onEvent(NotesEvent.DeleteNote(note))
+
+                                        scope.launch {
                                             val result = snackbarHostState.showSnackbar(
                                                 context.getString(R.string.note_delete),
-                                            actionLabel = context.getString(R.string.undo)
+                                                actionLabel = context.getString(R.string.undo)
                                             )
-                                        if (result == SnackbarResult.ActionPerformed){
-                                            viewModel.onEvent(NotesEvent.RestoreNote)
+                                            if (result == SnackbarResult.ActionPerformed){
+                                                viewModel.onEvent(NotesEvent.RestoreNote)
+                                            }
                                         }
-                                    }
-                                },
-                                onBookMarkChange = {
+                                    },
+                                    onBookMarkChange = {
 
-                                    viewModel.onEvent(NotesEvent.Bookmark(note))
-                                }
-                            )
-                            Spacer(modifier = Modifier.height(16.dp))
+                                        viewModel.onEvent(NotesEvent.Bookmark(note))
+                                    }
+                                )
+                                Spacer(modifier = Modifier.height(16.dp))
+                            }
+
+
                         }
                     }
                 }
