@@ -1,6 +1,7 @@
 package com.example.notebook
 
-import androidx.compose.runtime.Composable
+import android.util.Log
+import androidx.compose.runtime.*
 import androidx.navigation.NavGraph.Companion.findStartDestination
 
 import androidx.navigation.NavHostController
@@ -8,12 +9,16 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navigation
 import com.example.notebook.feature_login.presentation.ui.LoginScreen
 import com.example.notebook.feature_note.presentation.add_edit_note.ui.AddEditNoteScreen
 import com.example.notebook.feature_note.presentation.bookmarked_notes.BookMarkedScreen
 import com.example.notebook.feature_note.presentation.notes.ui.NotesScreen
 import com.example.notebook.feature_note.presentation.util.Screen
+import com.example.notebook.feature_secret_note.presentation.component.PasswordDialog
+import com.example.notebook.feature_secret_note.presentation.ui.SecretNotes
 import com.example.notebook.feature_signup.presentation.ui.SignUpScreen
+import com.example.notebook.feature_verify_user.presentation.ui.VerificationScreen
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -24,6 +29,10 @@ fun NavGraph(
     navController : NavHostController
 ){
 
+    var showDialog by remember { mutableStateOf(false) }
+    var verified by remember {
+        mutableStateOf(false)
+    }
     NavHost(
         navController = navController,
         startDestination = startDestination) {
@@ -42,6 +51,18 @@ fun NavGraph(
             BookMarkedScreen(navController = navController)
         }
 
+        composable(route = Screen.SecretNotes.route){
+
+            if(verified){
+                SecretNotes(navController)
+            }else{
+                VerificationScreen(navController = navController,
+                    onCompleteListener = {
+                        verified = true
+                    }
+                )
+            }
+        }
         composable(
             route = Screen.AddEditNoteScreen.route +
                     "?noteId={noteId}&noteColor={noteColor}",
@@ -63,7 +84,8 @@ fun NavGraph(
             val color = it.arguments?.getInt("noteColor") ?: -1
             AddEditNoteScreen(
                 navController = navController,
-                noteColor = color)
+                noteColor = color
+            )
         }
     }
 }

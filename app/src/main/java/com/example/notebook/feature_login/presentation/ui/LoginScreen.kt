@@ -36,6 +36,7 @@ fun LoginScreen(
 ){
 
     val networkStatus by  viewModel.networkStatus.collectAsState()
+
     val loginState by viewModel.loginState.collectAsState()
 
     var showDialog by remember { mutableStateOf(false) }
@@ -86,10 +87,12 @@ fun LoginScreen(
                     .padding(16.dp)
             ) {
                 
-                IconButton(onClick = {
+                IconButton(
+                    onClick = {
 
                 }) {
-                    Icon(Icons.Filled.ArrowBack, contentDescription = "" )
+
+
                 }
                 
                 Spacer(modifier = Modifier.height(50.dp))
@@ -149,7 +152,6 @@ fun LoginScreen(
                         )
                     }
                 }
-
                 Spacer(modifier = Modifier.height(26.dp))
                 LoginButton(
                     "Login" ,
