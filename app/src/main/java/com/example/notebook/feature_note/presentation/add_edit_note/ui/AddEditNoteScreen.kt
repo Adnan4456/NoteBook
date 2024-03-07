@@ -160,30 +160,13 @@ fun AddEditNoteScreen(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
 
-//                    ElevatedButton(
-//                        onClick = {
-////                            viewModel.isBookmarked = !viewModel.isBookmarked
-////                        viewModel.onEvent(AddEditNoteEvent.SaveNote)
-//                    }) {
-//                        Icon(Icons.Default.BookmarkBorder, contentDescription = "")
-//                    }
-
                     ElevatedButton(
                         onClick = {
                         viewModel.onEvent(AddEditNoteEvent.SaveNote)
                     }) {
                         Icon(Icons.Default.Check, contentDescription = "")
                     }
-//                    FilledIconButton(
-////                        modifier = Modifier.fillMaxWidth(),
-//
-//                        onClick = {
-//                            viewModel.onEvent(AddEditNoteEvent.SaveNote)
-//                        }) {
-//                        Icon(Icons.Default.Save, contentDescription = "")
-//                    }
                 }
-
             }
 
             Spacer(modifier = Modifier.height(16.dp))
