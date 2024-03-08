@@ -221,14 +221,14 @@ fun NotesScreen(
                                         }
                                     },
                                     onBookMarkChange = {
-
                                         viewModel.onEvent(NotesEvent.Bookmark(note))
+                                    },
+                                    onSecretClick = {
+                                    viewModel.onEvent(NotesEvent.MakeSecret(note))
                                     }
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
                             }
-
-
                         }
                     }
                 }
@@ -257,10 +257,7 @@ fun NotesScreen(
                                 viewModel.onEvent(NotesEvent.DeleteNote(note))
 
                                 scope.launch {
-//                                    val result = scaffoldState.snackbarHostState.showSnackbar(
-//                                        context.getString(R.string.note_delete),
-//                                        actionLabel = context.getString(R.string.undo)
-//                                    )
+
                                     val result = snackbarHostState.showSnackbar(
                                         context.getString(R.string.note_delete),
                                         actionLabel = context.getString(R.string.undo)
@@ -279,6 +276,9 @@ fun NotesScreen(
                                     )
                                 }
 
+                            },
+                            onSecretClick = {
+                                viewModel.onEvent(NotesEvent.MakeSecret(note))
                             }
                         )
                         Spacer(modifier = Modifier.height(16.dp))

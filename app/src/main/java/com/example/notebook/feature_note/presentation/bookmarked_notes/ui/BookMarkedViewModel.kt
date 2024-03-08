@@ -34,7 +34,6 @@ class BookMarkedViewModel
     init {
         getNotes()
     }
-
     private fun getNotes() {
 
         getNotesJob?.cancel()
@@ -65,6 +64,11 @@ class BookMarkedViewModel
                 viewModelScope.launch {
                     noteUseCases.addNoteUseCase(recentlyDeletedNote ?: return@launch)
                     recentlyDeletedNote = null
+                }
+            }
+            is BookMarkEvent.MakeSecret ->{
+                viewModelScope.launch {
+                    noteUseCases.addNoteUseCase(event.note.copy(isSecrete = !event.note.isSecrete))
                 }
             }
         }

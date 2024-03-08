@@ -98,6 +98,9 @@ fun BookMarkedScreen(
                         },
                         onBookMarkChange = {
                             viewModel.onEvent(BookMarkEvent.onBookMark(note))
+                        },
+                        onSecretClick = {
+                            viewModel.onEvent(BookMarkEvent.MakeSecret(note))
                         }
                     )
                     Spacer(modifier = Modifier.height(16.dp))

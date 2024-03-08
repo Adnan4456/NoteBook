@@ -45,8 +45,8 @@ fun NavGraph(
             NotesScreen(navController = navController ,firbaseAuth = firbaseAuth )
         }
         composable(route = Screen.BookMarkedScreen.route){
-//            BookMarkedScreen(navController = navController)
-            MainScreentesting()
+            BookMarkedScreen(navController = navController)
+//            MainScreentesting()
         }
 
         composable(route = Screen.SecretNotes.route){

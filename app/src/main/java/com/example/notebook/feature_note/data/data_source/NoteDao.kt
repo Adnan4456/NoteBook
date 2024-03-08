@@ -12,7 +12,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NoteDao {
 
-    @Query("Select * from note")
+    @Query("Select * from note where isSecrete = 0")
+//    @Query("Select * from note")
     fun getNotes(): Flow<List<Note>>
 
     @Query("Select * from note where id = :id")
@@ -24,6 +25,8 @@ interface NoteDao {
     @Delete
     suspend fun deleteNote(note: Note)
 
-    @Query("Select * from note where isBookMarked = 1")
+    @Query("Select * from note where isBookMarked = 1 and isSecrete = 0")
     fun getBookMarkedNotes():Flow<List<Note>>
+    @Query("Select * from note where isSecrete = 1")
+    fun getSecreteNotes():Flow<List<Note>>
 }

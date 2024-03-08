@@ -1,16 +1,19 @@
 package com.example.notebook.feature_note.presentation.notes.components
 
+
 import androidx.compose.animation.animateContentSize
+
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 
 import androidx.compose.material.icons.filled.BookmarkRemove
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -39,7 +42,8 @@ fun NoteItem(
     cornerRadius: Dp = 10.dp,
     cutCornerSize:  Dp = 30.dp,
     onDeleteClick : () -> Unit,
-    onBookMarkChange: () -> Unit
+    onBookMarkChange: () -> Unit,
+    onSecretClick: ()->Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
@@ -92,73 +96,103 @@ fun NoteItem(
                     )
                 }
             } // end clipPath
-        } // end canvas
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp)
-                .padding(end = 16.dp)
-        ) {
-            Text(
-                text = note.title,
-                style = MaterialTheme.typography.displaySmall,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            
-            Spacer(modifier = Modifier.height(8.dp))
+        }
+        Column {
 
-            Text(
-                text = note.content,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines =  if (expanded) 10 else 5,
-                overflow = TextOverflow.Ellipsis
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                    .padding(end = 16.dp)
+            ) {
+                Text(
+                    text = note.title,
+                    style = MaterialTheme.typography.displaySmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
 
-            TextButton(
-                onClick = {
-                    expanded = !expanded
-                })
-            {
-                Text(text = if (expanded) "Read Less" else "Read More" ,
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = note.content,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines =  if (expanded) 10 else 5,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                TextButton(
+                    onClick = {
+                        expanded = !expanded
+                    })
+                {
+                    Text(text = if (expanded) "Read Less" else "Read More" ,
+                        style = TextStyle(
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp
+                        )
                     )
-                )
-            }
-        }
-
-        Row (
-            modifier  = Modifier.align(Alignment.BottomEnd)
-                ){
-            IconButton(
-
-                onClick = {
-                    onBookMarkChange.invoke()
-                    isPlaying = true
-                },
-            ) {
-
-                LottieAnimation(
-                    modifier = Modifier.size(30.dp),
-                    composition = composition,
-                    progress = if (isPlaying) 1f else 0f,
-                )
-                Icon(
-                    imageVector = icon,
-                    contentDescription = "Bookmark changed")
+                }
             }
 
-            IconButton(
-                onClick = onDeleteClick,
-            ) {
-                Icon(imageVector = Icons.Default.Delete,
-                    contentDescription = "Note Deleted")
+            Row (
+                modifier  = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ){
+
+              ElevatedCard(
+                  elevation = CardDefaults.cardElevation(
+                      defaultElevation = 5.dp
+                  )
+              ) {
+                  IconButton(onClick = {
+                      onSecretClick.invoke()
+                  }) {
+                      Icon(imageVector = Icons.Default.VisibilityOff ,
+                          contentDescription = "Secret Note")
+
+                  }
+              }
+
+                ElevatedCard (
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 5.dp
+                    )
+                        ){
+                    IconButton(
+
+                        onClick = {
+                            onBookMarkChange.invoke()
+                            isPlaying = true
+                        },
+                    ) {
+
+                        LottieAnimation(
+                            modifier = Modifier.size(30.dp),
+                            composition = composition,
+                            progress = if (isPlaying) 1f else 0f,
+                        )
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = "Bookmark changed")
+                    }
+                }
+                ElevatedCard {
+                    IconButton(
+                        onClick = onDeleteClick,
+                    ) {
+                        Icon(imageVector = Icons.Default.Delete,
+                            contentDescription = "Note Deleted")
+                    }
+                }
+
             }
-        }
+        }// end canvas
+
     }
  }
