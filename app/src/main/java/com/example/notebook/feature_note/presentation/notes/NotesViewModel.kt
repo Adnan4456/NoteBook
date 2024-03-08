@@ -74,6 +74,11 @@ class NotesViewModel
             is NotesEvent.Search -> {
                 onSearchQueryChanged(event.query)
             }
+            is NotesEvent.MakeSecret -> {
+                viewModelScope.launch {
+                    noteUseCases.addNoteUseCase(event.note.copy(isSecrete = !event.note.isSecrete))
+                }
+            }
         }
     }
     fun onSearchQueryChanged(query: String) {

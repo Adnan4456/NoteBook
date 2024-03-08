@@ -1,6 +1,5 @@
 package com.example.notebook
 
-import android.util.Log
 import androidx.compose.runtime.*
 import androidx.navigation.NavGraph.Companion.findStartDestination
 
@@ -9,13 +8,12 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import androidx.navigation.navigation
 import com.example.notebook.feature_login.presentation.ui.LoginScreen
 import com.example.notebook.feature_note.presentation.add_edit_note.ui.AddEditNoteScreen
+import com.example.notebook.feature_note.presentation.add_edit_note.ui.MainScreentesting
 import com.example.notebook.feature_note.presentation.bookmarked_notes.BookMarkedScreen
 import com.example.notebook.feature_note.presentation.notes.ui.NotesScreen
 import com.example.notebook.feature_note.presentation.util.Screen
-import com.example.notebook.feature_secret_note.presentation.component.PasswordDialog
 import com.example.notebook.feature_secret_note.presentation.ui.SecretNotes
 import com.example.notebook.feature_signup.presentation.ui.SignUpScreen
 import com.example.notebook.feature_verify_user.presentation.ui.VerificationScreen
@@ -29,7 +27,6 @@ fun NavGraph(
     navController : NavHostController
 ){
 
-    var showDialog by remember { mutableStateOf(false) }
     var verified by remember {
         mutableStateOf(false)
     }
@@ -49,6 +46,7 @@ fun NavGraph(
         }
         composable(route = Screen.BookMarkedScreen.route){
             BookMarkedScreen(navController = navController)
+//            MainScreentesting()
         }
 
         composable(route = Screen.SecretNotes.route){

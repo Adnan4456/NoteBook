@@ -32,6 +32,8 @@ class AddEditNoteViewModel
     private val _isBookmarked = mutableStateOf(false)
     val isBookmarked: State<Boolean> = _isBookmarked
 
+    private val _isSecret = mutableStateOf(false)
+
     val noteTitle : State<NoteTextFieldState> = _noteTitle
 
     private val _noteContent = mutableStateOf(NoteTextFieldState(
@@ -47,11 +49,6 @@ class AddEditNoteViewModel
     val eventFlow = _eventFlow.asSharedFlow()
 
     private var currentNoteId: Int ? = null
-
-//    private fun bookmark(){
-//        isBookmarked
-//    }
-
     init {
 
         savedStateHandle.get<Int>("noteId")?.let {noteId ->
@@ -69,6 +66,8 @@ class AddEditNoteViewModel
                             isHintVisible = false
                         )
                         _noteColor.value = note.color
+                        _isBookmarked.value = note.isBookMarked
+                        _isSecret.value = note.isSecrete
                     }
                 }
             }
@@ -115,7 +114,10 @@ class AddEditNoteViewModel
                                 content = noteContent.value.text,
                                 timestamp = System.currentTimeMillis(),
                                 color = noteColor.value,
-                                id = currentNoteId
+                                id = currentNoteId,
+                                isBookMarked = _isBookmarked.value,
+                                isSecrete =  _isSecret.value
+
                             )
                         )
                         _eventFlow.emit(UiEvent.SaveNote)

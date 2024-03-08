@@ -22,4 +22,6 @@ sealed class Screen(
     object SecretNotes : Screen("secret_notes" , icon = Icons.Outlined.Security)
 
     object VerificationScreen:Screen("verification_screen")
+
+    object  Test:Screen("testing")
 }

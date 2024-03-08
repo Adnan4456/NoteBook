@@ -12,7 +12,6 @@ class NoteRepositoryImpl
 ): NoteRepository {
 
     override fun getNotes(): Flow<List<Note>> {
-
         return  dao.getNotes()
     }
 
@@ -32,5 +31,9 @@ class NoteRepositoryImpl
 
     override fun getBookMarkedNotes(): Flow<List<Note>> {
        return dao.getBookMarkedNotes()
+    }
+
+    override fun getSecreteNotes(): Flow<List<Note>> {
+       return  dao.getSecreteNotes()
     }
 }

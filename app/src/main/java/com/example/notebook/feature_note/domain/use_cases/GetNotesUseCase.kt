@@ -1,5 +1,6 @@
 package com.example.notebook.feature_note.domain.use_cases
 
+import android.util.Log
 import com.example.notebook.feature_note.domain.model.Note
 import com.example.notebook.feature_note.domain.repository.NoteRepository
 import com.example.notebook.feature_note.domain.utils.NoteOrder
@@ -18,12 +19,8 @@ class GetNotesUseCase(
 
         return noteRepository.getNotes()
             .map {note ->
-
-
-
                 val filteredNotes = if (searchQuery.isNotBlank()) {
                     note.filter { note ->
-
                         val titleMatch = note.title.contains(searchQuery, ignoreCase = true)
                         val contentMatch = note.content.contains(searchQuery, ignoreCase = true)
 

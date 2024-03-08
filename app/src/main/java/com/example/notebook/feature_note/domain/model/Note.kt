@@ -15,14 +15,12 @@ data  class Note (
     val timestamp: Long,
     val color: Int,
     val isBookMarked : Boolean = false,
+    val isSecrete: Boolean = false
 ){
 
     companion object {
-
-        val noteColors = listOf(RedOrange , LightGreen , Violet , BabyBlue , RedPink)
-
+        val noteColors = listOf(RedOrange, LightGreen, Violet, BabyBlue, RedPink)
     }
-
 }
 
 

@@ -9,4 +9,6 @@ sealed class BookMarkEvent {
 
     data class onBookMark(val note: Note): BookMarkEvent()
     data class onDelete(val note: Note): BookMarkEvent()
+
+    data class MakeSecret(val note: Note): BookMarkEvent()
 }

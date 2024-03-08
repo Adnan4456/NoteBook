@@ -11,4 +11,5 @@ sealed class NotesEvent{
 
     data class Bookmark(val note: Note): NotesEvent()
 
+    data class MakeSecret (val note: Note): NotesEvent()
 }

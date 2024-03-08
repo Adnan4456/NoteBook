@@ -112,6 +112,11 @@ dependencies {
     //lottie animation
     implementation "com.airbnb.android:lottie-compose:6.0.0"
 
+    // Rich Text Editor
+//    implementation "com.mohamedrejeb.richeditor:richeditor-compose:1.0.0-beta03"
+    implementation "com.mohamedrejeb.richeditor:richeditor-compose:1.0.0-beta02"
+
+
 }
 
 // Allow references to generated code
