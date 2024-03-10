@@ -1,7 +1,11 @@
 package com.example.notebook.feature_note.presentation.bookmarked_notes
 
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.*
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -72,38 +76,45 @@ fun BookMarkedScreen(
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ){
                 items(state.notes){ note ->
-                    NoteItem(
-                        note = note,
-                        modifier = Modifier
 
-                            .fillMaxWidth()
-                            .clickable {
-                                navController.navigate(
-                                    Screen.AddEditNoteScreen.route +
-                                            "?noteId=${note.id}&noteColor=${note.color}"
-                                )
-                            },
-                        onDeleteClick = {
-                            viewModel.onEvent(BookMarkEvent.onDelete(note))
+                    AnimatedVisibility(
+                        visible = true ,
+                        enter = fadeIn(animationSpec = tween(5000)),
+                        exit = fadeOut(animationSpec =  tween(5000))
+                    ){
+                        NoteItem(
+                            note = note,
+                            modifier = Modifier
 
-                            scope.launch {
-                                val result = snackbarHostState.showSnackbar(
-                                    context.getString(R.string.note_delete),
-                                    actionLabel = context.getString(R.string.undo)
-                                )
-                                if (result == SnackbarResult.ActionPerformed){
-                                    viewModel.onEvent(BookMarkEvent.RestoreNote)
+                                .fillMaxWidth()
+                                .clickable {
+                                    navController.navigate(
+                                        Screen.AddEditNoteScreen.route +
+                                                "?noteId=${note.id}&noteColor=${note.color}"
+                                    )
+                                },
+                            onDeleteClick = {
+                                viewModel.onEvent(BookMarkEvent.onDelete(note))
+                                scope.launch {
+                                    val result = snackbarHostState.showSnackbar(
+                                        context.getString(R.string.note_delete),
+                                        actionLabel = context.getString(R.string.undo)
+                                    )
+                                    if (result == SnackbarResult.ActionPerformed){
+                                        viewModel.onEvent(BookMarkEvent.RestoreNote)
+                                    }
                                 }
+                            },
+                            onBookMarkChange = {
+                                viewModel.onEvent(BookMarkEvent.onBookMark(note))
+                            },
+                            onSecretClick = {
+                                viewModel.onEvent(BookMarkEvent.MakeSecret(note))
                             }
-                        },
-                        onBookMarkChange = {
-                            viewModel.onEvent(BookMarkEvent.onBookMark(note))
-                        },
-                        onSecretClick = {
-                            viewModel.onEvent(BookMarkEvent.MakeSecret(note))
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+
                 }
             }
         }

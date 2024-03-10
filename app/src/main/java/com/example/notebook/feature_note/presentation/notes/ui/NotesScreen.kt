@@ -243,45 +243,54 @@ fun NotesScreen(
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ){
                     items(state.notes){ note ->
-                        NoteItem(
-                            note = note,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    navController.navigate(
-                                        Screen.AddEditNoteScreen.route +
-                                                "?noteId=${note.id}&noteColor=${note.color}"
-                                    )
-                                },
-                            onDeleteClick = {
-                                viewModel.onEvent(NotesEvent.DeleteNote(note))
 
-                                scope.launch {
+                        AnimatedVisibility(
+                            visible = true ,
+                            enter = fadeIn(animationSpec = tween(5000)),
+                            exit = fadeOut(animationSpec =  tween(5000))
+                        ){
 
-                                    val result = snackbarHostState.showSnackbar(
-                                        context.getString(R.string.note_delete),
-                                        actionLabel = context.getString(R.string.undo)
-                                    )
-                                    if (result == SnackbarResult.ActionPerformed){
-                                        viewModel.onEvent(NotesEvent.RestoreNote)
+                            NoteItem(
+                                note = note,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        navController.navigate(
+                                            Screen.AddEditNoteScreen.route +
+                                                    "?noteId=${note.id}&noteColor=${note.color}"
+                                        )
+                                    },
+                                onDeleteClick = {
+                                    viewModel.onEvent(NotesEvent.DeleteNote(note))
+
+                                    scope.launch {
+
+                                        val result = snackbarHostState.showSnackbar(
+                                            context.getString(R.string.note_delete),
+                                            actionLabel = context.getString(R.string.undo)
+                                        )
+                                        if (result == SnackbarResult.ActionPerformed){
+                                            viewModel.onEvent(NotesEvent.RestoreNote)
+                                        }
                                     }
-                                }
-                            },
-                            onBookMarkChange = {
-                                Log.d("TAG", "Bookmark in screen")
-                                viewModel.onEvent(NotesEvent.Bookmark(note))
-                                scope.launch {
-                                  snackbarHostState.showSnackbar(
-                                        "Note is Bookmarked",
-                                    )
-                                }
+                                },
+                                onBookMarkChange = {
+                                    Log.d("TAG", "Bookmark in screen")
+                                    viewModel.onEvent(NotesEvent.Bookmark(note))
+                                    scope.launch {
+                                        snackbarHostState.showSnackbar(
+                                            "Note is Bookmarked",
+                                        )
+                                    }
 
-                            },
-                            onSecretClick = {
-                                viewModel.onEvent(NotesEvent.MakeSecret(note))
-                            }
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
+                                },
+                                onSecretClick = {
+                                    viewModel.onEvent(NotesEvent.MakeSecret(note))
+                                }
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                        }
+
                     }
                 }
 
