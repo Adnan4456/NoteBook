@@ -1,7 +1,8 @@
 package com.example.notebook.feature_note.presentation.add_edit_note.ui
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import android.graphics.Bitmap
+import android.net.Uri
+import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -31,6 +32,7 @@ class AddEditNoteViewModel
 
     private val _isBookmarked = mutableStateOf(false)
 
+    var bitmap  = mutableStateOf<Bitmap?>(null)
 
     private val _isSecret = mutableStateOf(false)
 
@@ -68,6 +70,7 @@ class AddEditNoteViewModel
                         _noteColor.value = note.color
                         _isBookmarked.value = note.isBookMarked
                         _isSecret.value = note.isSecrete
+                         bitmap.value = note.imageBitmap
                     }
                 }
             }
@@ -116,8 +119,8 @@ class AddEditNoteViewModel
                                 color = noteColor.value,
                                 id = currentNoteId,
                                 isBookMarked = _isBookmarked.value,
-                                isSecrete =  _isSecret.value
-
+                                isSecrete =  _isSecret.value,
+                                imageBitmap = bitmap.value,
                             )
                         )
                         _eventFlow.emit(UiEvent.SaveNote)

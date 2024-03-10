@@ -39,7 +39,7 @@ class BookMarkedViewModel
         getNotesJob?.cancel()
         getNotesJob = getBookMarkedNotesUseCase.invoke()
             .onEach {notes ->
-                delay(2000)
+                delay(1000)
                 _noteList.update {
                     it.copy(isLoading = false , notes = notes )
                 }

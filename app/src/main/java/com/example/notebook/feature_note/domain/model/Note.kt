@@ -1,5 +1,6 @@
 package com.example.notebook.feature_note.domain.model
 
+import android.graphics.Bitmap
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.notebook.ui.theme.*
@@ -15,7 +16,8 @@ data  class Note (
     val timestamp: Long,
     val color: Int,
     val isBookMarked : Boolean = false,
-    val isSecrete: Boolean = false
+    val isSecrete: Boolean = false,
+    val imageBitmap: Bitmap? = null
 ){
 
     companion object {
