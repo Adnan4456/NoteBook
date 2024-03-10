@@ -2,43 +2,39 @@ package com.example.notebook.feature_note.presentation.add_edit_note.ui
 
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.BookmarkAdd
-import androidx.compose.material.icons.filled.BookmarkBorder
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.text.ParagraphStyle
-import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import com.example.notebook.R
 import com.example.notebook.feature_note.domain.model.Note
 import com.example.notebook.feature_note.presentation.add_edit_note.AddEditNoteEvent
 import com.example.notebook.feature_note.presentation.add_edit_note.components.TransparentContentTextField
@@ -47,6 +43,7 @@ import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.io.InputStream
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,11 +58,18 @@ fun AddEditNoteScreen(
 
     val titleState = viewModel.noteTitle.value
     val contentState = viewModel.noteContent.value
+    val context = LocalContext.current
+
 
     val state = rememberRichTextState()
     val stateTitle = rememberRichTextState()
     val titleSize = MaterialTheme.typography.displaySmall.fontSize
     val subtitleSize = MaterialTheme.typography.titleLarge.fontSize
+    var selectedImage by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    var inputStream: InputStream
 
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -92,6 +96,15 @@ fun AddEditNoteScreen(
         )
     }
     val scope = rememberCoroutineScope()
+    val pickPhotoLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = {uri ->
+            selectedImage = uri
+            //convert URI to  a stream
+            inputStream = context.getContentResolver().openInputStream(uri!!)!!
+            viewModel.bitmap.value = BitmapFactory.decodeStream(inputStream)
+            Log.d("TAG", " bitmapheight = ${viewModel.bitmap.value}")
+        })
     
     Scaffold(
         snackbarHost = {
@@ -242,9 +255,11 @@ fun AddEditNoteScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
             TransparentContentTextField(
-                modifier = Modifier.background(
-                    color = noteBackgroundAnimatable.value
-                ),
+                modifier = Modifier
+                    .background(
+                        color = noteBackgroundAnimatable.value
+                    )
+                    .weight(1f),
                 text =contentState.text ,
                 hint = contentState.hint,
                 onValueChanged = {
@@ -259,6 +274,29 @@ fun AddEditNoteScreen(
                     fontSize = 20.sp
                 ),
             )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(.5f)
+                    .border(
+                        BorderStroke(
+                            width = 1.dp,
+                            color = Color.DarkGray
+                        ),
+                    )
+                    .clickable {
+                        //open photo library
+                        pickPhotoLauncher.launch(
+                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                        )
+                    },
+            ){
+                 AsyncImage(
+                    placeholder = painterResource(id = R.drawable.add_photo),
+                    model = viewModel.bitmap.value,
+                    contentDescription = "",
+                 modifier = Modifier.fillMaxWidth())
+            }
         }
     }
 }

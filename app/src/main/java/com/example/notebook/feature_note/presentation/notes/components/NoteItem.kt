@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.ColorUtils
+import coil.compose.AsyncImage
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -105,6 +106,13 @@ fun NoteItem(
                     .padding(start = 16.dp, end = 16.dp, top = 16.dp)
                     .padding(end = 16.dp)
             ) {
+
+                AsyncImage(
+                    model = note.imageBitmap,
+                    contentDescription = "",
+                    modifier = Modifier.fillMaxWidth()
+                )
+
                 Text(
                     text = note.title,
                     style = MaterialTheme.typography.displaySmall,
