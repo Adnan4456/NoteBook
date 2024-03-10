@@ -2,6 +2,7 @@ package com.example.notebook.feature_note.presentation.add_edit_note.ui
 
 
 import android.annotation.SuppressLint
+import android.util.Log
 
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.tween
@@ -27,7 +28,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.text.ParagraphStyle
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -36,6 +43,8 @@ import com.example.notebook.feature_note.domain.model.Note
 import com.example.notebook.feature_note.presentation.add_edit_note.AddEditNoteEvent
 import com.example.notebook.feature_note.presentation.add_edit_note.components.TransparentContentTextField
 import com.example.notebook.feature_note.presentation.add_edit_note.components.TransparentHintTextField
+import com.mohamedrejeb.richeditor.model.rememberRichTextState
+import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -52,6 +61,11 @@ fun AddEditNoteScreen(
 
     val titleState = viewModel.noteTitle.value
     val contentState = viewModel.noteContent.value
+
+    val state = rememberRichTextState()
+    val stateTitle = rememberRichTextState()
+    val titleSize = MaterialTheme.typography.displaySmall.fontSize
+    val subtitleSize = MaterialTheme.typography.titleLarge.fontSize
 
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -129,6 +143,63 @@ fun AddEditNoteScreen(
                 }
             }
             
+            Spacer(modifier = Modifier.height(24.dp))
+//            EditorControls(
+//                modifier = Modifier.weight(1f),
+//                state = state,
+//                onBoldClick = {
+//                    state.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
+//                },
+//                onItalicClick = {
+//                    state.toggleSpanStyle(SpanStyle(fontStyle = FontStyle.Italic))
+//                },
+//                onUnderlineClick = {
+//                    state.toggleSpanStyle(SpanStyle(textDecoration = TextDecoration.Underline))
+//                },
+//                onTitleClick = {
+//                    state.toggleSpanStyle(SpanStyle(fontSize = titleSize))
+//                },
+//                onSubtitleClick = {
+//                    state.toggleSpanStyle(SpanStyle(fontSize = subtitleSize))
+//                },
+//                onTextColorClick = {
+//                    state.toggleSpanStyle(SpanStyle(color = Color.Red))
+//                },
+//                onStartAlignClick = {
+//                    state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Start))
+//                },
+//                onEndAlignClick = {
+//                    state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.End))
+//                },
+//                onCenterAlignClick = {
+//                    state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Center))
+//                },
+//                onExportClick = {
+//                    Log.d("Editor", state.toHtml())
+//                }
+//            )
+//            RichTextEditor(
+//                modifier = Modifier
+//                    .background(
+//                        color = noteBackgroundAnimatable.value
+//                    )
+//                    .fillMaxWidth()
+//                    .weight(1f),
+//                singleLine = true,
+//                state = stateTitle,
+//            )
+//            Spacer(modifier = Modifier.width(8.dp))
+//            RichTextEditor(
+//                modifier = Modifier
+//                    .background(
+//                        color = noteBackgroundAnimatable.value
+//                    )
+//                    .fillMaxWidth()
+//                    .weight(8f),
+//                state = state,
+//            )
+
+
             Spacer(modifier = Modifier.height(24.dp))
 
             Row(

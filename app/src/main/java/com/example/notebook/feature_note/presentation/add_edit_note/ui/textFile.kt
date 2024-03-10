@@ -70,7 +70,7 @@ fun MainScreentesting() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             EditorControls(
-                modifier = Modifier.weight(2f),
+                modifier = Modifier.weight(1f),
                 state = state,
                 onBoldClick = {
                     state.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
@@ -106,7 +106,7 @@ fun MainScreentesting() {
             RichTextEditor(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(8f),
+                    .weight(9f),
                 state = state,
             )
         }
@@ -144,30 +144,29 @@ fun EditorControls(
 
     var showLinkDialog by remember { mutableStateOf(false) }
 
-    AnimatedVisibility(visible = showLinkDialog) {
-        LinkDialog(
-            onDismissRequest = {
-                showLinkDialog = false
-                linkSelected = false
-            },
-            onConfirmation = { linkText, link ->
-                state.addLink(
-                    text = linkText,
-                    url = link
-                )
-                showLinkDialog = false
-                linkSelected = false
-            }
-        )
-    }
+//    AnimatedVisibility(visible = showLinkDialog) {
+//        LinkDialog(
+//            onDismissRequest = {
+//                showLinkDialog = false
+//                linkSelected = false
+//            },
+//            onConfirmation = { linkText, link ->
+//                state.addLink(
+//                    text = linkText,
+//                    url = link
+//                )
+//                showLinkDialog = false
+//                linkSelected = false
+//            }
+//        )
+//    }
 
     FlowRow(
         modifier = modifier
             .fillMaxWidth()
-            .padding(all = 10.dp)
-            .padding(bottom = 24.dp),
+            .padding(all = 10.dp),
+//            .padding(bottom = 24.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-//        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         ControlWrapper(
             selected = boldSelected,
@@ -294,19 +293,6 @@ fun EditorControls(
     }
 }
 
-
-@Composable
-fun LinkDialog(onDismissRequest: () -> Unit, onConfirmation: (String , String ) -> Unit){
-//
-//    AlertDialog(
-//        onDismissRequest = {
-//        onDismissRequest.invoke()
-//    },
-//        onConfirmation ={
-////            onConfirmation.invoke()
-//        }
-//    )
-}
 
 @Composable
 fun ControlWrapper(

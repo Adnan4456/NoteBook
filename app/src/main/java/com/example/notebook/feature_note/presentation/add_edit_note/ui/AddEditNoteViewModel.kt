@@ -30,7 +30,7 @@ class AddEditNoteViewModel
     ))
 
     private val _isBookmarked = mutableStateOf(false)
-    val isBookmarked: State<Boolean> = _isBookmarked
+
 
     private val _isSecret = mutableStateOf(false)
 
