@@ -91,7 +91,7 @@ fun MainScreen(
                             route = Screen.AddEditNoteScreen.route
                         )
                     }) {
-                        Icon(imageVector =Icons.Default.Add , contentDescription = "Add")
+                        Icon(imageVector = Icons.Default.Add , contentDescription = "Add")
                     }
                 }
             )
@@ -100,7 +100,6 @@ fun MainScreen(
         Box(modifier = Modifier.padding(innerPadding)){
             NavGraph(startDestination = startDestination, firbaseAuth =firbaseAuth  , navController)
         }
-
     }
 }
 

@@ -32,6 +32,8 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.notebook.R
 import com.example.notebook.feature_note.presentation.notes.NotesEvent
 import com.example.notebook.feature_note.presentation.notes.NotesViewModel
+import com.example.notebook.feature_note.presentation.notes.components.ChipRow
+import com.example.notebook.feature_note.presentation.notes.components.ChipType
 import com.example.notebook.feature_note.presentation.notes.components.NoteItem
 import com.example.notebook.feature_note.presentation.notes.components.OrderSection
 import com.example.notebook.feature_note.presentation.util.Screen
@@ -59,6 +61,12 @@ fun NotesScreen(
 
     val searchQuery = remember { viewModel.searchQuery }
 
+
+
+    // Add a mutable state for selected chip
+    var selectedChip by remember {
+        mutableStateOf(ChipType.ALL)
+    }
 
     Scaffold(
         snackbarHost = {
@@ -175,6 +183,16 @@ fun NotesScreen(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
+
+            ChipRow(
+                selectedChip = selectedChip,
+                onChipClicked = { chipType ->
+                    selectedChip = chipType
+
+                    Log.d("TAG","Selected chip = ${selectedChip.title}")
+                }
+            )
+
 
             if (AppTheme.orientation == Orientation.Portrait){
 
