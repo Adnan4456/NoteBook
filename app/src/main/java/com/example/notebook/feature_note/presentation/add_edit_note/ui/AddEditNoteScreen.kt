@@ -1,7 +1,9 @@
 package com.example.notebook.feature_note.presentation.add_edit_note.ui
 
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -11,6 +13,8 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.compose.animation.Animatable
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -35,18 +39,21 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.notebook.R
+import com.example.notebook.VoiceToTextParser
+import com.example.notebook.VoiceToTextParserState
 import com.example.notebook.feature_note.domain.model.Note
 import com.example.notebook.feature_note.presentation.add_edit_note.AddEditNoteEvent
 import com.example.notebook.feature_note.presentation.add_edit_note.components.TransparentContentTextField
 import com.example.notebook.feature_note.presentation.add_edit_note.components.TransparentHintTextField
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.InputStream
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AddEditNoteScreen(
@@ -59,6 +66,27 @@ fun AddEditNoteScreen(
     val titleState = viewModel.noteTitle.value
     val contentState = viewModel.noteContent.value
     val context = LocalContext.current
+
+    val voiceToTextParser by lazy {
+        VoiceToTextParser(context)
+    }
+    val VoiceState by voiceToTextParser.state.collectAsState()
+
+
+    var canRecord by remember {
+        mutableStateOf(false)
+    }
+
+    var recordAudioLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = {isGranted ->
+            canRecord = isGranted
+
+        })
+
+    LaunchedEffect(key1 = recordAudioLauncher){
+        recordAudioLauncher.launch(Manifest.permission.RECORD_AUDIO)
+    }
 
 
     val state = rememberRichTextState()
@@ -99,11 +127,9 @@ fun AddEditNoteScreen(
     val pickPhotoLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = {uri ->
-            selectedImage = uri
-            //convert URI to  a stream
+
             inputStream = context.getContentResolver().openInputStream(uri!!)!!
             viewModel.bitmap.value = BitmapFactory.decodeStream(inputStream)
-            Log.d("TAG", " bitmapheight = ${viewModel.bitmap.value}")
         })
     
     Scaffold(
@@ -246,6 +272,28 @@ fun AddEditNoteScreen(
 
                     ElevatedButton(
                         onClick = {
+                            if (VoiceState.isSpeaking){
+                                voiceToTextParser.stopListensing()
+                            }else
+                            {
+                                voiceToTextParser.startListensing()
+                            }
+
+                        }) {
+                        
+                        AnimatedContent(targetState = VoiceState.isSpeaking) {isSpeaking->
+                            if (isSpeaking){
+                                Icon(Icons.Default.Pause, contentDescription = "")
+                            }else
+                            {
+                                Icon(Icons.Default.Mic, contentDescription = "")
+                            }
+                            
+                        }
+
+                    }
+                    ElevatedButton(
+                        onClick = {
                         viewModel.onEvent(AddEditNoteEvent.SaveNote)
                     }) {
                         Icon(Icons.Default.Check, contentDescription = "")
@@ -291,11 +339,22 @@ fun AddEditNoteScreen(
                         )
                     },
             ){
-                 AsyncImage(
-                    placeholder = painterResource(id = R.drawable.add_photo),
-                    model = viewModel.bitmap.value,
-                    contentDescription = "",
-                 modifier = Modifier.fillMaxWidth())
+                if(viewModel.bitmap.value == null){
+                    Image(
+                        painter = painterResource(id = R.drawable.add_photo),
+                        contentDescription = "",
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+                else{
+
+                    AsyncImage(
+//                        placeholder = painterResource(id = R.drawable.add_photo),
+                        model = viewModel.bitmap.value,
+                        contentDescription = "",
+                        modifier = Modifier.fillMaxWidth())
+                }
+
             }
         }
     }
