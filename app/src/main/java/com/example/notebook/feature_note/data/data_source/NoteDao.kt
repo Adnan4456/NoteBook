@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.Flow
 interface NoteDao {
 
     @Query("Select * from note where isSecrete = 0")
-//    @Query("Select * from note")
     fun getNotes(): Flow<List<Note>>
 
     @Query("Select * from note where id = :id")

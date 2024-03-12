@@ -118,6 +118,9 @@ dependencies {
 
     //Coil
     implementation "io.coil-kt:coil-compose:2.1.0"
+    //for type convertor
+    implementation 'com.google.code.gson:gson:2.9.0'
+
 
 }
 

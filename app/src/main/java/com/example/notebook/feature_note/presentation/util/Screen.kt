@@ -23,5 +23,6 @@ sealed class Screen(
 
     object VerificationScreen:Screen("verification_screen")
 
+    object AddTodoScreen:Screen("add_todo_screen")
     object  Test:Screen("testing")
 }

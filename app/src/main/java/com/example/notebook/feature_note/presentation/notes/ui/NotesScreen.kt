@@ -1,5 +1,7 @@
 package com.example.notebook.feature_note.presentation.notes.ui
 
+import FilterFabMenuItem
+import FilterView
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.animation.*
@@ -197,7 +199,8 @@ fun NotesScreen(
             if (AppTheme.orientation == Orientation.Portrait){
 
                 if(state.notes.isEmpty()){
-                    NoNotesImage()
+                    NoNotesImage(navController)
+
                 }else {
 
                     LazyVerticalGrid(
@@ -317,7 +320,9 @@ fun NotesScreen(
     }
 }
 @Composable
-fun NoNotesImage(){
+fun NoNotesImage(
+    navController: NavController
+){
 
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie))
 
@@ -343,6 +348,18 @@ fun NoNotesImage(){
             progress = repeatableSpec.value
         )
         Text(text = "Create your first note !")
+
+        // Example usage of FilterView
+        FilterView(
+            items = listOf(
+                FilterFabMenuItem("Note", R.drawable.ic_lock),
+                FilterFabMenuItem("Todo", R.drawable.add_photo)
+            ),
+            modifier = Modifier
+//                .align(Alignment.BottomEnd)
+                .padding(16.dp),
+            navController
+        )
     }
 
 }
