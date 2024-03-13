@@ -227,8 +227,66 @@ fun NotesScreen(
                                         fontSize = 24.sp,
                                         fontWeight = FontWeight.Bold
                                     ),
+                                )
+                            }
+                            items(state.notes){ note ->
 
+                                AnimatedVisibility(
+                                    visible = true ,
+                                    enter = fadeIn(animationSpec = tween(5000)),
+                                    exit = fadeOut(animationSpec =  tween(5000))
+                                ) {
+
+                                    NoteItem(
+                                        note = note,
+                                        modifier = Modifier
+
+                                            .fillMaxWidth()
+                                            .clickable {
+                                                navController.navigate(
+                                                    Screen.AddEditNoteScreen.route +
+                                                            "?noteId=${note.id}&noteColor=${note.color}"
+                                                )
+                                            },
+                                        onDeleteClick = {
+                                            viewModel.onEvent(NotesEvent.DeleteNote(note))
+
+                                            scope.launch {
+                                                val result = snackbarHostState.showSnackbar(
+                                                    context.getString(R.string.note_delete),
+                                                    actionLabel = context.getString(R.string.undo)
+                                                )
+                                                if (result == SnackbarResult.ActionPerformed){
+                                                    viewModel.onEvent(NotesEvent.RestoreNote)
+                                                }
+                                            }
+                                        },
+                                        onBookMarkChange = {
+                                            viewModel.onEvent(NotesEvent.Bookmark(note))
+                                        },
+                                        onSecretClick = {
+                                            viewModel.onEvent(NotesEvent.MakeSecret(note))
+                                        }
                                     )
+                                    Spacer(modifier = Modifier.height(16.dp))
+                                }
+                            }
+
+                            //second header for testing
+                            header {
+                                Text(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(
+                                            color = Color.LightGray,
+                                        )
+                                        .padding(16.dp),
+                                    text = ("Notes"),
+                                    style = TextStyle(
+                                        fontSize = 24.sp,
+                                        fontWeight = FontWeight.Bold
+                                    ),
+                                )
                             }
                             items(state.notes){ note ->
 
@@ -273,6 +331,7 @@ fun NotesScreen(
                                 }
                             }
                         }
+
                     }
                 }
                 else
