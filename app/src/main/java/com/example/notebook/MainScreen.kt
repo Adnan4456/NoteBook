@@ -1,5 +1,6 @@
 package com.example.notebook
 
+
 import FilterFabMenuItem
 import FilterView
 import android.annotation.SuppressLint
@@ -13,11 +14,8 @@ import androidx.compose.material.icons.outlined.Security
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-
 import androidx.navigation.compose.rememberNavController
 import com.example.notebook.feature_note.presentation.util.Screen
 import com.google.firebase.auth.FirebaseAuth
@@ -89,6 +87,8 @@ fun MainScreen(
 
                     }
                 },
+
+
                 floatingActionButton = {
 
                     FloatingActionButton(onClick = {
@@ -98,15 +98,16 @@ fun MainScreen(
                     }) {
                         Icon(imageVector = Icons.Default.Add , contentDescription = "Add")
                     }
-//                    FilterView(
-//                        items = listOf(
-//                            FilterFabMenuItem("Add Note", R.drawable.add_photo),
-//                            FilterFabMenuItem("Add Todo", R.drawable.ic_lock)
-//                        ),
-//                        modifier = Modifier
-////                            .align(Alignment.BottomEnd)
-//                            .padding(16.dp)
-//                    )
+                    FilterView(
+                        items = listOf(
+                            FilterFabMenuItem("Add Note", R.drawable.add_photo),
+                            FilterFabMenuItem("Add Todo", R.drawable.ic_lock)
+                        ),
+                        modifier = Modifier
+//                            .align(Alignment.BottomEnd)
+                            .padding(16.dp),
+                        navController
+                    )
 
                 }
             )

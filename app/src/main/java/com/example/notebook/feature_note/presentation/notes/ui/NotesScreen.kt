@@ -3,9 +3,11 @@ package com.example.notebook.feature_note.presentation.notes.ui
 import FilterFabMenuItem
 import FilterView
 import android.annotation.SuppressLint
+import android.provider.CalendarContract.Colors
 import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -21,11 +23,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.airbnb.lottie.compose.LottieAnimation
@@ -34,10 +40,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.notebook.R
 import com.example.notebook.feature_note.presentation.notes.NotesEvent
 import com.example.notebook.feature_note.presentation.notes.NotesViewModel
-import com.example.notebook.feature_note.presentation.notes.components.ChipRow
-import com.example.notebook.feature_note.presentation.notes.components.ChipType
-import com.example.notebook.feature_note.presentation.notes.components.NoteItem
-import com.example.notebook.feature_note.presentation.notes.components.OrderSection
+import com.example.notebook.feature_note.presentation.notes.components.*
 import com.example.notebook.feature_note.presentation.util.Screen
 import com.example.notebook.ui.theme.AppTheme
 import com.example.notebook.ui.theme.Orientation
@@ -75,152 +78,227 @@ fun NotesScreen(
             SnackbarHost(hostState = snackbarHostState)
         },
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+        Box(){
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
             ) {
-
-                Row( verticalAlignment = Alignment.CenterVertically) {
-
-
-                    IconButton(onClick = {
-                        viewModel.onEvent(NotesEvent.ToggleOrderSection)
-                    },
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Sort,
-                            contentDescription = "Sort Note"
-                        )
-                    }
-
-                    Text(
-                        text = stringResource(id = R.string.notetitle),
-                        style = MaterialTheme.typography.displayMedium,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.weight(1f))
-
-                    IconButton(
-                        onClick = {
-                        firbaseAuth.signOut()
-                            navController.navigate(Screen.LoginScreen.route)
-                    },
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Logout,
-                            contentDescription = "Log Out"
-                        )
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            ElevatedCard(
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp
-                ),
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(5.dp)
-            ){
-
-                Row (
-                    modifier = Modifier
-                        .padding(start = 3.dp)
-                        .clip(RoundedCornerShape(5.dp)),
-                    horizontalArrangement = Arrangement.Center,
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
+                ) {
 
-                ){
-                    BasicTextField(
-                        modifier = Modifier.weight(1f),
-                        value = searchQuery.value,
-                        singleLine = true,
-                        onValueChange = {
-                            viewModel.onSearchQueryChanged(it)
-                        })
-                    IconButton(
-                        onClick = {
-                            viewModel.onSearchQueryChanged("")
+                    Row( verticalAlignment = Alignment.CenterVertically) {
+
+
+                        IconButton(onClick = {
+                            viewModel.onEvent(NotesEvent.ToggleOrderSection)
+                        },
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Sort,
+                                contentDescription = "Sort Note"
+                            )
                         }
-                    ) {
-                        Icon(
-                            imageVector = if(searchQuery.value.isEmpty()){
-                                Icons.Default.Search
-                            }else
-                            {
-                                Icons.Default.Cancel
+
+                        Text(
+                            text = stringResource(id = R.string.notetitle),
+                            style = MaterialTheme.typography.displayMedium,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.weight(1f))
+
+                        IconButton(
+                            onClick = {
+                                firbaseAuth.signOut()
+                                navController.navigate(Screen.LoginScreen.route)
                             },
-                            contentDescription = "Search Note"
-                        )
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Logout,
+                                contentDescription = "Log Out"
+                            )
+                        }
                     }
                 }
-            }
-            AnimatedVisibility(
-                visible = state.isOrderSectionVisible,
-                enter = slideInVertically {
 
-                    with(density) { -40.dp.roundToPx() }
-                } + expandVertically(
-                    expandFrom = Alignment.Top
-                ) + fadeIn(
-                    initialAlpha = 0.4f
-                ),
-                exit = slideOutVertically() + shrinkVertically() + fadeOut()
-            ) {
-                OrderSection(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp),
-                    noteOrder = state.noteOrder,
-                    onOrderChange = {
-                        viewModel.onEvent(NotesEvent.Order(it))
+                Spacer(modifier = Modifier.height(24.dp))
+
+                ElevatedCard(
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 10.dp
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(5.dp)
+                ){
+
+                    Row (
+                        modifier = Modifier
+                            .padding(start = 3.dp)
+                            .clip(RoundedCornerShape(5.dp)),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+
+                    ){
+                        BasicTextField(
+                            modifier = Modifier.weight(1f),
+                            value = searchQuery.value,
+                            singleLine = true,
+                            onValueChange = {
+                                viewModel.onSearchQueryChanged(it)
+                            })
+                        IconButton(
+                            onClick = {
+                                viewModel.onSearchQueryChanged("")
+                            }
+                        ) {
+                            Icon(
+                                imageVector = if(searchQuery.value.isEmpty()){
+                                    Icons.Default.Search
+                                }else
+                                {
+                                    Icons.Default.Cancel
+                                },
+                                contentDescription = "Search Note"
+                            )
+                        }
+                    }
+                }
+                AnimatedVisibility(
+                    visible = state.isOrderSectionVisible,
+                    enter = slideInVertically {
+
+                        with(density) { -40.dp.roundToPx() }
+                    } + expandVertically(
+                        expandFrom = Alignment.Top
+                    ) + fadeIn(
+                        initialAlpha = 0.4f
+                    ),
+                    exit = slideOutVertically() + shrinkVertically() + fadeOut()
+                ) {
+                    OrderSection(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 16.dp),
+                        noteOrder = state.noteOrder,
+                        onOrderChange = {
+                            viewModel.onEvent(NotesEvent.Order(it))
+                        }
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                ChipRow(
+                    selectedChip = selectedChip,
+                    onChipClicked = { chipType ->
+                        selectedChip = chipType
+
+                        Log.d("TAG","Selected chip = ${selectedChip.title}")
                     }
                 )
-            }
 
-            Spacer(modifier = Modifier.height(16.dp))
 
-            ChipRow(
-                selectedChip = selectedChip,
-                onChipClicked = { chipType ->
-                    selectedChip = chipType
+                if (AppTheme.orientation == Orientation.Portrait){
 
-                    Log.d("TAG","Selected chip = ${selectedChip.title}")
+                    if(state.notes.isEmpty()){
+                        NoNotesImage(navController)
+
+                    }else {
+
+                        LazyVerticalGrid(
+                            modifier = Modifier.fillMaxSize(),
+                            columns = GridCells.Fixed(2),
+                            verticalArrangement = Arrangement.spacedBy(10.dp),
+                            horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        ){
+                            header {
+                                Text(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(
+                                            color = Color.LightGray,
+                                        )
+                                        .padding(16.dp),
+                                    text = ("Notes"),
+                                    style = TextStyle(
+                                        fontSize = 24.sp,
+                                        fontWeight = FontWeight.Bold
+                                    ),
+
+                                    )
+                            }
+                            items(state.notes){ note ->
+
+                                AnimatedVisibility(
+                                    visible = true ,
+                                    enter = fadeIn(animationSpec = tween(5000)),
+                                    exit = fadeOut(animationSpec =  tween(5000))
+                                ) {
+
+                                    NoteItem(
+                                        note = note,
+                                        modifier = Modifier
+
+                                            .fillMaxWidth()
+                                            .clickable {
+                                                navController.navigate(
+                                                    Screen.AddEditNoteScreen.route +
+                                                            "?noteId=${note.id}&noteColor=${note.color}"
+                                                )
+                                            },
+                                        onDeleteClick = {
+                                            viewModel.onEvent(NotesEvent.DeleteNote(note))
+
+                                            scope.launch {
+                                                val result = snackbarHostState.showSnackbar(
+                                                    context.getString(R.string.note_delete),
+                                                    actionLabel = context.getString(R.string.undo)
+                                                )
+                                                if (result == SnackbarResult.ActionPerformed){
+                                                    viewModel.onEvent(NotesEvent.RestoreNote)
+                                                }
+                                            }
+                                        },
+                                        onBookMarkChange = {
+                                            viewModel.onEvent(NotesEvent.Bookmark(note))
+                                        },
+                                        onSecretClick = {
+                                            viewModel.onEvent(NotesEvent.MakeSecret(note))
+                                        }
+                                    )
+                                    Spacer(modifier = Modifier.height(16.dp))
+                                }
+                            }
+                        }
+                    }
                 }
-            )
-
-
-            if (AppTheme.orientation == Orientation.Portrait){
-
-                if(state.notes.isEmpty()){
-                    NoNotesImage(navController)
-
-                }else {
+                else
+                {
 
                     LazyVerticalGrid(
-                        modifier = Modifier.fillMaxSize(),
                         columns = GridCells.Fixed(2),
+                        modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(10.dp),
                         horizontalArrangement = Arrangement.spacedBy(10.dp)
                     ){
+                        header {
+                            Text(text = ("Notes"))
+                        }
+
                         items(state.notes){ note ->
 
                             AnimatedVisibility(
                                 visible = true ,
                                 enter = fadeIn(animationSpec = tween(5000)),
                                 exit = fadeOut(animationSpec =  tween(5000))
-                            ) {
+                            ){
 
                                 NoteItem(
                                     note = note,
                                     modifier = Modifier
-
                                         .fillMaxWidth()
                                         .clickable {
                                             navController.navigate(
@@ -232,6 +310,7 @@ fun NotesScreen(
                                         viewModel.onEvent(NotesEvent.DeleteNote(note))
 
                                         scope.launch {
+
                                             val result = snackbarHostState.showSnackbar(
                                                 context.getString(R.string.note_delete),
                                                 actionLabel = context.getString(R.string.undo)
@@ -242,81 +321,42 @@ fun NotesScreen(
                                         }
                                     },
                                     onBookMarkChange = {
+                                        Log.d("TAG", "Bookmark in screen")
                                         viewModel.onEvent(NotesEvent.Bookmark(note))
+                                        scope.launch {
+                                            snackbarHostState.showSnackbar(
+                                                "Note is Bookmarked",
+                                            )
+                                        }
+
                                     },
                                     onSecretClick = {
-                                    viewModel.onEvent(NotesEvent.MakeSecret(note))
+                                        viewModel.onEvent(NotesEvent.MakeSecret(note))
                                     }
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
                             }
+
                         }
                     }
-                }
-            }
-            else
-            {
 
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ){
-                    items(state.notes){ note ->
-
-                        AnimatedVisibility(
-                            visible = true ,
-                            enter = fadeIn(animationSpec = tween(5000)),
-                            exit = fadeOut(animationSpec =  tween(5000))
-                        ){
-
-                            NoteItem(
-                                note = note,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        navController.navigate(
-                                            Screen.AddEditNoteScreen.route +
-                                                    "?noteId=${note.id}&noteColor=${note.color}"
-                                        )
-                                    },
-                                onDeleteClick = {
-                                    viewModel.onEvent(NotesEvent.DeleteNote(note))
-
-                                    scope.launch {
-
-                                        val result = snackbarHostState.showSnackbar(
-                                            context.getString(R.string.note_delete),
-                                            actionLabel = context.getString(R.string.undo)
-                                        )
-                                        if (result == SnackbarResult.ActionPerformed){
-                                            viewModel.onEvent(NotesEvent.RestoreNote)
-                                        }
-                                    }
-                                },
-                                onBookMarkChange = {
-                                    Log.d("TAG", "Bookmark in screen")
-                                    viewModel.onEvent(NotesEvent.Bookmark(note))
-                                    scope.launch {
-                                        snackbarHostState.showSnackbar(
-                                            "Note is Bookmarked",
-                                        )
-                                    }
-
-                                },
-                                onSecretClick = {
-                                    viewModel.onEvent(NotesEvent.MakeSecret(note))
-                                }
-                            )
-                            Spacer(modifier = Modifier.height(16.dp))
-                        }
-
-                    }
                 }
 
+
             }
+
+            FilterView(
+                items = listOf(
+                    FilterFabMenuItem("Note", R.drawable.ic_lock),
+                    FilterFabMenuItem("Todo", R.drawable.add_photo)
+                ),
+                modifier = Modifier
+                .align(Alignment.BottomEnd)
+                    .padding(16.dp),
+                navController
+            )
         }
+
     }
 }
 @Composable
