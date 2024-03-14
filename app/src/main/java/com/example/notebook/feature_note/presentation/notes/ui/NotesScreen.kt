@@ -406,8 +406,8 @@ fun NotesScreen(
 
             FilterView(
                 items = listOf(
-                    FilterFabMenuItem("Note", R.drawable.ic_lock),
-                    FilterFabMenuItem("Todo", R.drawable.add_photo)
+                    FilterFabMenuItem("Note", R.drawable.ic_note),
+                    FilterFabMenuItem("Todo", R.drawable.ic_todo)
                 ),
                 modifier = Modifier
                 .align(Alignment.BottomEnd)

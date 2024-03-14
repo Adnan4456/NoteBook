@@ -27,56 +27,61 @@ fun AddTaskContent(
                 .fillMaxWidth(),
             contentPadding = PaddingValues(24.dp)
         ){
-            item(){
-//                TaskTitle()
-            }
-            item{
-//                24.spaceY()
-            }
-            item(){
-//                TaskDescription()
-            }
-            item{
-//                24.spaceY()
-            }
-            item{
-//                TaskDateTime()
-            }
-            item{
-//                24.spaceY()
-            }
-            item{
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ){
-                    Text(
-                        stringResource(id = R.string.checklist),
-                        style = checkable_header,
-                        color = MaterialTheme.colors.primary
-                    )
-                }
-            }
-            if(vm.checkables.size==0){
-                item{
-                    TaskAddCheckable()
-                }
-            }
-            else{
-                items(
-                    items = vm.checkables,
-                    key = {
-                        it.uid
-                    }
-                ){
-                    CheckableItem(it)
-                }
-                item{
-                    Spacer(
-                        modifier = Modifier.height(60.dp)
-                    )
-                }
-            }
+
         }
+    //        {
+//            item(){
+////                TaskTitle()
+//            }
+//            item{
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//            }
+//            item(){
+////                TaskDescription()
+//            }
+//            item{
+////                24.spaceY()
+//                Spacer(modifier = Modifier.height(16.dp))
+//            }
+//            item{
+////                TaskDateTime()
+//            }
+//            item{
+////                24.spaceY()
+//            }
+//            item{
+//                Box(
+//                    modifier = Modifier.fillMaxWidth(),
+//                    contentAlignment = Alignment.Center
+//                ){
+////                    Text(
+////                        stringResource(id = R.string.checklist),
+////                        style = checkable_header,
+////                        color = MaterialTheme.colors.primary
+////                    )
+//                }
+//            }
+//            if(vm.checkables.size==0){
+//                item{
+////                    TaskAddCheckable()
+//                }
+//            }
+//            else{
+//                items(
+//                    items = vm.checkables,
+//                    key = {
+//                        it.uid
+//                    }
+//                ){
+//                    CheckableItem(it)
+//                }
+//                item{
+//                    Spacer(
+//                        modifier = Modifier.height(60.dp)
+//                    )
+//                }
+//            }
+//        }
     }
 }
