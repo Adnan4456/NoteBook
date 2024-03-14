@@ -1,21 +1,30 @@
 package com.example.notebook.feature_todo.presentation.edit_todo.component
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.notebook.R
+import com.example.notebook.feature_todo.presentation.components.DatePickerScreen
+import com.example.notebook.feature_todo.presentation.components.TimePickerScreen
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateAndTime() {
 
+    val datePickerState = rememberDatePickerState()
+    var showDate by remember {
+        mutableStateOf(false)
+    }
+
+    val timePickerState = rememberTimePickerState()
+    var showTime by remember{
+        mutableStateOf(false)
+    }
     Card(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -31,7 +40,7 @@ fun DateAndTime() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = {
-                    //call viewModel here
+                    showDate = true
                 }) {
 
                     Icon(
@@ -44,13 +53,14 @@ fun DateAndTime() {
             }
 
             Row(modifier = Modifier
-            .fillMaxWidth()
+                .fillMaxWidth()
                 .weight(1f),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = {
                     //call viewModel here
+                 showTime = true
                 }) {
 
                     Icon(
@@ -63,5 +73,11 @@ fun DateAndTime() {
             }
         }
 
+        if (showDate){
+            DatePickerScreen()
+        }
+        if (showTime){
+            TimePickerScreen()
+        }
     }
 }
