@@ -8,7 +8,6 @@ class DeleteNoteUseCase (
         ){
 
     suspend operator fun invoke(note: Note){
-
         noteRepository.deleteNote(note)
     }
 }

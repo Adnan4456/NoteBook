@@ -77,7 +77,7 @@ fun AddEditNoteScreen(
         mutableStateOf(false)
     }
 
-    var recordAudioLauncher = rememberLauncherForActivityResult(
+    val recordAudioLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = {isGranted ->
             canRecord = isGranted
@@ -333,7 +333,6 @@ fun AddEditNoteScreen(
                         ),
                     )
                     .clickable {
-                        //open photo library
                         pickPhotoLauncher.launch(
                             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                         )
@@ -349,12 +348,10 @@ fun AddEditNoteScreen(
                 else{
 
                     AsyncImage(
-//                        placeholder = painterResource(id = R.drawable.add_photo),
                         model = viewModel.bitmap.value,
                         contentDescription = "",
                         modifier = Modifier.fillMaxWidth())
                 }
-
             }
         }
     }

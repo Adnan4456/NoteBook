@@ -1,5 +1,8 @@
 package com.example.notebook
 
+
+import FilterFabMenuItem
+import FilterView
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -13,7 +16,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-
 import androidx.navigation.compose.rememberNavController
 import com.example.notebook.feature_note.presentation.util.Screen
 import com.google.firebase.auth.FirebaseAuth
@@ -85,14 +87,28 @@ fun MainScreen(
 
                     }
                 },
+
+
                 floatingActionButton = {
+
                     FloatingActionButton(onClick = {
                         navController.navigateToSingleTop(
                             route = Screen.AddEditNoteScreen.route
                         )
                     }) {
-                        Icon(imageVector =Icons.Default.Add , contentDescription = "Add")
+                        Icon(imageVector = Icons.Default.Add , contentDescription = "Add")
                     }
+                    FilterView(
+                        items = listOf(
+                            FilterFabMenuItem("Add Note", R.drawable.add_photo),
+                            FilterFabMenuItem("Add Todo", R.drawable.ic_lock)
+                        ),
+                        modifier = Modifier
+//                            .align(Alignment.BottomEnd)
+                            .padding(16.dp),
+                        navController
+                    )
+
                 }
             )
         }
@@ -100,7 +116,6 @@ fun MainScreen(
         Box(modifier = Modifier.padding(innerPadding)){
             NavGraph(startDestination = startDestination, firbaseAuth =firbaseAuth  , navController)
         }
-
     }
 }
 

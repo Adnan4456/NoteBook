@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.notebook.feature_note.domain.model.InvalidNoteException
+import com.example.notebook.common.InvalidNoteException
 import com.example.notebook.feature_note.domain.model.Note
 import com.example.notebook.feature_note.domain.use_cases.NoteUseCases
 import com.example.notebook.feature_note.presentation.add_edit_note.AddEditNoteEvent
