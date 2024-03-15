@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -284,9 +285,12 @@ fun AddEditNoteScreen(
                         AnimatedContent(targetState = VoiceState.isSpeaking) {isSpeaking->
                             if (isSpeaking){
                                 Icon(Icons.Default.Pause, contentDescription = "")
+                                viewModel.onEvent(AddEditNoteEvent.EnterContent(VoiceState.spokenText))
+
                             }else
                             {
                                 Icon(Icons.Default.Mic, contentDescription = "")
+
                             }
                             
                         }

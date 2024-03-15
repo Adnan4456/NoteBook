@@ -1,13 +1,11 @@
 package com.example.notebook
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,7 +25,6 @@ class VoiceToTextParser
 
     val recognizer = SpeechRecognizer.createSpeechRecognizer(app)
 
-
     fun startListensing(languageCode:String = "en"){
         _state.update {
             VoiceToTextParserState()
@@ -46,6 +43,9 @@ class VoiceToTextParser
                 RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
             )
+          //  putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1)
+            //it will increase time of slience of user
+            //putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 5000)
             putExtra(RecognizerIntent.EXTRA_LANGUAGE, languageCode)
         }
 
