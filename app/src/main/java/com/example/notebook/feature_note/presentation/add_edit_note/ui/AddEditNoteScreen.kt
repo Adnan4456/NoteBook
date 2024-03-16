@@ -286,7 +286,6 @@ fun AddEditNoteScreen(
                             if (isSpeaking){
                                 Icon(Icons.Default.Pause, contentDescription = "")
                                 viewModel.onEvent(AddEditNoteEvent.EnterContent(VoiceState.spokenText))
-
                             }else
                             {
                                 Icon(Icons.Default.Mic, contentDescription = "")
