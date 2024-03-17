@@ -5,6 +5,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.*
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.notebook.feature_login.presentation.ui.LoginViewModel
 
 import com.example.notebook.feature_note.presentation.util.Screen
 import com.example.notebook.ui.theme.NoteBookTheme
@@ -18,10 +21,15 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var firbaseAuth: FirebaseAuth
 
+//    private var viewModel: LoginViewModel = hiltViewModel()
+
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+        //call
+        installSplashScreen()
 
         val user = firbaseAuth.currentUser
 
