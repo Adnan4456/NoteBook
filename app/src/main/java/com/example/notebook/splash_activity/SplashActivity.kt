@@ -49,7 +49,7 @@ class SplashActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val user = firbaseAuth.currentUser
-        installSplashScreen()
+//        installSplashScreen()
 //        val myIntent = Intent(this, MainActivity::class.java)
 //        GlobalScope.launch {
 //            launch {

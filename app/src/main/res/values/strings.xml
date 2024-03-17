@@ -10,9 +10,11 @@
     <string name="descending">Descending</string>
     <string name="Hi">Enter you details to continue</string>
     <string name="create_account">Create account</string>
+    <string name ="user_name"> User name</string>
     <string name="login">Lets Sign you in </string>
     <string name="label_email">Email</string>
     <string name="label_pass">Password</string>
+    <string name="label_pass_confirm">Confirm Password</string>
     <string name="hide_password">Hide Password</string>
     <string name="show_password">Show Password</string>
     <string name="blank_email">The email address can`t be blank </string>
