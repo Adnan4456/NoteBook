@@ -10,6 +10,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.notebook.feature_login.presentation.ui.LoginViewModel
 
 import com.example.notebook.feature_note.presentation.util.Screen
+import com.example.notebook.splash_activity.ui.DeatilScreen
 import com.example.notebook.ui.theme.NoteBookTheme
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,14 +22,12 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var firbaseAuth: FirebaseAuth
 
-//    private var viewModel: LoginViewModel = hiltViewModel()
-
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
 
-        //call
+
         installSplashScreen()
 
         val user = firbaseAuth.currentUser
@@ -37,7 +36,7 @@ class MainActivity : ComponentActivity() {
             Screen.NotesScreen.route
         }else
         {
-            Screen.LoginScreen.route
+            Screen.HoritonalScreen.route
         }
 
         setContent {
@@ -45,7 +44,9 @@ class MainActivity : ComponentActivity() {
             val window = rememberWindowSizeClass()
 
             NoteBookTheme(window) {
-                MainScreen(startDestination = startDestination, firbaseAuth = firbaseAuth)
+
+                MainScreen(startDestination =  startDestination, firbaseAuth = firbaseAuth)
+
             }
         }
     }

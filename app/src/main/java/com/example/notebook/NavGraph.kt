@@ -18,6 +18,7 @@ import com.example.notebook.feature_secret_note.presentation.ui.SecretNotes
 import com.example.notebook.feature_signup.presentation.ui.SignUpScreen
 import com.example.notebook.feature_todo.presentation.edit_todo.ui.AddTodoScreen
 import com.example.notebook.feature_verify_user.presentation.ui.VerificationScreen
+import com.example.notebook.splash_activity.ui.DeatilScreen
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -39,6 +40,9 @@ fun NavGraph(
             LoginScreen(navController = navController)
         }
 
+        composable(route = Screen.HoritonalScreen.route){
+            DeatilScreen(navController = navController)
+        }
         composable(route = Screen.SignUpScreen.route){
             SignUpScreen(navController = navController)
         }

@@ -65,7 +65,7 @@ fun TodoPager(){
                 ) {
 
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Take Notes",
+                    Text(text = "Todo",
                         style = TextStyle(
                             fontSize = 24.sp,
                             fontWeight = FontWeight.Bold,
@@ -75,7 +75,7 @@ fun TodoPager(){
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Text(text = "Quickly capture whats in your mind",
+                    Text(text = "List out daily tasks",
                         style = TextStyle(
                             fontSize = 16.sp,
                             color = Color.Black

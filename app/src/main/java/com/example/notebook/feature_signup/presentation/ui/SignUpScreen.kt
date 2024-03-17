@@ -3,12 +3,15 @@ package com.example.notebook.feature_signup.presentation.ui
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -29,7 +32,6 @@ import com.example.notebook.ui.theme.Primary
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.launch
 
-@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun SignUpScreen(
     navController: NavController,
@@ -45,7 +47,6 @@ fun SignUpScreen(
 
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
-
 
     if (networkStatus == ConnectivityObserver.Status.Available) {
         LaunchedEffect(networkStatus) {
@@ -85,20 +86,52 @@ fun SignUpScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp)
+                    .padding(8.dp)
             ) {
 
                 Spacer(modifier = Modifier.height(20.dp))
+                
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ) {
 
-                NormalTextComponent(
-                    value = stringResource(id = R.string.Hi),
-                )
+                    IconButton(onClick = {
+
+                    }) {
+                        Icon(imageVector = Icons.Default.KeyboardArrowLeft,
+                            contentDescription ="",
+                        tint = colorResource(id = R.color.main_color)
+                        )
+                    }
+                    Text(text = stringResource(id = R.string.create_account),
+                    style = TextStyle(
+                        color = Color.Black
+                    )
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(20.dp))
 
                 HeadingTextComponent(
                     value = stringResource(id = R.string.create_account),
                 )
+                NormalTextComponent(
+                    value = stringResource(id = R.string.Hi),
+                )
 
                 Spacer(modifier = Modifier.height(20.dp))
+
+
+                EmailTextFieldComponent(
+                    labelValue = stringResource(id = R.string.label_email),
+                    painterResource(id = R.drawable.message),
+                    onTextChanged = {email ->
+                        viewModel.onEvent(RegistrationFormEvent.EmailChanged(email))
+                    },
+                    errorStatus = !viewModel.state.emailError
+                )
+
 
                 EmailTextFieldComponent(
                     labelValue = stringResource(id = R.string.label_email),

@@ -15,6 +15,7 @@ package com.example.notebook.splash_activity
  import androidx.compose.material.icons.filled.KeyboardArrowLeft
  import androidx.compose.material.icons.filled.KeyboardArrowRight
  import androidx.compose.material3.*
+ import androidx.compose.runtime.Composable
  import androidx.compose.runtime.SideEffect
  import androidx.compose.runtime.rememberCoroutineScope
  import androidx.compose.ui.Alignment
@@ -43,8 +44,6 @@ class SplashActivity : ComponentActivity() {
 
     @Inject
     lateinit var firbaseAuth: FirebaseAuth
-
-
 
     @OptIn(ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,7 +110,6 @@ class SplashActivity : ComponentActivity() {
                     }
                 }
 
-
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -136,7 +134,7 @@ class SplashActivity : ComponentActivity() {
                     Row(
                         modifier = Modifier
                             .align(Alignment.TopStart)
-                            .clickable{
+                            .clickable {
                                 scope.launch {
                                     pagerState.animateScrollToPage(
                                         pagerState.currentPage - 1
@@ -211,33 +209,91 @@ class SplashActivity : ComponentActivity() {
                                 )
                             }
                         }
+                        
+                        if(pagerState.currentPage == 2){
 
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(50.dp),
-                            shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = colorResource(id = R.color.main_color)
-                            ),
-                        ) {
-                            IconButton(
-                                modifier = Modifier.fillMaxSize(),
-                                colors = IconButtonDefaults.iconButtonColors(
-                                    containerColor = colorResource(id = R.color.main_color)
-                                ),
-                                onClick = {
-                                    scope.launch {
-                                        pagerState.animateScrollToPage(
-                                            pagerState.currentPage + 1
+                            Column() {
+
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(50.dp),
+                                    shape = RoundedCornerShape(16.dp),
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = colorResource(id = R.color.main_color)
+                                    ),
+                                ) {
+                                    
+                                    TextButton(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        onClick = { 
+                                        //Navigate to login screen
+                                    }) {
+                                        
+                                        Text(text = "Create Account" ,
+                                        style = TextStyle(
+                                            color = Color.White
+                                        ))
+                                    }
+                                }
+
+                                Spacer(modifier = Modifier.height(8.dp))
+
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(50.dp),
+                                    shape = RoundedCornerShape(16.dp),
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = Color.White
+                                    ),
+                                ) {
+
+                                    TextButton(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        onClick = {
+                                            //Navigate to login screen
+                                        }) {
+
+                                        Text(text = "Sign in" ,
+                                            style = TextStyle(
+                                                color = colorResource(id = R.color.main_color)
+                                            )
                                         )
                                     }
-                                }) {
-                                Icon(
-                                    imageVector = Icons.Default.KeyboardArrowRight,
-                                    contentDescription = "",
-                                    tint = Color.White
-                                )
+                                }
+                            }
+                        }
+
+                        if(pagerState.currentPage < 2){
+
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp),
+                                shape = RoundedCornerShape(16.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = colorResource(id = R.color.main_color)
+                                ),
+                            ) {
+                                IconButton(
+                                    modifier = Modifier.fillMaxSize(),
+                                    colors = IconButtonDefaults.iconButtonColors(
+                                        containerColor = colorResource(id = R.color.main_color)
+                                    ),
+                                    onClick = {
+                                        scope.launch {
+                                            pagerState.animateScrollToPage(
+                                                pagerState.currentPage + 1
+                                            )
+                                        }
+                                    }) {
+                                    Icon(
+                                        imageVector = Icons.Default.KeyboardArrowRight,
+                                        contentDescription = "",
+                                        tint = Color.White
+                                    )
+                                }
                             }
                         }
                     }
@@ -245,4 +301,8 @@ class SplashActivity : ComponentActivity() {
             }
         }
     }
+}
+@Composable
+fun getFunction(){
+
 }
