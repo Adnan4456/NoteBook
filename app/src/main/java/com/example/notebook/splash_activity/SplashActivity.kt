@@ -15,7 +15,6 @@ package com.example.notebook.splash_activity
  import androidx.compose.material.icons.filled.KeyboardArrowLeft
  import androidx.compose.material.icons.filled.KeyboardArrowRight
  import androidx.compose.material3.*
- import androidx.compose.runtime.Composable
  import androidx.compose.runtime.SideEffect
  import androidx.compose.runtime.rememberCoroutineScope
  import androidx.compose.ui.Alignment
@@ -124,7 +123,7 @@ class SplashActivity : ComponentActivity() {
                     TextButton(
                             modifier = Modifier.align(Alignment.TopEnd),
                         onClick = {
-                            //Move to Login composable screen
+
                         }) {
                         Text(text = "Skip" ,
                             style = TextStyle(
@@ -177,6 +176,7 @@ class SplashActivity : ComponentActivity() {
                     modifier = Modifier
                         .offset(y = -(26).dp)
                         .fillMaxWidth()
+                        .fillMaxHeight(.30f)
                         .align(Alignment.BottomCenter)
 
                 ){
@@ -184,7 +184,10 @@ class SplashActivity : ComponentActivity() {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(8.dp)
+                            .fillMaxHeight()
+                            .padding(8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.SpaceAround
 
                     ) {
 
@@ -193,14 +196,14 @@ class SplashActivity : ComponentActivity() {
                                 .wrapContentHeight()
                                 .fillMaxWidth()
                                 .padding(bottom = 16.dp),
-                            horizontalArrangement = Arrangement.Start
+
                         ) {
                             repeat(3) { iteration ->
                                 val color = if (pagerState.currentPage == iteration) colorResource(id = R.color.main_color) else Color.White
-                                val width = if(pagerState.currentPage== iteration) 44.dp else 24.dp
+                                val width = if(pagerState.currentPage== iteration) 60.dp else 34.dp
                                 Box(
                                     modifier = Modifier
-                                        .padding(4.dp)
+                                        .padding(16.dp)
                                         .clip(CircleShape)
                                         .background(color)
                                         .width(width)
@@ -211,7 +214,8 @@ class SplashActivity : ComponentActivity() {
 
                         Card(
                             modifier = Modifier
-                                .size(60.dp),
+                                .fillMaxWidth()
+                                .height(50.dp),
                             shape = RoundedCornerShape(16.dp),
                             colors = CardDefaults.cardColors(
                                 containerColor = colorResource(id = R.color.main_color)

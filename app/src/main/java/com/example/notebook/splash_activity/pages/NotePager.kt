@@ -1,6 +1,5 @@
 package com.example.notebook.splash_activity.pages
 
-import android.provider.CalendarContract.Colors
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,15 +31,6 @@ fun NotePager() {
         Column(
                 horizontalAlignment = Alignment.End
         ) {
-//            TextButton(
-//                modifier = Modifier.weight(.3f),
-//                onClick = {  }) {
-//                Text(text = "Skip" ,
-//                    style = TextStyle(
-//                        fontSize = 16.sp,
-//                    color = colorResource(id = R.color.main_color)
-//                ))
-//            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -63,8 +53,8 @@ fun NotePager() {
                     defaultElevation = 10.dp
                 ),
                 shape = RoundedCornerShape(
-                    topStart = 20.dp,
-                    topEnd = 20.dp
+                    topStart = 30.dp,
+                    topEnd = 30.dp
                 )
             ){
 
@@ -86,7 +76,6 @@ fun NotePager() {
                     Text(text = "Quickly capture whats in your mind",
                         style = TextStyle(
                             fontSize = 16.sp,
-//                            fontWeight = FontWeight.Bold,
                             color = Color.Black
                         )
                     )
