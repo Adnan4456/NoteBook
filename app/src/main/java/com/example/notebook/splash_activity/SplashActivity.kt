@@ -3,10 +3,7 @@ package com.example.notebook.splash_activity
  import android.os.Bundle
  import androidx.activity.ComponentActivity
  import androidx.activity.compose.setContent
- import androidx.compose.foundation.ExperimentalFoundationApi
- import androidx.compose.foundation.Image
- import androidx.compose.foundation.background
- import androidx.compose.foundation.isSystemInDarkTheme
+ import androidx.compose.foundation.*
  import androidx.compose.foundation.layout.*
  import androidx.compose.foundation.pager.HorizontalPager
  import androidx.compose.foundation.pager.PageSize
@@ -15,6 +12,7 @@ package com.example.notebook.splash_activity
  import androidx.compose.foundation.shape.CircleShape
  import androidx.compose.foundation.shape.RoundedCornerShape
  import androidx.compose.material.icons.Icons
+ import androidx.compose.material.icons.filled.KeyboardArrowLeft
  import androidx.compose.material.icons.filled.KeyboardArrowRight
  import androidx.compose.material3.*
  import androidx.compose.runtime.Composable
@@ -104,7 +102,7 @@ class SplashActivity : ComponentActivity() {
                     state = pagerState,
                     key = { index -> index },
                     pageSize = PageSize.Fill,
-
+                    modifier = Modifier.padding(top = 16.dp)
                 ) {index ->
 
                     when(index){
@@ -114,21 +112,56 @@ class SplashActivity : ComponentActivity() {
                     }
                 }
 
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 24.dp , start = 16.dp , end = 16.dp),
+                        .padding(top = 24.dp, start = 16.dp, end = 16.dp),
                     contentAlignment = Alignment.TopStart
 
                 ){
+
+                    TextButton(
+                            modifier = Modifier.align(Alignment.TopEnd),
+                        onClick = {
+                            //Move to Login composable screen
+                        }) {
+                        Text(text = "Skip" ,
+                            style = TextStyle(
+                                fontSize = 16.sp,
+                                color = colorResource(id = R.color.main_color)
+                            )
+                        )
+                    }
+
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .clickable{
+                                scope.launch {
+                                    pagerState.animateScrollToPage(
+                                        pagerState.currentPage - 1
+                                    )
+                                }
+                            },
+                        verticalAlignment = Alignment.CenterVertically,
+
                     ) {
                         if(pagerState.currentPage>0){
+
+                            Icon(
+                                imageVector = Icons.Default.KeyboardArrowLeft,
+                                contentDescription = "",
+                                tint = colorResource(id = R.color.main_color)
+                            )
                             TextButton(
-//                                modifier = Modifier.weight(.3f),
-                                onClick = {  }) {
+                                onClick = {
+                                    scope.launch {
+                                        pagerState.animateScrollToPage(
+                                            pagerState.currentPage - 1
+                                        )
+                                    }
+                                }) {
                                 Text(text = "Back" ,
                                     style = TextStyle(
                                         fontSize = 16.sp,
@@ -137,25 +170,12 @@ class SplashActivity : ComponentActivity() {
                                 )
                             }
                         }
-
-
-                        TextButton(
-//                            modifier = Modifier.weight(.3f),
-                            onClick = {  }) {
-                            Text(text = "Skip" ,
-                                style = TextStyle(
-                                    fontSize = 16.sp,
-                                    color = colorResource(id = R.color.main_color)
-                                )
-                            )
-                        }
                     }
-
                 }
 
                 Box(
                     modifier = Modifier
-                        .offset(y = -(16).dp)
+                        .offset(y = -(26).dp)
                         .fillMaxWidth()
                         .align(Alignment.BottomCenter)
 
@@ -191,8 +211,7 @@ class SplashActivity : ComponentActivity() {
 
                         Card(
                             modifier = Modifier
-                                .size(60.dp)
-                                .padding(bottom = 16.dp),
+                                .size(60.dp),
                             shape = RoundedCornerShape(16.dp),
                             colors = CardDefaults.cardColors(
                                 containerColor = colorResource(id = R.color.main_color)
@@ -215,14 +234,11 @@ class SplashActivity : ComponentActivity() {
                                     contentDescription = "",
                                     tint = Color.White
                                 )
-
                             }
                         }
                     }
-
                 }
             }
-            
         }
     }
 }
