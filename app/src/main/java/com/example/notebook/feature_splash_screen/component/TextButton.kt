@@ -1,4 +1,4 @@
-package com.example.notebook.splash_activity.component
+package com.example.notebook.feature_splash_screen.component
 
  import androidx.compose.foundation.Image
  import androidx.compose.foundation.background
@@ -10,7 +10,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
  import androidx.compose.ui.Modifier
  import androidx.compose.ui.draw.clip
- import androidx.compose.ui.graphics.vector.VectorPainter
  import androidx.compose.ui.res.colorResource
  import androidx.compose.ui.res.painterResource
  import com.example.notebook.R

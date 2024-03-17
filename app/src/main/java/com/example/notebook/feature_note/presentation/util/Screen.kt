@@ -23,7 +23,9 @@ sealed class Screen(
 
     object VerificationScreen:Screen("verification_screen")
 
-    object HoritonalScreen : Screen("horitonal_screen")
+    object HoritonalPagerScreen : Screen("horitonal_screen")
+
+    object ForgetPasswordScreen:Screen("forget_password_screen")
 
     object AddTodoScreen:Screen("add_todo_screen")
     object  Test:Screen("testing")

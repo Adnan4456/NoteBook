@@ -1,4 +1,4 @@
-package com.example.notebook.splash_activity
+package com.example.notebook.feature_splash_screen
 
  import android.os.Bundle
  import androidx.activity.ComponentActivity
@@ -7,7 +7,6 @@ package com.example.notebook.splash_activity
  import androidx.compose.foundation.layout.*
  import androidx.compose.foundation.pager.HorizontalPager
  import androidx.compose.foundation.pager.PageSize
- import androidx.compose.foundation.pager.PagerState
  import androidx.compose.foundation.pager.rememberPagerState
  import androidx.compose.foundation.shape.CircleShape
  import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,12 +26,11 @@ package com.example.notebook.splash_activity
  import androidx.compose.ui.text.TextStyle
  import androidx.compose.ui.unit.dp
  import androidx.compose.ui.unit.sp
- import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
  import com.example.notebook.R
  import com.example.notebook.rememberWindowSizeClass
- import com.example.notebook.splash_activity.pages.ExplainPager
- import com.example.notebook.splash_activity.pages.NotePager
- import com.example.notebook.splash_activity.pages.TodoPager
+ import com.example.notebook.feature_splash_screen.pages.ExplainPager
+ import com.example.notebook.feature_splash_screen.pages.NotePager
+ import com.example.notebook.feature_splash_screen.pages.TodoPager
  import com.google.accompanist.systemuicontroller.rememberSystemUiController
  import com.google.firebase.auth.FirebaseAuth
  import dagger.hilt.android.AndroidEntryPoint

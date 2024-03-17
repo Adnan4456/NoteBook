@@ -110,7 +110,6 @@ fun SignUpScreen(
                     )
                 }
 
-                
                 Column(
 
                 ) {
@@ -247,12 +246,10 @@ fun SignUpScreen(
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.BottomCenter
                 ){
-
                     Column(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-
                         Text(
                             modifier = Modifier.clickable {
                                 navController.navigate(Screen.LoginScreen.route)

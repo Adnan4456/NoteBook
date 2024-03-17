@@ -1,4 +1,4 @@
-package com.example.notebook.splash_activity.pages
+package com.example.notebook.feature_splash_screen.pages
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -6,7 +6,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,12 +16,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.notebook.R
-import com.example.notebook.splash_activity.component.ImageView
-import com.example.notebook.splash_activity.component.TextButtons
+import com.example.notebook.feature_splash_screen.component.ImageView
 
 
 @Composable
-fun TodoPager(){
+fun ExplainPager() {
 
     Box(
         modifier = Modifier
@@ -33,11 +31,12 @@ fun TodoPager(){
         Column(
             horizontalAlignment = Alignment.End
         ) {
+
             Spacer(modifier = Modifier.height(16.dp))
 
             ImageView(
-                resource = R.drawable.page_two,
-                contentDescription ="NotesPager",
+                resource = R.drawable.page_three,
+                contentDescription ="ExplainPager",
                 modifier = Modifier
                     .padding(24.dp)
                     .weight(.8f)
@@ -65,7 +64,7 @@ fun TodoPager(){
                 ) {
 
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Todo",
+                    Text(text = "Take Notes",
                         style = TextStyle(
                             fontSize = 24.sp,
                             fontWeight = FontWeight.Bold,
@@ -75,7 +74,7 @@ fun TodoPager(){
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Text(text = "List out daily tasks",
+                    Text(text = "Quickly capture whats in your mind",
                         style = TextStyle(
                             fontSize = 16.sp,
                             color = Color.Black

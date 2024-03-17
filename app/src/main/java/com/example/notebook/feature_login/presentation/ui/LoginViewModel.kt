@@ -26,9 +26,10 @@ class LoginViewModel @Inject constructor(
 ) :ViewModel() {
 
     var state by mutableStateOf(LoginFormState())
+
     private val _networkStatus = MutableStateFlow(ConnectivityObserver.Status.Unavailable)
 
-    var networkState by mutableStateOf(ConnectivityObserver.Status.Available)
+//    var networkState by mutableStateOf(ConnectivityObserver.Status.Available)
     val networkStatus = _networkStatus
 
     var allValidationPassed by mutableStateOf(true)
@@ -39,11 +40,11 @@ class LoginViewModel @Inject constructor(
 
 
     init {
-        viewModelScope.launch {
-            networkConnectivityObserver.observe().onEach {status ->
-                networkState = status
-            }
-        }
+//        viewModelScope.launch {
+//            networkConnectivityObserver.observe().onEach {status ->
+//               // networkState = status
+//            }
+//        }
 
         observeNetworkStatus()
     }

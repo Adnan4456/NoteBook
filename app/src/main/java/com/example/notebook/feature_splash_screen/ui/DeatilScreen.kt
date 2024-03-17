@@ -1,4 +1,4 @@
-package com.example.notebook.splash_activity.ui
+package com.example.notebook.feature_splash_screen.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -26,9 +26,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.notebook.R
 import com.example.notebook.feature_note.presentation.util.Screen
-import com.example.notebook.splash_activity.pages.ExplainPager
-import com.example.notebook.splash_activity.pages.NotePager
-import com.example.notebook.splash_activity.pages.TodoPager
+import com.example.notebook.feature_splash_screen.pages.ExplainPager
+import com.example.notebook.feature_splash_screen.pages.NotePager
+import com.example.notebook.feature_splash_screen.pages.TodoPager
 import kotlinx.coroutines.launch
 
 
@@ -254,11 +254,16 @@ fun DeatilScreen(
                                     )
                                 }
                             }) {
-                            Icon(
-                                imageVector = Icons.Default.KeyboardArrowRight,
-                                contentDescription = "",
-                                tint = Color.White
-                            )
+                            Text(text = "Next",
+                            style = TextStyle(
+                                color = Color.White,
+                                fontSize = 16.sp
+                            ))
+//                            Icon(
+//                                imageVector = Icons.Default.KeyboardArrowRight,
+//                                contentDescription = "",
+//                                tint = Color.White
+//                            )
                         }
                     }
                 }

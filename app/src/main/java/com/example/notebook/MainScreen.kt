@@ -37,12 +37,12 @@ fun MainScreen(
 
     val systemUiController = rememberSystemUiController()
     val darkTheme = isSystemInDarkTheme()
+
     SideEffect {
         systemUiController.setSystemBarsColor(
             color = if (darkTheme) Color.Black else Color.White
         )
     }
-
 
     Scaffold (
         bottomBar = {
@@ -123,6 +123,7 @@ fun MainScreen(
         }
             ){innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)){
+
             NavGraph(startDestination = startDestination, firbaseAuth =firbaseAuth  , navController)
         }
     }
