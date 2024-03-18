@@ -6,8 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -27,7 +25,6 @@ import com.example.notebook.components.*
 import com.example.notebook.feature_internet_connectivity.domain.ConnectivityObserver
 import com.example.notebook.feature_login.domain.model.LoginResult
 import com.example.notebook.feature_note.presentation.util.Screen
-import com.example.notebook.ui.theme.Primary
 import kotlinx.coroutines.launch
 
 @Composable
@@ -121,7 +118,6 @@ fun LoginScreen(
                 }
 
                 Column {
-
 
                     EmailTextFieldComponent(
                         labelValue = stringResource(id = R.string.label_email),
@@ -266,21 +262,6 @@ fun LoginScreen(
 
                     }
                 }
-//                ClickableText(
-//                    text = buildAnnotatedString {
-//                            append("Don`t have account ? ")
-//                            withStyle(style =  SpanStyle(
-//                                color = Primary
-//                            )
-//                            ){
-//                                append(" Sign up")
-//                            }
-//                        },
-//
-//                    onClick = {
-//                        navController.navigate(Screen.SignUpScreen.route)
-//                    }
-//                )
             }
         }
     }

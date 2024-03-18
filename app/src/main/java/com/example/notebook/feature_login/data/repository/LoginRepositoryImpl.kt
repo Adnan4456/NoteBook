@@ -17,36 +17,15 @@ class LoginRepositoryImpl
         return withContext(Dispatchers.IO){
             try {
               val result =  firebaseAuth.signInWithEmailAndPassword(email, password)
-                   .addOnCompleteListener{
-//                       LoginResponse.isSuccessful(it.isSuccessful)
-                   }
+                   .addOnCompleteListener{}
                    .addOnFailureListener{
 
                    }.await()
                LoginResponse.isSuccessful(result.user != null)
            }catch (e: Exception){
-               // Handle exceptions and return a failure result with an error message
                LoginResponse.onFailure(e.localizedMessage)
            }
 
         }
     }
-//    override suspend fun loginWithEmailAndPassword(email: String, password: String)
-//    : LoginResponse = withContext(Dispatchers.IO){
-//        return@withContext try {
-//
-//            val result = firebaseAuth.signInWithEmailAndPassword(email, password)
-//    //                .addOnCompleteListener{
-//    //                    LoginResponse.isSuccessful(it.isSuccessful)
-//    //                }
-//    //                .addOnFailureListener{
-//    //                    LoginResponse.onFailure(it.localizedMessage)
-//    //                }
-//                .await()
-//            LoginResponse.isSuccessful(result.user != null)
-//        }catch (e: Exception){
-//            // Handle exceptions and return a failure result with an error message
-//            LoginResponse.onFailure(e.message)
-//        }
-//    }
 }

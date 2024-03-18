@@ -5,7 +5,6 @@ import com.example.notebook.feature_note.domain.model.Note
 sealed class SecretNotesEvent {
 
     object RestoreNote: SecretNotesEvent()
-
     data class onBookMark(val note: Note): SecretNotesEvent()
     data class onDelete(val note: Note): SecretNotesEvent()
 

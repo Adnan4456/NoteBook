@@ -9,10 +9,9 @@ class LoginEmailAndPasswordUseCase
 @Inject  constructor(
     private val loginRepository: LoginRepository
 ){
-
     suspend operator fun  invoke( email : String, password : String)
     :LoginResult {
-        val repositoryResult =loginRepository.loginWithEmailAndPassword(email, password)
+        val repositoryResult = loginRepository.loginWithEmailAndPassword(email, password)
         return when(repositoryResult){
             is LoginResponse.isSuccessful -> {
                 LoginResult.isSuccessful(true)
