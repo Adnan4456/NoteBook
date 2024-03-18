@@ -8,11 +8,15 @@
     <string name="color">Color</string>
     <string name="ascending">Ascending</string>
     <string name="descending">Descending</string>
-    <string name="Hi">Hi there</string>
+    <string name="Hi">Enter you details to continue</string>
     <string name="create_account">Create account</string>
-    <string name="login">Lets Sign you in </string>
+    <string name="welcome">Welcome back!</string>
+    <string name="loginText1">Please login with your credential</string>
+    <string name ="user_name"> User name</string>
+    <string name="logintext">Login in</string>
     <string name="label_email">Email</string>
     <string name="label_pass">Password</string>
+    <string name="label_pass_confirm">Confirm Password</string>
     <string name="hide_password">Hide Password</string>
     <string name="show_password">Show Password</string>
     <string name="blank_email">The email address can`t be blank </string>
@@ -22,4 +26,5 @@
     <string name="dismiss">Dismiss</string>
     <string name="connected">Connected to the internet.</string>
     <string name="not_connected">Not Connect to the internet.</string>
+    <string name="forget_password">Forget Password</string>
 </resources>

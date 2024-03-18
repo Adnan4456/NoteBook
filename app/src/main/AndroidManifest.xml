@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -17,23 +16,29 @@
         android:theme="@style/Theme.NoteBook"
         tools:targetApi="31">
         <activity
+            android:name=".feature_splash_screen.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MySplash">
+
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.NoteBook">
+            android:theme="@style/Theme.MySplash">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-
-<!--        <queries>-->
-<!--            <intent>-->
-<!--                <action-->
-<!--                    android:name="android.speech.RecognitionService" />-->
-<!--            </intent>-->
-<!--        </queries>-->
-
     </application>
 
 </manifest>

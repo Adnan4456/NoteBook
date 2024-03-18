@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -28,7 +29,8 @@ import com.example.notebook.ui.theme.Primary
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmailTextFieldComponent(
-    labelValue: String, painterResource: Painter,
+    labelValue: String,
+    painterResource: Painter,
     onTextChanged: (String) -> Unit,
 
     errorStatus: Boolean = false
@@ -41,16 +43,13 @@ fun EmailTextFieldComponent(
 
     OutlinedTextField(
         modifier = Modifier
-            .fillMaxWidth()
-            .clip(
-                RoundedCornerShape(4.dp)
-            ),
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(8.dp),
         label = { Text(text = labelValue) },
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Primary,
-            focusedLabelColor = Primary,
-            cursorColor = Primary,
-//            backgroundColor = BgColor
+            focusedBorderColor = colorResource(id = R.color.main_color),
+            focusedLabelColor = colorResource(id = R.color.main_color),
+            cursorColor = colorResource(id = R.color.main_color),
         ),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next
@@ -63,8 +62,12 @@ fun EmailTextFieldComponent(
             onTextChanged(it)
         },
         leadingIcon = {
-            Icon(painter = painterResource, contentDescription = "")
+            Icon(painter = painterResource,
+                contentDescription = "",
+            tint = colorResource(id = R.color.main_color)
+            )
         },
+
         isError = !errorStatus
     )
 }
@@ -90,15 +93,16 @@ fun PasswordTextFieldComponent(
 
     OutlinedTextField(
         modifier = Modifier
-            .fillMaxWidth()
-            .clip(
-                RoundedCornerShape(4.dp)
-            ),
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(8.dp),
         label = { Text(text = labelValue) },
         maxLines = 1,
         leadingIcon =
         {
-            Icon(painter = painterResource, contentDescription = labelValue)
+            Icon(painter = painterResource,
+                contentDescription = labelValue,
+                tint = colorResource(id = R.color.main_color)
+            )
         },
         trailingIcon = {
             val iconImage =   if (passwordVisible){
@@ -115,14 +119,16 @@ fun PasswordTextFieldComponent(
             IconButton(onClick = {
                 passwordVisible = !passwordVisible
             }) {
-                Icon(imageVector =iconImage , contentDescription = decription)
+                Icon(imageVector =iconImage ,
+                    contentDescription = decription,
+                tint = colorResource(id = R.color.main_color))
             }
         },
 
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Primary,
-            focusedLabelColor = Primary,
-            cursorColor = Primary,
+            focusedBorderColor = colorResource(id = R.color.main_color),
+            focusedLabelColor = colorResource(id = R.color.main_color),
+            cursorColor = colorResource(id = R.color.main_color),
 //            backgroundColor = BgColor
         ),
         value = password,

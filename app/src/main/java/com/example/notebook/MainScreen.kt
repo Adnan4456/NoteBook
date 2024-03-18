@@ -4,6 +4,7 @@ package com.example.notebook
 import FilterFabMenuItem
 import FilterView
 import android.annotation.SuppressLint
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -15,9 +16,11 @@ import androidx.compose.material.icons.outlined.Security
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.notebook.feature_note.presentation.util.Screen
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.auth.FirebaseAuth
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -31,6 +34,16 @@ fun MainScreen(
     var currentTab by remember {
         mutableStateOf(TabScreen.Home)
     }
+
+    val systemUiController = rememberSystemUiController()
+    val darkTheme = isSystemInDarkTheme()
+
+    SideEffect {
+        systemUiController.setSystemBarsColor(
+            color = if (darkTheme) Color.Black else Color.White
+        )
+    }
+
     Scaffold (
         bottomBar = {
             BottomAppBar(
@@ -84,10 +97,8 @@ fun MainScreen(
                             trailingIcon = {
                                 Icon(imageVector = Icons.Outlined.Security, contentDescription = "Secret_note") }
                         )
-
                     }
                 },
-
 
                 floatingActionButton = {
 
@@ -104,16 +115,15 @@ fun MainScreen(
                             FilterFabMenuItem("Add Todo", R.drawable.ic_lock)
                         ),
                         modifier = Modifier
-//                            .align(Alignment.BottomEnd)
                             .padding(16.dp),
                         navController
                     )
-
                 }
             )
         }
             ){innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)){
+
             NavGraph(startDestination = startDestination, firbaseAuth =firbaseAuth  , navController)
         }
     }

@@ -20,7 +20,6 @@ class SignUpRepositoryImpl
 
                val result =  firebaseAuth.createUserWithEmailAndPassword(email, password)
                    .addOnCompleteListener{
-//                       LoginResponse.isSuccessful(it.isSuccessful)
                    }
                    .addOnFailureListener{
 

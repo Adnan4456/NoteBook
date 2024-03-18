@@ -1,10 +1,11 @@
 package com.example.notebook.feature_login.presentation.ui
 
 import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,15 +19,12 @@ import androidx.navigation.NavController
 import com.example.notebook.R
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.*
 import com.example.notebook.components.*
 import com.example.notebook.feature_internet_connectivity.domain.ConnectivityObserver
 import com.example.notebook.feature_login.domain.model.LoginResult
 import com.example.notebook.feature_note.presentation.util.Screen
-import com.example.notebook.ui.theme.Primary
 import kotlinx.coroutines.launch
 
 @Composable
@@ -46,31 +44,31 @@ fun LoginScreen(
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    if (networkStatus == ConnectivityObserver.Status.Available) {
-        LaunchedEffect(networkStatus) {
-            snackbarHostState.showSnackbar(
-                message = when (networkStatus) {
+//    if (networkStatus == ConnectivityObserver.Status.Available) {
+//        LaunchedEffect(networkStatus) {
+//            snackbarHostState.showSnackbar(
+//                message = when (networkStatus) {
 
-                    ConnectivityObserver.Status.Unavailable -> "No internet connection."
-                    ConnectivityObserver.Status.Available -> "Available network connection."
-                    ConnectivityObserver.Status.Losing -> "Losing network connection."
-                    ConnectivityObserver.Status.Lost -> "Lost network connection."
-                },
-                actionLabel = context.getString(R.string.dismiss)
-            )
-        }
-    }
+//                    ConnectivityObserver.Status.Unavailable -> "No internet connection."
+//                    ConnectivityObserver.Status.Available -> "Available network connection."
+//                    ConnectivityObserver.Status.Losing -> "Losing network connection."
+//                    ConnectivityObserver.Status.Lost -> "Lost network connection."
+//                },
+//                actionLabel = context.getString(R.string.dismiss)
+//            )
+//        }
+//    }
 
     Box(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(Color.White),
         contentAlignment = Alignment.Center
     ){
         Surface(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(8.dp),
-            color = MaterialTheme.colorScheme.surface
         ) {
             Box(
                 modifier = Modifier
@@ -84,74 +82,108 @@ fun LoginScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp)
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.SpaceAround
             ) {
-                
-                IconButton(
-                    onClick = {
 
-                }) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
+                ) {
 
+                    IconButton(onClick = {
 
-                }
-                
-                Spacer(modifier = Modifier.height(50.dp))
-
-                NormalTextComponent(
-                    value = stringResource(id = R.string.login),
-                )
-
-                HeadingTextComponent(
-                    value = stringResource(id = R.string.create_account),
-                )
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                EmailTextFieldComponent(
-                    labelValue = stringResource(id = R.string.label_email),
-                    painterResource(id = R.drawable.message),
-                    onTextChanged = {email ->
-                    viewModel.onEvent(LoginFormEvent.EmailChanged(email))
-                    },
-                    errorStatus = !viewModel.state.emailError
-                )
-                if(viewModel.state.emailError){
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.Bottom,
-                        horizontalArrangement = Arrangement.End
-                    ){
-
-                        Text(viewModel.state.emailErrorMessage.toString(),
-                        style = TextStyle(
-                            color = Color.Red
-                        )
+                    }) {
+                        Icon(painter = painterResource(id = R.drawable.ic_arrow_back),
+                            contentDescription ="",
+                            tint = colorResource(id = R.color.main_color)
                         )
                     }
+                    NormalTextComponent(
+                        value = stringResource(id = R.string.logintext),
+                    )
                 }
-                Spacer(modifier = Modifier.height(8.dp))
-                PasswordTextFieldComponent(
-                    labelValue = stringResource(id = R.string.label_pass),
-                    painterResource(id = R.drawable.ic_lock),
-                    onTextChanged = {passsword ->
-                        viewModel.onEvent(LoginFormEvent.PasswordChanged(passsword))
-                    },
-                    errorStatus = viewModel.state.passwordError
-                )
-                if(viewModel.state.passwordError){
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.Bottom,
-                        horizontalArrangement = Arrangement.End
-                    ){
 
-                        Text(viewModel.state.passwordErrorMessage.toString(),
-                            style = TextStyle(
-                                color = Color.Red
+                Column() {
+
+
+                    HeadingTextComponent(
+                        value = stringResource(id = R.string.welcome),
+                    )
+
+                    NormalTextComponent(
+                        value = stringResource(id = R.string.loginText1),
+                    )
+                }
+
+                Column {
+
+                    EmailTextFieldComponent(
+                        labelValue = stringResource(id = R.string.label_email),
+                        painterResource(id = R.drawable.message),
+                        onTextChanged = {email ->
+                            viewModel.onEvent(LoginFormEvent.EmailChanged(email))
+                        },
+                        errorStatus = !viewModel.state.emailError
+                    )
+                    if(viewModel.state.emailError){
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.Bottom,
+                            horizontalArrangement = Arrangement.End
+                        ){
+
+                            Text(viewModel.state.emailErrorMessage.toString(),
+                                style = TextStyle(
+                                    color = Color.Red
+                                )
                             )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    PasswordTextFieldComponent(
+                        labelValue = stringResource(id = R.string.label_pass),
+                        painterResource(id = R.drawable.ic_lock),
+                        onTextChanged = {passsword ->
+                            viewModel.onEvent(LoginFormEvent.PasswordChanged(passsword))
+                        },
+                        errorStatus = viewModel.state.passwordError
+                    )
+                    if(viewModel.state.passwordError){
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.Bottom,
+                            horizontalArrangement = Arrangement.End
+                        ){
+
+                            Text(viewModel.state.passwordErrorMessage.toString(),
+                                style = TextStyle(
+                                    color = Color.Red
+                                )
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.Bottom,
+                        horizontalArrangement = Arrangement.End
+                    ){
+                        ClickableText(
+                            text = AnnotatedString(stringResource(id = R.string.forget_password)),
+                            onClick = {
+                                //navigate to forget password screen
+                                navController.navigate(Screen.ForgetPasswordScreen.route)
+                            }
                         )
                     }
                 }
+
                 Spacer(modifier = Modifier.height(26.dp))
                 LoginButton(
                     "Login" ,
@@ -172,6 +204,7 @@ fun LoginScreen(
                     }
                 })
                 when (loginState) {
+
                     is LoginResult.isLoading -> {
 
                         showDialog = true
@@ -194,21 +227,41 @@ fun LoginScreen(
                     }
                     else -> {}
                 }
-                ClickableText(
-                    text = buildAnnotatedString {
-                            append("Don`t have account ? ")
-                            withStyle(style =  SpanStyle(
-                                color = Primary
-                            )
-                            ){
-                                append(" Sign up")
-                            }
-                        },
 
-                    onClick = {
-                        navController.navigate(Screen.SignUpScreen.route)
+
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.BottomCenter
+                ){
+
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ){
+
+
+                        Text(
+                            modifier = Modifier.clickable {
+                                navController.navigate(Screen.LoginScreen.route)
+                            },
+                            text =  "Don`t have account yet  ?",
+                        )
+                        Text(
+                            modifier = Modifier.clickable {
+                                navController.navigate(Screen.SignUpScreen.route)
+                            },
+                            text = buildAnnotatedString {
+                                withStyle(style =  SpanStyle(
+                                    color = colorResource(id = R.color.main_color)
+                                )
+                                ){
+                                    append(" Create an account here ")
+                                }
+                            },
+                        )
+
                     }
-                )
+                }
             }
         }
     }
