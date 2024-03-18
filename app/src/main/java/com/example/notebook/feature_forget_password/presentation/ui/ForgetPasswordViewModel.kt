@@ -66,8 +66,6 @@ class ForgetPasswordViewModel
 
             _responseState.value = SendEmailResponse.isLoading
 
-            Log.d("TAG","send Email function is called")
-
             when(result){
 
                 is  SendEmailResponse.isSuccessfull -> {

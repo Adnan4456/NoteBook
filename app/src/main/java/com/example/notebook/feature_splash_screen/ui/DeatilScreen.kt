@@ -1,5 +1,9 @@
 package com.example.notebook.feature_splash_screen.ui
 
+import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedContentScope.SlideDirection.Companion.Down
+import androidx.compose.animation.AnimatedContentScope.SlideDirection.Companion.Up
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,8 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,7 +35,7 @@ import com.example.notebook.feature_splash_screen.pages.TodoPager
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun DeatilScreen(
     navController: NavController
@@ -41,6 +44,7 @@ fun DeatilScreen(
 
     val pagerState = rememberPagerState(initialPage = 0)
     val scope = rememberCoroutineScope()
+//    var visibleBackButton by remember { mutableStateOf(true) }
 
     val list = listOf(
         NotePager(),
@@ -77,54 +81,22 @@ fun DeatilScreen(
 
         ){
 
-            if(pagerState.currentPage <2){
+            AnimatedVisibility(
+                modifier = Modifier.align(Alignment.TopEnd),
+                visible = pagerState.currentPage <2
+            ) {
 
-                TextButton(
-                    modifier = Modifier.align(Alignment.TopEnd),
-                    onClick = {
-                        scope.launch {
-                            pagerState.animateScrollToPage(2)
-                        }
+                if(pagerState.currentPage <2){
 
-                    }) {
-                    Text(text = "Skip" ,
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            color = colorResource(id = R.color.main_color)
-                        )
-                    )
-                }
-            }
-
-            Row(
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .clickable {
-                        scope.launch {
-                            pagerState.animateScrollToPage(
-                                pagerState.currentPage - 1
-                            )
-                        }
-                    },
-                verticalAlignment = Alignment.CenterVertically,
-
-                ) {
-                if(pagerState.currentPage>0){
-
-                    Icon(
-                        imageVector = Icons.Default.KeyboardArrowLeft,
-                        contentDescription = "",
-                        tint = colorResource(id = R.color.main_color)
-                    )
                     TextButton(
+                        modifier = Modifier.align(Alignment.TopEnd),
                         onClick = {
                             scope.launch {
-                                pagerState.animateScrollToPage(
-                                    pagerState.currentPage - 1
-                                )
+                                pagerState.animateScrollToPage(2)
                             }
+
                         }) {
-                        Text(text = "Back" ,
+                        Text(text = "Skip" ,
                             style = TextStyle(
                                 fontSize = 16.sp,
                                 color = colorResource(id = R.color.main_color)
@@ -132,7 +104,54 @@ fun DeatilScreen(
                         )
                     }
                 }
+
             }
+
+            AnimatedVisibility(
+                visible = pagerState.currentPage>0,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .clickable {
+                            scope.launch {
+                                pagerState.animateScrollToPage(
+                                    pagerState.currentPage - 1
+                                )
+                            }
+                        },
+                    verticalAlignment = Alignment.CenterVertically,
+
+                    ) {
+                    if(pagerState.currentPage>0){
+
+                        Icon(
+                            imageVector = Icons.Default.KeyboardArrowLeft,
+                            contentDescription = "",
+                            tint = colorResource(id = R.color.main_color)
+                        )
+                        TextButton(
+                            onClick = {
+                                scope.launch {
+                                    pagerState.animateScrollToPage(
+                                        pagerState.currentPage - 1
+                                    )
+                                }
+                            }) {
+                            Text(text = "Back" ,
+                                style = TextStyle(
+                                    fontSize = 16.sp,
+                                    color = colorResource(id = R.color.main_color)
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+
         }
 
         Box(
@@ -175,98 +194,206 @@ fun DeatilScreen(
                     }
                 }
 
-                if(pagerState.currentPage == 2){
+//                AnimatedVisibility(
+//                    visible = pagerState.currentPage ==2) {
+//                    if(pagerState.currentPage ==2){
+//
+//                        Column() {
+//
+//                            Card(
+//                                modifier = Modifier
+//                                    .fillMaxWidth()
+//                                    .height(50.dp),
+//                                shape = RoundedCornerShape(16.dp),
+//                                colors = CardDefaults.cardColors(
+//                                    containerColor = colorResource(id = R.color.main_color)
+//                                ),
+//                            ) {
+//
+//                                TextButton(
+//                                    modifier = Modifier.fillMaxWidth(),
+//                                    onClick = {
+//                                        navController.navigate(Screen.SignUpScreen.route)
+//                                    }) {
+//
+//                                    Text(text = "Create Account" ,
+//                                        style = TextStyle(
+//                                            color = Color.White
+//                                        )
+//                                    )
+//                                }
+//                            }
+//
+//                            Spacer(modifier = Modifier.height(8.dp))
+//
+//                            Card(
+//                                modifier = Modifier
+//                                    .fillMaxWidth()
+//                                    .height(50.dp),
+//                                shape = RoundedCornerShape(16.dp),
+//                                colors = CardDefaults.cardColors(
+//                                    containerColor = Color.White
+//                                ),
+//                            ) {
+//
+//                                TextButton(
+//                                    modifier = Modifier.fillMaxWidth(),
+//                                    onClick = {
+//                                        navController.navigate(Screen.LoginScreen.route)
+//                                    }) {
+//
+//                                    Text(text = "Sign in" ,
+//                                        style = TextStyle(
+//                                            color = colorResource(id = R.color.main_color)
+//                                        )
+//                                    )
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
 
-                    Column() {
 
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(50.dp),
-                            shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = colorResource(id = R.color.main_color)
-                            ),
-                        ) {
+                AnimatedContent(
+                    targetState = pagerState.currentPage == 2,
+                    transitionSpec = {
+                      slideIntoContainer(
+                          animationSpec = tween(300, easing = EaseIn),
+                          towards = Up
+                      )
+                          .with(
+                          slideOutOfContainer(
+                              animationSpec = tween(300, easing = EaseOut),
+                              towards = Down
+                          )
+                      )
+                    },
+                ) {targetState ->
 
-                            TextButton(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navController.navigate(Screen.SignUpScreen.route)
-                                }) {
+                    if(pagerState.currentPage == 2) {
 
-                                Text(text = "Create Account" ,
-                                    style = TextStyle(
-                                        color = Color.White
-                                    )
-                                )
-                            }
-                        }
+                        Column() {
 
-                        Spacer(modifier = Modifier.height(8.dp))
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp),
+                                shape = RoundedCornerShape(16.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = colorResource(id = R.color.main_color)
+                                ),
+                            ) {
 
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(50.dp),
-                            shape = RoundedCornerShape(16.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color.White
-                            ),
-                        ) {
+                                TextButton(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    onClick = {
+                                        navController.navigate(Screen.SignUpScreen.route)
+                                    }) {
 
-                            TextButton(
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = {
-                                    navController.navigate(Screen.LoginScreen.route)
-                                }) {
-
-                                Text(text = "Sign in" ,
-                                    style = TextStyle(
-                                        color = colorResource(id = R.color.main_color)
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }
-
-                if(pagerState.currentPage < 2){
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp),
-                        shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = colorResource(id = R.color.main_color)
-                        ),
-                    ) {
-                        IconButton(
-                            modifier = Modifier.fillMaxSize(),
-                            colors = IconButtonDefaults.iconButtonColors(
-                                containerColor = colorResource(id = R.color.main_color)
-                            ),
-                            onClick = {
-                                scope.launch {
-                                    pagerState.animateScrollToPage(
-                                        pagerState.currentPage + 1
+                                    Text(
+                                        text = "Create Account",
+                                        style = TextStyle(
+                                            color = Color.White
+                                        )
                                     )
                                 }
-                            }) {
-                            Text(text = "Next",
-                            style = TextStyle(
-                                color = Color.White,
-                                fontSize = 16.sp
-                            ))
-//                            Icon(
-//                                imageVector = Icons.Default.KeyboardArrowRight,
-//                                contentDescription = "",
-//                                tint = Color.White
-//                            )
+                            }
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp),
+                                shape = RoundedCornerShape(16.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color.White
+                                ),
+                            ) {
+
+                                TextButton(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    onClick = {
+                                        navController.navigate(Screen.LoginScreen.route)
+                                    }) {
+
+                                    Text(
+                                        text = "Sign in",
+                                        style = TextStyle(
+                                            color = colorResource(id = R.color.main_color)
+                                        )
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp),
+                            shape = RoundedCornerShape(16.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = colorResource(id = R.color.main_color)
+                            ),
+                        ) {
+                            IconButton(
+                                modifier = Modifier.fillMaxSize(),
+                                colors = IconButtonDefaults.iconButtonColors(
+                                    containerColor = colorResource(id = R.color.main_color)
+                                ),
+                                onClick = {
+                                    scope.launch {
+                                        pagerState.animateScrollToPage(
+                                            pagerState.currentPage + 1
+                                        )
+                                    }
+                                }) {
+                                Text(text = "Next",
+                                    style = TextStyle(
+                                        color = Color.White,
+                                        fontSize = 16.sp
+                                    ))
+                            }
                         }
                     }
                 }
+//                AnimatedVisibility(
+//                    visible =pagerState.currentPage < 2 ) {
+//                    if(pagerState.currentPage < 2){
+//
+//                        Card(
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                                .height(50.dp),
+//                            shape = RoundedCornerShape(16.dp),
+//                            colors = CardDefaults.cardColors(
+//                                containerColor = colorResource(id = R.color.main_color)
+//                            ),
+//                        ) {
+//                            IconButton(
+//                                modifier = Modifier.fillMaxSize(),
+//                                colors = IconButtonDefaults.iconButtonColors(
+//                                    containerColor = colorResource(id = R.color.main_color)
+//                                ),
+//                                onClick = {
+//                                    scope.launch {
+//                                        pagerState.animateScrollToPage(
+//                                            pagerState.currentPage + 1
+//                                        )
+//                                    }
+//                                }) {
+//                                Text(text = "Next",
+//                                    style = TextStyle(
+//                                        color = Color.White,
+//                                        fontSize = 16.sp
+//                                    ))
+//                            }
+//                        }
+//                    }
+//                }
+
             }
         }
     }
