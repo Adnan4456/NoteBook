@@ -1,8 +1,9 @@
 package com.example.notebook.feature_splash_screen.ui
 
 import androidx.compose.animation.*
-import androidx.compose.animation.AnimatedContentScope.SlideDirection.Companion.Down
-import androidx.compose.animation.AnimatedContentScope.SlideDirection.Companion.Up
+import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection.Companion.Down
+import androidx.compose.animation.AnimatedContentTransitionScope.SlideDirection.Companion.Up
+
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -42,7 +43,13 @@ fun DeatilScreen(
 
 ) {
 
-    val pagerState = rememberPagerState(initialPage = 0)
+    val  pagerState = rememberPagerState(
+        initialPage = 0,
+        initialPageOffsetFraction = 0f,
+        pageCount = {
+            3
+        }
+    )
     val scope = rememberCoroutineScope()
 //    var visibleBackButton by remember { mutableStateOf(true) }
 
@@ -59,11 +66,10 @@ fun DeatilScreen(
     ){
 
         HorizontalPager(
-            pageCount = list.size,
+//            pageCount = list.size,
             state = pagerState,
             key = { index -> index },
-            pageSize = PageSize.Fill,
-            modifier = Modifier.padding(top = 16.dp)
+
         ) {index ->
 
             when(index){
@@ -194,66 +200,6 @@ fun DeatilScreen(
                     }
                 }
 
-//                AnimatedVisibility(
-//                    visible = pagerState.currentPage ==2) {
-//                    if(pagerState.currentPage ==2){
-//
-//                        Column() {
-//
-//                            Card(
-//                                modifier = Modifier
-//                                    .fillMaxWidth()
-//                                    .height(50.dp),
-//                                shape = RoundedCornerShape(16.dp),
-//                                colors = CardDefaults.cardColors(
-//                                    containerColor = colorResource(id = R.color.main_color)
-//                                ),
-//                            ) {
-//
-//                                TextButton(
-//                                    modifier = Modifier.fillMaxWidth(),
-//                                    onClick = {
-//                                        navController.navigate(Screen.SignUpScreen.route)
-//                                    }) {
-//
-//                                    Text(text = "Create Account" ,
-//                                        style = TextStyle(
-//                                            color = Color.White
-//                                        )
-//                                    )
-//                                }
-//                            }
-//
-//                            Spacer(modifier = Modifier.height(8.dp))
-//
-//                            Card(
-//                                modifier = Modifier
-//                                    .fillMaxWidth()
-//                                    .height(50.dp),
-//                                shape = RoundedCornerShape(16.dp),
-//                                colors = CardDefaults.cardColors(
-//                                    containerColor = Color.White
-//                                ),
-//                            ) {
-//
-//                                TextButton(
-//                                    modifier = Modifier.fillMaxWidth(),
-//                                    onClick = {
-//                                        navController.navigate(Screen.LoginScreen.route)
-//                                    }) {
-//
-//                                    Text(text = "Sign in" ,
-//                                        style = TextStyle(
-//                                            color = colorResource(id = R.color.main_color)
-//                                        )
-//                                    )
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-
-
                 AnimatedContent(
                     targetState = pagerState.currentPage == 2,
                     transitionSpec = {
@@ -359,41 +305,6 @@ fun DeatilScreen(
                         }
                     }
                 }
-//                AnimatedVisibility(
-//                    visible =pagerState.currentPage < 2 ) {
-//                    if(pagerState.currentPage < 2){
-//
-//                        Card(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .height(50.dp),
-//                            shape = RoundedCornerShape(16.dp),
-//                            colors = CardDefaults.cardColors(
-//                                containerColor = colorResource(id = R.color.main_color)
-//                            ),
-//                        ) {
-//                            IconButton(
-//                                modifier = Modifier.fillMaxSize(),
-//                                colors = IconButtonDefaults.iconButtonColors(
-//                                    containerColor = colorResource(id = R.color.main_color)
-//                                ),
-//                                onClick = {
-//                                    scope.launch {
-//                                        pagerState.animateScrollToPage(
-//                                            pagerState.currentPage + 1
-//                                        )
-//                                    }
-//                                }) {
-//                                Text(text = "Next",
-//                                    style = TextStyle(
-//                                        color = Color.White,
-//                                        fontSize = 16.sp
-//                                    ))
-//                            }
-//                        }
-//                    }
-//                }
-
             }
         }
     }

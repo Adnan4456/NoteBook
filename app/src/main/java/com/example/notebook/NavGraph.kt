@@ -1,5 +1,7 @@
 package com.example.notebook
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.*
 import androidx.navigation.NavGraph.Companion.findStartDestination
 
@@ -36,14 +38,41 @@ fun NavGraph(
         navController = navController,
         startDestination = startDestination) {
 
-        composable(route = Screen.LoginScreen.route){
+        composable(route = Screen.LoginScreen.route, enterTransition = {
+
+            return@composable slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Up,
+                tween(2000)
+            )
+
+        },
+            exitTransition = {
+                return@composable slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Down,
+                    tween(2000)
+                )
+            }
+
+        ){
             LoginScreen(navController = navController)
         }
 
         composable(route = Screen.HoritonalPagerScreen.route){
             DeatilScreen(navController = navController)
         }
-        composable(route = Screen.SignUpScreen.route){
+        composable(route = Screen.SignUpScreen.route , enterTransition = {
+            return@composable slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Up,
+                tween(2000)
+            )
+        },
+            exitTransition = {
+                return@composable slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Down,
+                    tween(2000)
+                )
+            }
+        ){
             SignUpScreen(navController = navController)
         }
         composable(route = Screen.NotesScreen.route){

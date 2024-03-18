@@ -71,7 +71,14 @@ class SplashActivity : ComponentActivity() {
 //            )
         setContent {
             val window = rememberWindowSizeClass()
-            val pagerState = rememberPagerState(initialPage = 0)
+//            val pagerState = rememberPagerState(initialPage = 0)
+            val  pagerState = rememberPagerState(
+                initialPage = 0,
+                initialPageOffsetFraction = 0f,
+                pageCount = {
+                    3
+                }
+            )
             val scope = rememberCoroutineScope()
 
             val list = listOf(
@@ -94,19 +101,32 @@ class SplashActivity : ComponentActivity() {
             ){
 
                 HorizontalPager(
-                    pageCount = list.size,
                     state = pagerState,
-                    key = { index -> index },
-                    pageSize = PageSize.Fill,
-                    modifier = Modifier.padding(top = 16.dp)
+                    key = {
+                        index -> index
+                    }
                 ) {index ->
-
                     when(index){
                         0 -> NotePager()
                         1 -> TodoPager()
                         2 -> ExplainPager()
                     }
                 }
+
+//                HorizontalPager(
+//                    pageCount = list.size,
+//                    state = pagerState,
+//                    key = { index -> index },
+//                    pageSize = PageSize.Fill,
+//                    modifier = Modifier.padding(top = 16.dp)
+//                ) {index ->
+//
+//                    when(index){
+//                        0 -> NotePager()
+//                        1 -> TodoPager()
+//                        2 -> ExplainPager()
+//                    }
+//                }
 
                 Box(
                     modifier = Modifier
