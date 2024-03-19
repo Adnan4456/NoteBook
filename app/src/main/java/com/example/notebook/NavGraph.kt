@@ -44,7 +44,6 @@ fun NavGraph(
                 AnimatedContentTransitionScope.SlideDirection.Up,
                 tween(2000)
             )
-
         },
             exitTransition = {
                 return@composable slideOutOfContainer(

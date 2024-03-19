@@ -47,7 +47,6 @@ import com.example.notebook.ui.theme.Orientation
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NotesScreen(
@@ -336,7 +335,6 @@ fun NotesScreen(
                 }
                 else
                 {
-
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         modifier = Modifier.fillMaxSize(),
@@ -387,7 +385,6 @@ fun NotesScreen(
                                                 "Note is Bookmarked",
                                             )
                                         }
-
                                     },
                                     onSecretClick = {
                                         viewModel.onEvent(NotesEvent.MakeSecret(note))
@@ -400,7 +397,6 @@ fun NotesScreen(
                     }
 
                 }
-
 
             }
 
