@@ -105,6 +105,7 @@ fun MainScreentesting() {
             )
             RichTextEditor(
                 modifier = Modifier
+                    .background(color = Color.White)
                     .fillMaxWidth()
                     .weight(9f),
                 state = state,
