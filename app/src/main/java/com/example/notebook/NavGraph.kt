@@ -15,8 +15,7 @@ import com.example.notebook.feature_login.presentation.ui.LoginScreen
 import com.example.notebook.feature_note.presentation.add_edit_note.ui.AddEditNoteScreen
 import com.example.notebook.feature_note.presentation.bookmarked_notes.BookMarkedScreen
 import com.example.notebook.feature_note.presentation.notes.ui.NotesScreen
-import com.example.notebook.feature_note.presentation.notes.ui.NotesTestScreen
-import com.example.notebook.feature_note.presentation.util.Screen
+ import com.example.notebook.feature_note.presentation.util.Screen
 import com.example.notebook.feature_secret_note.presentation.ui.SecretNotes
 import com.example.notebook.feature_signup.presentation.ui.SignUpScreen
 import com.example.notebook.feature_todo.presentation.edit_todo.ui.AddTodoScreen
