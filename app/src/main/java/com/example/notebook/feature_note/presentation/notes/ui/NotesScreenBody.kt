@@ -42,7 +42,6 @@ fun AllNotesList(
     navController: NavController,
     viewModel: NotesViewModel = hiltViewModel()
 ){
-    Log.d("TAG","inside All notes screen ")
     val state = viewModel.state.value
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
