@@ -3,23 +3,14 @@ package com.example.notebook.feature_note.presentation.add_edit_note.ui
 import android.R
 import android.annotation.SuppressLint
 import android.util.Log
- import androidx.compose.foundation.*
+import android.widget.ImageButton
+import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddLink
-import androidx.compose.material.icons.filled.FormatAlignCenter
-import androidx.compose.material.icons.filled.FormatAlignLeft
-import androidx.compose.material.icons.filled.FormatAlignRight
-import androidx.compose.material.icons.filled.FormatBold
-import androidx.compose.material.icons.filled.FormatColorText
-import androidx.compose.material.icons.filled.FormatItalic
-import androidx.compose.material.icons.filled.FormatSize
-import androidx.compose.material.icons.filled.FormatUnderlined
-import androidx.compose.material.icons.filled.Save
-import androidx.compose.material.icons.filled.Title
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,8 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -45,16 +38,52 @@ import com.mohamedrejeb.richeditor.model.RichTextState
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditorDefaults
+import okhttp3.internal.http2.Header
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreentesting() {
-    Scaffold (){
+    Scaffold {
 
-        Box() {
+        Box {
 
-            myScrollableColumn()
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
 
+                Header()
+                Spacer(modifier = Modifier.height(30.dp))
+                myScrollableColumn()
+            }
+        }
+    }
+}
+
+@Composable
+fun Header() {
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+
+        Image(
+            painterResource(id = R.drawable.back) ,
+            contentDescription = "")
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_delete),
+                contentDescription = "")
+            Spacer(modifier = Modifier.width(4.dp))
+            Button(onClick = {}) {
+                Text(text = "Save", style = TextStyle(
+                    color = colorResource(id = R.color.background_dark)
+                ))
+            }
         }
     }
 }
