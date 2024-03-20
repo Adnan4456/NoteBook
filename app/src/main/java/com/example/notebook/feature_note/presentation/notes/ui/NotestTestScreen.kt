@@ -66,19 +66,22 @@ fun GridLayout(navController: NavController) {
     val context = LocalContext.current
     val (selectedCardIndex, setSelectedCardIndex) = remember { mutableStateOf("") }
 
-
-
     Column(modifier = Modifier.fillMaxSize()) {
 
-        CardRow(onClick = { index -> setSelectedCardIndex(index) })
+        Spacer(modifier = Modifier.height(16.dp))
+
+        CardRow(
+            modifier = Modifier.weight(.5f),
+            onClick = { index -> setSelectedCardIndex(index) })
 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)){
+                .weight(1.5f)
+        ){
 
             when(selectedCardIndex){
-                "AllNotes" -> AllNotesList(navController)
+                "All Notes" -> AllNotesList(navController)
                 "Hidden Notes" -> HiddenNotesList(navController)
                 "Favourites"-> FavouritesList(navController)
                 "Trash" -> TrashList()
@@ -97,7 +100,6 @@ fun AllNotesList(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val density = LocalDensity.current
 
     if (AppTheme.orientation == Orientation.Portrait){
 

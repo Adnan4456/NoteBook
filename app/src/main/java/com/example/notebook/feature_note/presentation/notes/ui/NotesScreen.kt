@@ -8,10 +8,13 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -65,7 +68,7 @@ fun NotesScreen(
             SnackbarHost(hostState = snackbarHostState)
         },
     ) {
-        Box(){
+        Box{
 
             Column(
                 modifier = Modifier
@@ -79,7 +82,6 @@ fun NotesScreen(
                 ) {
 
                     Row( verticalAlignment = Alignment.CenterVertically) {
-
 
                         IconButton(onClick = {
                             viewModel.onEvent(NotesEvent.ToggleOrderSection)
@@ -148,12 +150,11 @@ fun NotesScreen(
                     FilterFabMenuItem("Todo", R.drawable.ic_todo)
                 ),
                 modifier = Modifier
-                .align(Alignment.BottomEnd)
+                    .align(Alignment.BottomEnd)
                     .padding(16.dp),
                 navController
             )
         }
-
     }
 }
 @Composable

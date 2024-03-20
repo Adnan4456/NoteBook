@@ -10,6 +10,6 @@
     <color name="cta_blue">#3577FF</color>
     <color name="main_color">#FF8A00</color>
     <color name="box_color">#F2F2F2</color>
-
+    <color name="background_color">#F2F2F6</color>
 
 </resources>

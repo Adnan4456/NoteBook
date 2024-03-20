@@ -2,21 +2,22 @@ package com.example.notebook.feature_note.presentation.notes.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.notebook.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,9 +35,12 @@ fun SearchBar(
 
     val focusManager = LocalFocusManager.current
 
-    DockedSearchBar(
-        modifier= Modifier.fillMaxWidth()
-            .background(Color.White),
+    SearchBar(
+        modifier= Modifier
+            .fillMaxWidth(),
+        colors = SearchBarDefaults.colors(
+            containerColor = Color.White
+        ),
         shape = RoundedCornerShape(16.dp),
         query = query,
         onQueryChange = {
@@ -56,9 +60,7 @@ fun SearchBar(
         onActiveChange = {
             active = it
         },
-        colors =SearchBarDefaults.colors(
-            containerColor = Color.White
-        ),
+
         trailingIcon = {
             Row(
                 modifier = Modifier.padding(8.dp)
@@ -85,94 +87,146 @@ fun SearchBar(
             }
 
         },
-        tonalElevation = 8.dp,
-
-
+        tonalElevation = 16.dp,
     ) {
     }
 }
 
 @Composable
-fun ClickableCard( text:String , onClick: () -> Unit , isSelected: Boolean, color: Color) {
+fun ClickableCard(
+    modifier: Modifier,
+    text:String ,
+    onClick: () -> Unit ,
+    isSelected: Boolean,
+    color: Color) {
 
     val animatedColor = animateColorAsState(
-        targetValue = if (isSelected) color else Color.LightGray,
-        animationSpec = tween(durationMillis = 1000)
+        targetValue = if (isSelected) color else Color.White,
+        animationSpec = tween(durationMillis = 500)
     )
 
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .clickable {
                 onClick()
             }
-            .padding(16.dp)
-            .height(50.dp)
-            .width(150.dp),
+            .padding(8.dp)
+            .height(50.dp),
         color = animatedColor.value,
-        shape = MaterialTheme.shapes.medium,
+        shape = RoundedCornerShape(8.dp),
         shadowElevation = 8.dp
     ) {
 
-        Box(
-            modifier= Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
         ) {
-            Row() {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "")
-                Text(text = text,
-                    color = if (isSelected)   Color.White else Color.Black)
+            Spacer(
+                modifier = Modifier.width(8.dp))
+
+            Box(
+                modifier = Modifier
+                    .height(60.dp)
+                    .width(50.dp),
+                contentAlignment = Alignment.Center
+            ){
+
+                if(text.equals("All Notes")){
+                    Image(
+                        modifier =Modifier.fillMaxSize(.6f),
+                        painter =  painterResource(id = R.drawable.all_notes_bg ),
+                        contentDescription = "")
+
+                    Image(
+                        modifier =Modifier.fillMaxSize(.4f),
+                        painter =  painterResource(id = R.drawable.all_notes),
+                        contentDescription = "")
+                }
+
+                if(text.equals("Trash")){
+                    Image(
+                        modifier =Modifier.fillMaxSize(.6f),
+                        painter =  painterResource(id = R.drawable.delete_icon_bg ),
+                        contentDescription = "")
+
+
+                    Icon(imageVector = Icons.Default.Delete,
+                        contentDescription = "",
+                        tint = Color.White)
+                }
+
+                if(text.equals("Favourites")){
+                    Image(
+                        modifier =Modifier.fillMaxSize(.6f),
+                        painter =  painterResource(id = R.drawable.fav_icon_bg ),
+                        contentDescription = "")
+
+
+                    Icon(imageVector = Icons.Default.Star,
+                        contentDescription = "",
+                        tint = Color.White)
+                }
+
+                if(text.equals("Hidden Notes")){
+                    Image(
+                        modifier =Modifier.fillMaxSize(.6f),
+                        painter =  painterResource(id = R.drawable.hidden_icon_bg ),
+                        contentDescription = "")
+
+                    Icon(imageVector = Icons.Default.VisibilityOff,
+                        contentDescription = "",
+                    tint = Color.White)
+                }
             }
+
+            Text(text = text,
+                color = if (isSelected)   Color.White else Color.Black)
         }
     }
 }
-
 @Composable
-fun CardRow(onClick: (String) -> Unit) {
+fun CardRow(onClick: (String) -> Unit, modifier: Modifier) {
 
     var selectedCardIndex by remember { mutableStateOf(-1) }
-    val cardTexts = listOf("AllNotes", "Hidden Notes","Favourites", "Trash")
+    val cardTexts = listOf("All Notes", "Hidden Notes","Favourites", "Trash")
     val cardColors = listOf(Color.Gray, Color.Blue, Color.Yellow, Color.Red)
 
-    Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-            .height(200.dp)
-            .background(Color.White)
-    ) {
+
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             for (index in cardTexts.indices step 2) {
                 Column(
-
+                    modifier = Modifier.weight(.5f),
                 ){
                     ClickableCard(
+                        modifier = Modifier.fillMaxWidth()                     ,
                         text = cardTexts.getOrElse(index) { "" },
                         onClick = {
                             selectedCardIndex = index
                             onClick(cardTexts[index])
                         },
                         isSelected = index == selectedCardIndex,
-                        color = cardColors.getOrElse(index) { Color.LightGray }
+                        color = cardColors.getOrElse(index) { Color.White }
                     )
 
                     if (index + 1 < cardTexts.size) {
                         ClickableCard(
+                            modifier = Modifier.fillMaxWidth(),
                             text = cardTexts.getOrElse(index + 1) { "" },
                             onClick = {
                                 selectedCardIndex = index + 1
                                 onClick(cardTexts[index + 1])
                             },
                             isSelected = index + 1 == selectedCardIndex,
-                            color = cardColors.getOrElse(index + 1) { Color.LightGray }
+                            color = cardColors.getOrElse(index + 1) { Color.White }
                         )
                     }
                 }
             }
         }
-    }
 }
 
