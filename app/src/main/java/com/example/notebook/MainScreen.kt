@@ -4,6 +4,7 @@ package com.example.notebook
 import FilterFabMenuItem
 import FilterView
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -17,6 +18,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.notebook.feature_note.presentation.util.Screen
@@ -45,6 +47,8 @@ fun MainScreen(
     }
 
     Scaffold (
+        Modifier.background(colorResource(id = R.color.background_color)),
+
         bottomBar = {
             BottomAppBar(
                 actions = {

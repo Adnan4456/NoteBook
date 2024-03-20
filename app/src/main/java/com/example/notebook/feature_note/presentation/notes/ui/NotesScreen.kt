@@ -3,26 +3,24 @@ package com.example.notebook.feature_note.presentation.notes.ui
 import FilterFabMenuItem
 import FilterView
 import android.annotation.SuppressLint
-import android.provider.CalendarContract.Colors
 import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -47,7 +45,6 @@ import com.example.notebook.ui.theme.Orientation
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun NotesScreen(
@@ -64,21 +61,14 @@ fun NotesScreen(
     val context = LocalContext.current
     val density = LocalDensity.current
 
-    val searchQuery = remember { viewModel.searchQuery }
-
-
-
-    // Add a mutable state for selected chip
-    var selectedChip by remember {
-        mutableStateOf(ChipType.ALL)
-    }
+//    val searchQuery = remember { viewModel.searchQuery }
 
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         },
     ) {
-        Box(){
+        Box{
 
             Column(
                 modifier = Modifier
@@ -92,7 +82,6 @@ fun NotesScreen(
                 ) {
 
                     Row( verticalAlignment = Alignment.CenterVertically) {
-
 
                         IconButton(onClick = {
                             viewModel.onEvent(NotesEvent.ToggleOrderSection)
@@ -125,47 +114,9 @@ fun NotesScreen(
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
-
-                ElevatedCard(
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 10.dp
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(5.dp)
-                ){
-
-                    Row (
-                        modifier = Modifier
-                            .padding(start = 3.dp)
-                            .clip(RoundedCornerShape(5.dp)),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-
-                    ){
-                        BasicTextField(
-                            modifier = Modifier.weight(1f),
-                            value = searchQuery.value,
-                            singleLine = true,
-                            onValueChange = {
-                                viewModel.onSearchQueryChanged(it)
-                            })
-                        IconButton(
-                            onClick = {
-                                viewModel.onSearchQueryChanged("")
-                            }
-                        ) {
-                            Icon(
-                                imageVector = if(searchQuery.value.isEmpty()){
-                                    Icons.Default.Search
-                                }else
-                                {
-                                    Icons.Default.Cancel
-                                },
-                                contentDescription = "Search Note"
-                            )
-                        }
-                    }
-                }
+                SearchBar({query ->
+                    viewModel.onSearchQueryChanged(query)
+                })
                 AnimatedVisibility(
                     visible = state.isOrderSectionVisible,
                     enter = slideInVertically {
@@ -189,218 +140,7 @@ fun NotesScreen(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                ChipRow(
-                    selectedChip = selectedChip,
-                    onChipClicked = { chipType ->
-                        selectedChip = chipType
-
-                        Log.d("TAG","Selected chip = ${selectedChip.title}")
-                    }
-                )
-
-
-                if (AppTheme.orientation == Orientation.Portrait){
-
-                    if(state.notes.isEmpty()){
-                        NoNotesImage(navController)
-
-                    }else {
-
-                        LazyVerticalGrid(
-                            modifier = Modifier.fillMaxSize(),
-                            columns = GridCells.Fixed(2),
-                            verticalArrangement = Arrangement.spacedBy(10.dp),
-                            horizontalArrangement = Arrangement.spacedBy(10.dp)
-                        ){
-                            header {
-                                Text(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(
-                                            color = Color.LightGray,
-                                        )
-                                        .padding(16.dp),
-                                    text = ("Notes"),
-                                    style = TextStyle(
-                                        fontSize = 24.sp,
-                                        fontWeight = FontWeight.Bold
-                                    ),
-                                )
-                            }
-                            items(state.notes){ note ->
-
-                                AnimatedVisibility(
-                                    visible = true ,
-                                    enter = fadeIn(animationSpec = tween(5000)),
-                                    exit = fadeOut(animationSpec =  tween(5000))
-                                ) {
-
-                                    NoteItem(
-                                        note = note,
-                                        modifier = Modifier
-
-                                            .fillMaxWidth()
-                                            .clickable {
-                                                navController.navigate(
-                                                    Screen.AddEditNoteScreen.route +
-                                                            "?noteId=${note.id}&noteColor=${note.color}"
-                                                )
-                                            },
-                                        onDeleteClick = {
-                                            viewModel.onEvent(NotesEvent.DeleteNote(note))
-
-                                            scope.launch {
-                                                val result = snackbarHostState.showSnackbar(
-                                                    context.getString(R.string.note_delete),
-                                                    actionLabel = context.getString(R.string.undo)
-                                                )
-                                                if (result == SnackbarResult.ActionPerformed){
-                                                    viewModel.onEvent(NotesEvent.RestoreNote)
-                                                }
-                                            }
-                                        },
-                                        onBookMarkChange = {
-                                            viewModel.onEvent(NotesEvent.Bookmark(note))
-                                        },
-                                        onSecretClick = {
-                                            viewModel.onEvent(NotesEvent.MakeSecret(note))
-                                        }
-                                    )
-                                    Spacer(modifier = Modifier.height(16.dp))
-                                }
-                            }
-
-                            //second header for testing
-                            header {
-                                Text(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .background(
-                                            color = Color.LightGray,
-                                        )
-                                        .padding(16.dp),
-                                    text = ("Notes"),
-                                    style = TextStyle(
-                                        fontSize = 24.sp,
-                                        fontWeight = FontWeight.Bold
-                                    ),
-                                )
-                            }
-                            items(state.notes){ note ->
-
-                                AnimatedVisibility(
-                                    visible = true ,
-                                    enter = fadeIn(animationSpec = tween(5000)),
-                                    exit = fadeOut(animationSpec =  tween(5000))
-                                ) {
-
-                                    NoteItem(
-                                        note = note,
-                                        modifier = Modifier
-
-                                            .fillMaxWidth()
-                                            .clickable {
-                                                navController.navigate(
-                                                    Screen.AddEditNoteScreen.route +
-                                                            "?noteId=${note.id}&noteColor=${note.color}"
-                                                )
-                                            },
-                                        onDeleteClick = {
-                                            viewModel.onEvent(NotesEvent.DeleteNote(note))
-
-                                            scope.launch {
-                                                val result = snackbarHostState.showSnackbar(
-                                                    context.getString(R.string.note_delete),
-                                                    actionLabel = context.getString(R.string.undo)
-                                                )
-                                                if (result == SnackbarResult.ActionPerformed){
-                                                    viewModel.onEvent(NotesEvent.RestoreNote)
-                                                }
-                                            }
-                                        },
-                                        onBookMarkChange = {
-                                            viewModel.onEvent(NotesEvent.Bookmark(note))
-                                        },
-                                        onSecretClick = {
-                                            viewModel.onEvent(NotesEvent.MakeSecret(note))
-                                        }
-                                    )
-                                    Spacer(modifier = Modifier.height(16.dp))
-                                }
-                            }
-                        }
-
-                    }
-                }
-                else
-                {
-
-                    LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(10.dp),
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
-                    ){
-                        header {
-                            Text(text = ("Notes"))
-                        }
-
-                        items(state.notes){ note ->
-
-                            AnimatedVisibility(
-                                visible = true ,
-                                enter = fadeIn(animationSpec = tween(5000)),
-                                exit = fadeOut(animationSpec =  tween(5000))
-                            ){
-
-                                NoteItem(
-                                    note = note,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clickable {
-                                            navController.navigate(
-                                                Screen.AddEditNoteScreen.route +
-                                                        "?noteId=${note.id}&noteColor=${note.color}"
-                                            )
-                                        },
-                                    onDeleteClick = {
-                                        viewModel.onEvent(NotesEvent.DeleteNote(note))
-
-                                        scope.launch {
-
-                                            val result = snackbarHostState.showSnackbar(
-                                                context.getString(R.string.note_delete),
-                                                actionLabel = context.getString(R.string.undo)
-                                            )
-                                            if (result == SnackbarResult.ActionPerformed){
-                                                viewModel.onEvent(NotesEvent.RestoreNote)
-                                            }
-                                        }
-                                    },
-                                    onBookMarkChange = {
-                                        Log.d("TAG", "Bookmark in screen")
-                                        viewModel.onEvent(NotesEvent.Bookmark(note))
-                                        scope.launch {
-                                            snackbarHostState.showSnackbar(
-                                                "Note is Bookmarked",
-                                            )
-                                        }
-
-                                    },
-                                    onSecretClick = {
-                                        viewModel.onEvent(NotesEvent.MakeSecret(note))
-                                    }
-                                )
-                                Spacer(modifier = Modifier.height(16.dp))
-                            }
-
-                        }
-                    }
-
-                }
-
+                GridLayout(navController)
 
             }
 
@@ -410,12 +150,11 @@ fun NotesScreen(
                     FilterFabMenuItem("Todo", R.drawable.ic_todo)
                 ),
                 modifier = Modifier
-                .align(Alignment.BottomEnd)
+                    .align(Alignment.BottomEnd)
                     .padding(16.dp),
                 navController
             )
         }
-
     }
 }
 @Composable

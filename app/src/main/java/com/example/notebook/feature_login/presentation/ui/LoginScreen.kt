@@ -1,11 +1,14 @@
 package com.example.notebook.feature_login.presentation.ui
 
 import android.widget.Toast
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.*
+import com.example.notebook.common.rememberImeState
 import com.example.notebook.components.*
 import com.example.notebook.feature_internet_connectivity.domain.ConnectivityObserver
 import com.example.notebook.feature_login.domain.model.LoginResult
@@ -43,6 +47,14 @@ fun LoginScreen(
 
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
+    val imeState = rememberImeState()
+    val scrollState = rememberScrollState()
+
+    LaunchedEffect(key1 = imeState.value) {
+        if (imeState.value){
+            scrollState.animateScrollTo(scrollState.maxValue, tween(600))
+        }
+    }
 
 //    if (networkStatus == ConnectivityObserver.Status.Available) {
 //        LaunchedEffect(networkStatus) {
@@ -82,7 +94,8 @@ fun LoginScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp),
+                    .padding(16.dp)
+                    .verticalScroll(scrollState),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.SpaceAround
             ) {

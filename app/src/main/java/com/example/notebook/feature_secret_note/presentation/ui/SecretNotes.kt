@@ -47,9 +47,8 @@ fun SecretNotes(
     navController : NavController,
     viewModel: SecretNoteViewModel = hiltViewModel()
 ) {
-    val auth = FirebaseAuth.getInstance()
-    val currentUser = auth.currentUser
-    val userEmail = currentUser?.email
+//    val auth = FirebaseAuth.getInstance()
+//    val currentUser = auth.currentUser
 
     val context = LocalContext.current
 

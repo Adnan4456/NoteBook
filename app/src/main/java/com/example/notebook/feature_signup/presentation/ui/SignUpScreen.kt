@@ -1,9 +1,12 @@
 package com.example.notebook.feature_signup.presentation.ui
 
 import android.widget.Toast
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -25,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.notebook.R
+import com.example.notebook.common.rememberImeState
 import com.example.notebook.components.*
 import com.example.notebook.feature_internet_connectivity.domain.ConnectivityObserver
 import com.example.notebook.feature_note.presentation.util.Screen
@@ -47,21 +51,14 @@ fun SignUpScreen(
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
-//    if (networkStatus == ConnectivityObserver.Status.Available) {
-//        LaunchedEffect(networkStatus) {
-//            snackbarHostState.showSnackbar(
-//                message = when (networkStatus) {
-//
-//                    ConnectivityObserver.Status.Unavailable -> "No internet connection."
-//                    ConnectivityObserver.Status.Available -> "Available network connection."
-//                    ConnectivityObserver.Status.Losing -> "Losing network connection."
-//                    ConnectivityObserver.Status.Lost -> "Lost network connection."
-//                },
-//                actionLabel = "Dismiss"
-//            )
-//        }
-//    }
+    val imeState = rememberImeState()
+    val scrollState = rememberScrollState()
 
+    LaunchedEffect(key1 = imeState.value) {
+        if (imeState.value){
+            scrollState.animateScrollTo(scrollState.maxValue, tween(600))
+        }
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -72,8 +69,11 @@ fun SignUpScreen(
         Surface(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp),
-            color = MaterialTheme.colorScheme.surface
+//                .verticalScroll(scrollState)
+                .padding(8.dp)
+                .background(
+                    color = MaterialTheme.colorScheme.surface
+                ),
         ) {
             Box(
                 modifier = Modifier
@@ -122,7 +122,9 @@ fun SignUpScreen(
 
                 }
 
-                Column(){
+                Column(
+
+                ){
 
 
                     EmailTextFieldComponent(
