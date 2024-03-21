@@ -3,33 +3,19 @@ package com.example.notebook.feature_note.presentation.notes.ui
 import FilterFabMenuItem
 import FilterView
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
+ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.airbnb.lottie.compose.LottieAnimation
@@ -40,10 +26,7 @@ import com.example.notebook.feature_note.presentation.notes.NotesEvent
 import com.example.notebook.feature_note.presentation.notes.NotesViewModel
 import com.example.notebook.feature_note.presentation.notes.components.*
 import com.example.notebook.feature_note.presentation.util.Screen
-import com.example.notebook.ui.theme.AppTheme
-import com.example.notebook.ui.theme.Orientation
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -56,12 +39,9 @@ fun NotesScreen(
     val state = viewModel.state.value
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val scope = rememberCoroutineScope()
 
-    val context = LocalContext.current
-    val density = LocalDensity.current
+     val density = LocalDensity.current
 
-//    val searchQuery = remember { viewModel.searchQuery }
 
     Scaffold(
         snackbarHost = {
@@ -114,9 +94,9 @@ fun NotesScreen(
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
-                SearchBar({query ->
+                SearchBar { query ->
                     viewModel.onSearchQueryChanged(query)
-                })
+                }
                 AnimatedVisibility(
                     visible = state.isOrderSectionVisible,
                     enter = slideInVertically {
@@ -140,7 +120,7 @@ fun NotesScreen(
                     )
                 }
 
-                GridLayout(navController)
+                Header(navController)
 
             }
 

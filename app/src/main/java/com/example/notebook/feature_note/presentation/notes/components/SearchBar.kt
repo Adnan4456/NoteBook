@@ -1,5 +1,6 @@
 package com.example.notebook.feature_note.presentation.notes.components
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -185,10 +186,11 @@ fun ClickableCard(
         }
     }
 }
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun CardRow(onClick: (String) -> Unit, modifier: Modifier) {
 
-    var selectedCardIndex by remember { mutableStateOf(-1) }
+    var selectedCardIndex by remember { mutableStateOf(0) }
     val cardTexts = listOf("All Notes", "Hidden Notes","Favourites", "Trash")
     val cardColors = listOf(Color.Gray, Color.Blue, Color.Yellow, Color.Red)
 
