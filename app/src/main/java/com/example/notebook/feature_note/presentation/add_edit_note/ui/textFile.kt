@@ -1,13 +1,13 @@
 package com.example.notebook.feature_note.presentation.add_edit_note.ui
 
-import android.R
 import android.annotation.SuppressLint
+import android.graphics.drawable.Icon
 import android.util.Log
-import android.widget.ImageButton
 import androidx.compose.foundation.*
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.ParagraphStyle
@@ -32,13 +33,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.notebook.feature_note.presentation.add_edit_note.components.TwoColorDialog
 import com.example.notebook.feature_note.presentation.add_edit_note.components.colourSaver
 import com.mohamedrejeb.richeditor.model.RichTextState
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditorDefaults
-import okhttp3.internal.http2.Header
+import com.example.notebook.R
+import com.example.notebook.feature_note.presentation.notes.components.ClickableCard
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -54,11 +58,44 @@ fun MainScreentesting() {
                 Header()
                 Spacer(modifier = Modifier.height(30.dp))
                 myScrollableColumn()
+
             }
+            Bottom(
+                modifier = Modifier.align(Alignment.BottomCenter)
+            )
         }
     }
 }
 
+
+@Composable
+fun Bottom(
+    modifier: Modifier
+) {
+    val icons = listOf(
+        Icons.Default.Add,
+        Icons.Default.Delete,
+        Icons.Default.AccountCircle,
+        Icons.Default.Settings,
+        Icons.Default.Help,
+        Icons.Default.Home
+    )
+    LazyRow(
+        modifier = modifier.padding(16.dp)
+            .height(100.dp)
+            .fillMaxWidth()
+    ){
+        items(icons) { icon ->
+            IconItem(icon)
+        }
+    }
+}
+@Composable
+fun IconItem(icon: ImageVector) {
+    // You can customize how you want to display the icon here
+    // For simplicity, I'm just displaying the icon directly
+    Icon(imageVector = icon, contentDescription = null)
+}
 @Composable
 fun Header() {
 
@@ -68,20 +105,55 @@ fun Header() {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
 
-        Image(
-            painterResource(id = R.drawable.back) ,
-            contentDescription = "")
-
+       Row(
+           verticalAlignment = Alignment.CenterVertically
+       ) {
+           Icon(
+               imageVector = Icons.Default.ArrowBack,
+               contentDescription = "",
+               tint = colorResource(id = R.color.app_blue)
+           )
+           TextButton(
+               onClick = {
+               }) {
+               Text(text = "Back" ,
+                   style = TextStyle(
+                       fontSize = 18.sp,
+                       color = colorResource(id = R.color.app_blue)
+                   )
+               )
+           }
+       }
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_delete),
-                contentDescription = "")
-            Spacer(modifier = Modifier.width(4.dp))
-            Button(onClick = {}) {
-                Text(text = "Save", style = TextStyle(
-                    color = colorResource(id = R.color.background_dark)
+
+            Icon(
+                modifier = Modifier
+                    .height(25.dp)
+                    .width(25.dp),
+                imageVector = Icons.Default.Mic,
+                contentDescription = "",
+            tint = colorResource(id = R.color.app_black))
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+            TextButton(
+                modifier = Modifier
+                    .width(80.dp)
+                    .height(37.dp),
+                shape = RoundedCornerShape(8.dp),
+                onClick = {
+
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(id = R.color.app_black)
+                )
+            ) {
+                Text(
+                    text = "Save",
+                    style = TextStyle(
+                    color = colorResource(id = R.color.box_color)
                 ))
             }
         }
