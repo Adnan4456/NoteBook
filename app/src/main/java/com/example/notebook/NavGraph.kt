@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navigation
 import com.example.notebook.feature_forget_password.presentation.ui.ForgetScreen
 import com.example.notebook.feature_login.presentation.ui.LoginScreen
 import com.example.notebook.feature_note.presentation.add_edit_note.ui.AddEditNoteScreen
@@ -27,7 +28,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun NavGraph(
-    startDestination: String,
+    route: String,
     firbaseAuth: FirebaseAuth,
     navController : NavHostController
 ){
@@ -37,96 +38,108 @@ fun NavGraph(
     }
     NavHost(
         navController = navController,
-        startDestination = startDestination) {
+        startDestination = Screen.HoritonalPagerScreen.route) {
 
-        composable(route = Screen.LoginScreen.route, enterTransition = {
+        navigation(
+            startDestination = Screen.HoritonalPagerScreen.route,
+            route = route
+        ){
+             composable(route = Screen.HoritonalPagerScreen.route){
+                DeatilScreen(navController = navController)
+            }
+            composable(route = Screen.LoginScreen.route, enterTransition = {
 
-            return@composable slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Up,
-                tween(2000)
-            )
-        },
-            exitTransition = {
-                return@composable slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Down,
+                return@composable slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Up,
                     tween(2000)
                 )
+            },
+                exitTransition = {
+                    return@composable slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Down,
+                        tween(2000)
+                    )
+                }
+            ){
+                LoginScreen(navController = navController)
             }
 
-        ){
-            LoginScreen(navController = navController)
-        }
-
-        composable(route = Screen.HoritonalPagerScreen.route){
-            DeatilScreen(navController = navController)
-        }
-        composable(route = Screen.SignUpScreen.route , enterTransition = {
-            return@composable slideIntoContainer(
-                AnimatedContentTransitionScope.SlideDirection.Up,
-                tween(2000)
-            )
-        },
-            exitTransition = {
-                return@composable slideOutOfContainer(
-                    AnimatedContentTransitionScope.SlideDirection.Down,
+            composable(route = Screen.SignUpScreen.route , enterTransition = {
+                return@composable slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Up,
                     tween(2000)
                 )
+            },
+                exitTransition = {
+                    return@composable slideOutOfContainer(
+                        AnimatedContentTransitionScope.SlideDirection.Down,
+                        tween(2000)
+                    )
+                }
+            ){
+                SignUpScreen(navController = navController)
             }
-        ){
-            SignUpScreen(navController = navController)
+            composable(route= Screen.ForgetPasswordScreen.route){
+                ForgetScreen(navController = navController)
+            }
+
         }
-        composable(route = Screen.NotesScreen.route){
-            NotesScreen(navController = navController ,firbaseAuth = firbaseAuth )
+        navigation(
+            startDestination = Screen.NotesScreen.route,
+            route = route
+        ){
+            composable(route = Screen.NotesScreen.route){
+                NotesScreen(navController = navController ,firbaseAuth = firbaseAuth )
 //                    NotesTestScreen(navController = navController ,firbaseAuth = firbaseAuth )
-        }
-        composable(route = Screen.BookMarkedScreen.route){
-            BookMarkedScreen(navController = navController)
-//            MainScreentesting()
-        }
-        composable(route = Screen.AddTodoScreen.route){
-            AddTodoScreen()
-        }
-        
-        composable(route= Screen.ForgetPasswordScreen.route){
-            ForgetScreen(navController = navController)
-        }
-
-        composable(route = Screen.SecretNotes.route){
-
-            if(verified){
-                SecretNotes(navController)
-            }else{
-                VerificationScreen(navController = navController,
-                    onCompleteListener = {
-                        verified = true
-                    }
-                )
             }
-        }
-        composable(
-            route = Screen.AddEditNoteScreen.route +
-                    "?noteId={noteId}&noteColor={noteColor}",
-            arguments = listOf(
-                navArgument(
-                    name = "noteId"
-                ) {
-                    type = NavType.IntType
-                    defaultValue = -1
-                },
-                navArgument(
-                    name = "noteColor"
-                ) {
-                    type = NavType.IntType
-                    defaultValue = -1
-                },
-            )
-        ){
+
+            composable(route = Screen.BookMarkedScreen.route){
+                BookMarkedScreen(navController = navController)
+//            MainScreentesting()
+            }
+
+            composable(route = Screen.AddTodoScreen.route){
+                AddTodoScreen()
+            }
+
+            composable(route = Screen.SecretNotes.route){
+
+                if(verified){
+                    SecretNotes(navController)
+                }else{
+                    VerificationScreen(navController = navController,
+                        onCompleteListener = {
+                            verified = true
+                        }
+                    )
+                }
+            }
+
+            composable(
+                route = Screen.AddEditNoteScreen.route +
+                        "?noteId={noteId}&noteColor={noteColor}",
+                arguments = listOf(
+                    navArgument(
+                        name = "noteId"
+                    ) {
+                        type = NavType.IntType
+                        defaultValue = -1
+                    },
+                    navArgument(
+                        name = "noteColor"
+                    ) {
+                        type = NavType.IntType
+                        defaultValue = -1
+                    },
+                )
+            ){
 //            val color = it.arguments?.getInt("noteColor") ?: -1
 //            AddEditNoteScreen(
 //                navController = navController,
 //                noteColor = color
 //            )
-            MainScreentesting()
+                MainScreentesting()
+            }
         }
     }
 }

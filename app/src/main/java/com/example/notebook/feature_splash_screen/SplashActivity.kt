@@ -37,7 +37,6 @@ package com.example.notebook.feature_splash_screen
  import kotlinx.coroutines.launch
  import javax.inject.Inject
 
-@AndroidEntryPoint
 class SplashActivity : ComponentActivity() {
 
     @Inject

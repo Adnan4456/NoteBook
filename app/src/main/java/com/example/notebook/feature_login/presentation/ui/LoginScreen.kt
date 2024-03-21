@@ -231,7 +231,12 @@ fun LoginScreen(
                     is LoginResult.isSuccessful -> {
                         Toast.makeText(LocalContext.current ,"Login in successfully",Toast.LENGTH_SHORT).show()
                         showDialog = false
-                        navController.navigate(Screen.NotesScreen.route)
+                        //
+                        navController.navigate(route = "home_graph"){
+                            popUpTo("auth"){
+                                inclusive = false
+                            }
+                        }
                     }
                     is LoginResult.onFailure -> {
                         val errorMessage = (loginState as LoginResult.onFailure)

@@ -82,7 +82,11 @@ fun NotesScreen(
                         IconButton(
                             onClick = {
                                 firbaseAuth.signOut()
-                                navController.navigate(Screen.LoginScreen.route)
+                                navController.navigate(route ="auth_graph"){
+                                    popUpTo("home_graph"){
+                                        inclusive = false
+                                    }
+                                }
                             },
                         ) {
                             Icon(
