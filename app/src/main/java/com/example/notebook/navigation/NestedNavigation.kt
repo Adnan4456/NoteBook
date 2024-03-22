@@ -8,6 +8,7 @@ import androidx.navigation.*
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.notebook.MainScreen
 import com.example.notebook.feature_forget_password.presentation.ui.ForgetScreen
 import com.example.notebook.feature_login.presentation.ui.LoginScreen
 import com.example.notebook.feature_note.presentation.add_edit_note.ui.MainScreentesting
@@ -19,8 +20,6 @@ import com.example.notebook.feature_signup.presentation.ui.SignUpScreen
 import com.example.notebook.feature_splash_screen.ui.DeatilScreen
 import com.example.notebook.feature_todo.presentation.edit_todo.ui.AddTodoScreen
  import com.google.firebase.auth.FirebaseAuth
-
-
 @Composable
 fun NestedNavigation(
     navController: NavHostController,
@@ -90,9 +89,12 @@ fun NavGraphBuilder.home(
     firebaseAuth: FirebaseAuth
 ){
     navigation(
-        startDestination = Screen.NotesScreen.route,
+        startDestination = Screen.BottomBarScreen.route,
         route = "home_graph"
     ){
+        composable(route = Screen.BottomBarScreen.route){
+            MainScreen(firbaseAuth =  firebaseAuth)
+        }
         composable(route = Screen.NotesScreen.route){
             NotesScreen(navController = navController ,firbaseAuth = firebaseAuth )
 //                    NotesTestScreen(navController = navController ,firbaseAuth = firbaseAuth )

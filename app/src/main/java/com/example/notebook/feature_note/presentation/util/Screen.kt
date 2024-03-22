@@ -10,6 +10,7 @@ sealed class Screen(
     val route: String,
     val icon: ImageVector? = null
 ){
+    object BottomBarScreen: Screen("main)screen")
     object NotesScreen: Screen("notes_screen" , icon = Icons.Default.Home)
     object AddEditNoteScreen: Screen("add_edit_notes_screen")
 

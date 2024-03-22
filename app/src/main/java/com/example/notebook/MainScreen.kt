@@ -29,7 +29,7 @@ import com.google.firebase.auth.FirebaseAuth
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    route: String,
+//    route: String,
     firbaseAuth: FirebaseAuth
 ){
     val navController  = rememberNavController()
@@ -128,7 +128,8 @@ fun MainScreen(
             ){innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)){
 
-            NavGraph(route = route, firbaseAuth =firbaseAuth  , navController)
+            navController.navigate(Screen.NotesScreen.route)
+//            NavGraph(route = route, firbaseAuth =firbaseAuth  , navController)
         }
     }
 }
