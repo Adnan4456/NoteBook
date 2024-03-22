@@ -24,11 +24,9 @@ import com.example.notebook.feature_verify_user.presentation.VerifyUserEvent
 
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun VerificationScreen(
-    navController: NavController,
     viewModel: VerificationViewModel = hiltViewModel(),
     onCompleteListener: () -> Unit
 ){
@@ -37,7 +35,6 @@ fun VerificationScreen(
 
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val navControllertest  = rememberNavController()
     val context = LocalContext.current
 
     val verificationState by viewModel.verificationState.collectAsState()

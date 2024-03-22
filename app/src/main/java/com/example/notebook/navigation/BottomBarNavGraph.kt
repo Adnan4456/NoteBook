@@ -37,7 +37,6 @@ fun BottomNavGraph(
           NotesScreen(navController = navController, firbaseAuth = firbaseAuth )
         }
 
-
         composable(
             route = BottomBarScreen.AddEditNoteScreen.route +
                     "?noteId={noteId}&noteColor={noteColor}",
@@ -79,7 +78,7 @@ fun BottomNavGraph(
             if(verified){
                 SecretNotes(navController)
             }else{
-                VerificationScreen(navController = navController,
+                VerificationScreen(
                     onCompleteListener = {
                         verified = true
                     }

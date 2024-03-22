@@ -12,7 +12,7 @@ sealed class BottomBarScreen(
     val icon: ImageVector? = null
 ){
 //    object BottomBarScreen: BottomBarScreen("main_screen")
-    object NotesScreen: BottomBarScreen("notes_screen" ,"notes_screen", icon = Icons.Default.Home)
+    object NotesScreen: BottomBarScreen("Home" ,"notes_screen", icon = Icons.Default.Home)
     object AddEditNoteScreen: BottomBarScreen("add_edit_notes_screen" , "add_edit_notes_screen")
     object BookMarkedScreen:BottomBarScreen("bookmark" , "bookmark",icon = Icons.Default.Bookmark)
     object SecretNotes : BottomBarScreen("secret_notes" , "secret_notes",icon = Icons.Outlined.Security)

@@ -188,7 +188,7 @@ fun HiddenNotesList(
     if(verified){
         SecretNotes(navController)
     }else{
-        VerificationScreen(navController = navController,
+        VerificationScreen(
             onCompleteListener = {
                 verified = true
             }
