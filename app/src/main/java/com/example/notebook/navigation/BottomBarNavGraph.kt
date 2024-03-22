@@ -14,10 +14,14 @@ import com.example.notebook.feature_note.presentation.util.BottomBarScreen
 import com.example.notebook.feature_secret_note.presentation.ui.SecretNotes
 import com.example.notebook.feature_todo.presentation.edit_todo.ui.AddTodoScreen
 import com.example.notebook.feature_verify_user.presentation.ui.VerificationScreen
+import com.google.firebase.auth.FirebaseAuth
 
 
 @Composable
-fun BottomNavGraph(navController: NavHostController) {
+fun BottomNavGraph(
+    navController: NavHostController,
+    firbaseAuth: FirebaseAuth
+    ) {
 
     var verified by remember {
         mutableStateOf(false)
@@ -30,7 +34,7 @@ fun BottomNavGraph(navController: NavHostController) {
     ) {
 
         composable(route = BottomBarScreen.NotesScreen.route) {
-//          NotesScreen(navController = , firbaseAuth = )
+          NotesScreen(navController = navController, firbaseAuth = firbaseAuth )
         }
 
 

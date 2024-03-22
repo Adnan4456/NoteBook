@@ -18,16 +18,16 @@ fun Header(navController: NavController) {
 
     Column(modifier = Modifier.fillMaxSize()) {
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         CardRow(
-            modifier = Modifier.weight(.5f),
+            modifier = Modifier.weight(.4f),
             onClick = { index -> setSelectedCardIndex(index) })
 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1.5f)
+                .weight(1.6f)
         ){
 
             when(selectedCardIndex){

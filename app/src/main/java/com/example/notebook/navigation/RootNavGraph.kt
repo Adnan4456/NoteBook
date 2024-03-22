@@ -5,10 +5,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.notebook.MainScreen
+import com.google.firebase.auth.FirebaseAuth
 
 
 @Composable
-fun RootNavigationGraph(navController: NavHostController) {
+fun RootNavigationGraph(navController: NavHostController ,
+                        firebaseAuth: FirebaseAuth
+) {
     NavHost(
         navController = navController,
         route = Graph.ROOT,
@@ -18,7 +21,7 @@ fun RootNavigationGraph(navController: NavHostController) {
         authNavGraph(navController = navController)
 
         composable(route = Graph.HOME) {
-            MainScreen()
+            MainScreen(firebaseAuth)
         }
     }
 }

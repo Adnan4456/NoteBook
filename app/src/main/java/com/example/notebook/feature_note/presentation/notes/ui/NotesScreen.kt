@@ -74,7 +74,7 @@ fun NotesScreen(
 
                         Text(
                             text = stringResource(id = R.string.notetitle),
-                            style = MaterialTheme.typography.displayMedium,
+                            style = MaterialTheme.typography.bodyLarge,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.weight(1f))
 
@@ -96,7 +96,7 @@ fun NotesScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(18.dp))
                 SearchBar { query ->
                     viewModel.onSearchQueryChanged(query)
                 }
@@ -134,7 +134,7 @@ fun NotesScreen(
                 ),
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .padding(16.dp),
+                    .padding(8.dp),
                 navController
             )
         }

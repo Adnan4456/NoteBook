@@ -41,14 +41,7 @@ class MainActivity : ComponentActivity() {
         val isLoggedIn = user != null
 
 
-//        val startDestination = if (user != null){
-//            Screen.NotesScreen.route
-//            "Bottombar"
-//        }else
-//        {
-////            Screen.HoritonalPagerScreen.route
-//            "auth"
-//        }
+
 
         setContent {
 
@@ -67,7 +60,7 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     val navController  = rememberNavController()
-                    RootNavigationGraph(navController = navController)
+                    RootNavigationGraph(navController = navController ,firebaseAuth = firbaseAuth)
                 }
             }
         }

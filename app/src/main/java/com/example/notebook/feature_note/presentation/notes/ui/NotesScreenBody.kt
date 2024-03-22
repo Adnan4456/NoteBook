@@ -61,7 +61,7 @@ fun AllNotesList(
             ){
                 items(state.notes){ note ->
 
-                    Log.d("TAG","title =  ${note.title}")
+//                    Log.d("TAG","title =  ${note.title}")
                     AnimatedVisibility(
                         visible = true ,
                         enter = fadeIn(animationSpec = tween(5000)),
