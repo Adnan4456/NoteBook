@@ -12,13 +12,16 @@ import com.google.firebase.auth.FirebaseAuth
 fun RootNavigationGraph(navController: NavHostController ,
                         firebaseAuth: FirebaseAuth
 ) {
+
     NavHost(
         navController = navController,
         route = Graph.ROOT,
-        startDestination = Graph.AUTHENTICATION
+        startDestination =   Graph.AUTHENTICATION
     ) {
 
-        authNavGraph(navController = navController)
+        authNavGraph(navController = navController ,firebaseAuth = firebaseAuth)
+
+//        BottomNavGraph(navController = navController , firbaseAuth = firebaseAuth)
 
         composable(route = Graph.HOME) {
             MainScreen(firebaseAuth)

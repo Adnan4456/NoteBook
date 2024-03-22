@@ -58,7 +58,6 @@ fun MainScreen(
         }
             ){innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)){
-
             BottomNavGraph(navController = navController , firbaseAuth =firbaseAuth )
         }
     }
