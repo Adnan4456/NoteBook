@@ -13,5 +13,5 @@
     <color name="background_color">#F2F2F6</color>
     <color name="app_black">#1F2124</color>
     <color name="app_blue">#007AFF</color>
-
+    <color name="notes_item">#F7CE45</color>
 </resources>
