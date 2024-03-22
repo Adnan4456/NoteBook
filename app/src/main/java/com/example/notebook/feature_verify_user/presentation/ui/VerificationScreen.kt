@@ -20,9 +20,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.navigation.compose.rememberNavController
 import com.example.notebook.components.*
 import com.example.notebook.feature_login.domain.model.LoginResult
-import com.example.notebook.feature_note.presentation.util.Screen
 import com.example.notebook.feature_verify_user.presentation.VerifyUserEvent
-import com.example.notebook.navigateToSingleTop
 
 
 

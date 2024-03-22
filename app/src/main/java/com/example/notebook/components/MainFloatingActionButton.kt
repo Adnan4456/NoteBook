@@ -21,7 +21,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.compose.rememberNavController
-import com.example.notebook.feature_note.presentation.util.Screen
+import com.example.notebook.feature_note.presentation.util.BottomBarScreen
 
 
 @Composable
@@ -134,10 +134,10 @@ fun FilterFabMenu(
 //                        Toast.makeText()
                         Log.d("TAG","${it.label}")
                         if(it.label.equals("Note")){
-                         navController.navigate(Screen.AddEditNoteScreen.route)
+                         navController.navigate(BottomBarScreen.AddEditNoteScreen.route)
                         }
                         else{
-                            navController.navigate(Screen.AddTodoScreen.route)
+                            navController.navigate(BottomBarScreen.AddTodoScreen.route)
                         }
                     }
                 )

@@ -1,6 +1,5 @@
 package com.example.notebook.feature_secret_note.presentation.component
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.AlertDialog
@@ -24,7 +23,6 @@ import com.example.notebook.components.PasswordTextFieldComponent
 import com.example.notebook.feature_login.domain.model.LoginResult
 import com.example.notebook.feature_login.presentation.ui.LoginFormEvent
 import com.example.notebook.feature_login.presentation.ui.LoginViewModel
-import com.example.notebook.feature_note.presentation.util.Screen
 
 
 @OptIn(ExperimentalComposeUiApi::class)

@@ -35,7 +35,7 @@ import com.example.notebook.feature_login.presentation.ui.LoginFormEvent
 import com.example.notebook.feature_note.presentation.bookmarked_notes.EmptyBookMark
 import com.example.notebook.feature_note.presentation.bookmarked_notes.model.BookMarkEvent
 import com.example.notebook.feature_note.presentation.notes.components.NoteItem
-import com.example.notebook.feature_note.presentation.util.Screen
+import com.example.notebook.feature_note.presentation.util.BottomBarScreen
 import com.example.notebook.feature_secret_note.presentation.SecretNotesEvent
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
@@ -98,7 +98,7 @@ fun SecretNotes(
                             .fillMaxWidth()
                             .clickable {
                                 navController.navigate(
-                                    Screen.AddEditNoteScreen.route +
+                                    BottomBarScreen.AddEditNoteScreen.route +
                                             "?noteId=${note.id}&noteColor=${note.color}"
                                 )
                             },

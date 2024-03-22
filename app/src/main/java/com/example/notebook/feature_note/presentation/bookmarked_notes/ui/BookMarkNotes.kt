@@ -29,7 +29,7 @@ import com.example.notebook.feature_note.presentation.bookmarked_notes.model.Boo
 
 import com.example.notebook.feature_note.presentation.bookmarked_notes.ui.BookMarkedViewModel
 import com.example.notebook.feature_note.presentation.notes.components.NoteItem
-import com.example.notebook.feature_note.presentation.util.Screen
+import com.example.notebook.feature_note.presentation.util.BottomBarScreen
 import kotlinx.coroutines.launch
 
 
@@ -89,7 +89,7 @@ fun BookMarkedScreen(
                                 .fillMaxWidth()
                                 .clickable {
                                     navController.navigate(
-                                        Screen.AddEditNoteScreen.route +
+                                        BottomBarScreen.AddEditNoteScreen.route +
                                                 "?noteId=${note.id}&noteColor=${note.color}"
                                     )
                                 },

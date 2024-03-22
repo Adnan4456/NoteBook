@@ -25,7 +25,6 @@ import com.example.notebook.R
 import com.example.notebook.feature_note.presentation.notes.NotesEvent
 import com.example.notebook.feature_note.presentation.notes.NotesViewModel
 import com.example.notebook.feature_note.presentation.notes.components.*
-import com.example.notebook.feature_note.presentation.util.Screen
 import com.google.firebase.auth.FirebaseAuth
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")

@@ -31,8 +31,10 @@ import com.example.notebook.R
 import com.example.notebook.common.rememberImeState
 import com.example.notebook.components.*
 import com.example.notebook.feature_internet_connectivity.domain.ConnectivityObserver
-import com.example.notebook.feature_note.presentation.util.Screen
+import com.example.notebook.feature_note.presentation.util.AuthScreen
+import com.example.notebook.feature_note.presentation.util.BottomBarScreen
 import com.example.notebook.feature_signup.domain.model.SignUpResult
+import com.example.notebook.navigation.Graph
 import kotlinx.coroutines.launch
 
 @Composable
@@ -234,7 +236,7 @@ fun SignUpScreen(
                     is SignUpResult.isSuccessful -> {
                         Toast.makeText(LocalContext.current ,"SignUp in successfully", Toast.LENGTH_SHORT).show()
                         showDialog = false
-                        navController.navigate(Screen.NotesScreen.route)
+                        navController.navigate(BottomBarScreen.NotesScreen.route)
                     }
                     is SignUpResult.onFailure -> {
                         val errorMessage = (signupState as SignUpResult.onFailure)
@@ -254,13 +256,16 @@ fun SignUpScreen(
                     ) {
                         Text(
                             modifier = Modifier.clickable {
-                                navController.navigate(Screen.LoginScreen.route)
+                                navController.navigate(
+                                    AuthScreen.LoginScreen.route
+
+                                )
                             },
                             text =  "Already have account ?",
                         )
                         Text(
                             modifier = Modifier.clickable {
-                                navController.navigate(Screen.LoginScreen.route)
+                                navController.navigate(AuthScreen.LoginScreen.route)
                             },
                             text = buildAnnotatedString {
                                 withStyle(style =  SpanStyle(

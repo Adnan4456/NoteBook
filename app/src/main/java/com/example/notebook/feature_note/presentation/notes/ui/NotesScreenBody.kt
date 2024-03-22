@@ -29,8 +29,7 @@ import com.example.notebook.feature_note.presentation.bookmarked_notes.BookMarke
 import com.example.notebook.feature_note.presentation.notes.NotesEvent
 import com.example.notebook.feature_note.presentation.notes.NotesViewModel
 import com.example.notebook.feature_note.presentation.notes.components.NoteItem
-import com.example.notebook.feature_note.presentation.notes.components.header
-import com.example.notebook.feature_note.presentation.util.Screen
+import com.example.notebook.feature_note.presentation.util.BottomBarScreen
 import com.example.notebook.feature_secret_note.presentation.ui.SecretNotes
 import com.example.notebook.feature_verify_user.presentation.ui.VerificationScreen
 import com.example.notebook.ui.theme.AppTheme
@@ -76,7 +75,7 @@ fun AllNotesList(
                                 .fillMaxWidth()
                                 .clickable {
                                     navController.navigate(
-                                        Screen.AddEditNoteScreen.route +
+                                        BottomBarScreen.AddEditNoteScreen.route +
                                                 "?noteId=${note.id}&noteColor=${note.color}"
                                     )
                                 },
@@ -131,7 +130,7 @@ fun AllNotesList(
                             .fillMaxWidth()
                             .clickable {
                                 navController.navigate(
-                                    Screen.AddEditNoteScreen.route +
+                                    BottomBarScreen.AddEditNoteScreen.route +
                                             "?noteId=${note.id}&noteColor=${note.color}"
                                 )
                             },
