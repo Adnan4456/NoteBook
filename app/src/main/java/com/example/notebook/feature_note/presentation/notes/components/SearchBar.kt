@@ -197,7 +197,7 @@ fun CardRow(onClick: (String) -> Unit, modifier: Modifier) {
 
         Row(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             for (index in cardTexts.indices step 2) {

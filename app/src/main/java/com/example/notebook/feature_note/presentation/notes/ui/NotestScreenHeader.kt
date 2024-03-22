@@ -13,7 +13,6 @@ import com.example.notebook.feature_note.presentation.notes.components.CardRow
 
 @Composable
 fun Header(navController: NavController) {
-    val context = LocalContext.current
     val (selectedCardIndex, setSelectedCardIndex) = remember { mutableStateOf("") }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -21,22 +20,26 @@ fun Header(navController: NavController) {
         Spacer(modifier = Modifier.height(8.dp))
 
         CardRow(
-            modifier = Modifier.weight(.4f),
+           modifier = Modifier.fillMaxWidth()
+               .height(50.dp),
             onClick = { index -> setSelectedCardIndex(index) })
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1.6f)
-        ){
-
-            when(selectedCardIndex){
-                "All Notes" -> AllNotesList(navController)
-                "Hidden Notes" -> HiddenNotesList(navController)
-                "Favourites"-> FavouritesList(navController)
-                "Trash" -> TrashList()
-            }
-            Toast.makeText(context,"$selectedCardIndex", Toast.LENGTH_SHORT).show()
+         when(selectedCardIndex){
+            "All Notes" -> AllNotesList(navController)
+            "Hidden Notes" -> HiddenNotesList(navController)
+            "Favourites"-> FavouritesList(navController)
+            "Trash" -> TrashList()
         }
+
+
+//        Box(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .weight(1.6f)
+//        ){
+//
+//
+//            Toast.makeText(context,"$selectedCardIndex", Toast.LENGTH_SHORT).show()
+//        }
     }
 }

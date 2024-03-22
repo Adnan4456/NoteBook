@@ -1,6 +1,7 @@
 package com.example.notebook.feature_note.presentation.notes.ui
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -46,6 +47,7 @@ fun AllNotesList(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
+
     if (AppTheme.orientation == Orientation.Portrait){
 
         if(state.notes.isEmpty()){
@@ -61,7 +63,6 @@ fun AllNotesList(
             ){
                 items(state.notes){ note ->
 
-//                    Log.d("TAG","title =  ${note.title}")
                     AnimatedVisibility(
                         visible = true ,
                         enter = fadeIn(animationSpec = tween(5000)),
@@ -71,7 +72,6 @@ fun AllNotesList(
                         NoteItem(
                             note = note,
                             modifier = Modifier
-
                                 .fillMaxWidth()
                                 .clickable {
                                     navController.navigate(

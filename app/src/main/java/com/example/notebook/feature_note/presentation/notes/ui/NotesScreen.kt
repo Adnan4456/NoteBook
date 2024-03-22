@@ -124,7 +124,6 @@ fun NotesScreen(
                 }
 
                 Header(navController)
-
             }
 
             FilterView(
