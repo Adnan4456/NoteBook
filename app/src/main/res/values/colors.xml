@@ -13,5 +13,6 @@
     <color name="background_color">#F2F2F6</color>
     <color name="app_black">#1F2124</color>
     <color name="app_blue">#007AFF</color>
-    <color name="notes_item">#F7CE45</color>
+    <color name="fav_notes_item">#F7CE45</color>
+    <color name="all_notes_item">#E8E8EC</color>
 </resources>

@@ -149,7 +149,7 @@ fun AllNotesList(
                             }
                         },
                         onBookMarkChange = {
-                            Log.d("TAG", "Bookmark in screen")
+//                            Log.d("TAG", "Bookmark in screen")
                             viewModel.onEvent(NotesEvent.Bookmark(note))
                             scope.launch {
                                 snackbarHostState.showSnackbar(

@@ -1,47 +1,48 @@
 package com.example.notebook.feature_note.presentation.notes.components
 
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 
-import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 
-import androidx.compose.material.icons.filled.BookmarkRemove
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
+
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
+
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.ColorUtils
 import coil.compose.AsyncImage
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.notebook.R
 import com.example.notebook.feature_note.domain.model.Note
 
 data class DropDownItem(
-    val text:String
+    val text:String,
+    val icon: ImageVector
 )
 
 @Composable
@@ -61,65 +62,55 @@ fun NoteItem(
 
     var isPlaying by remember { mutableStateOf(false) }
 
-//    val composition by rememberLottieComposition(
-//        spec = LottieCompositionSpec.RawRes(R.raw.bookmark)
-//    )
+    var isDropDownVisible by remember { mutableStateOf(false) }
+    var selectedDropDownItem by remember { mutableStateOf("") }
+
+    var pressOffset by remember{
+
+        mutableStateOf(DpOffset.Zero)
+    }
+    var itemHeight by remember {
+        mutableStateOf(0.dp)
+    }
+    val density = LocalDensity.current
 
 
     LaunchedEffect(note.isBookMarked) {
         isPlaying = true
     }
 
+    val dropdownItems = listOf(
+        DropDownItem(
+            "Favourite",
+            Icons.Filled.Star
+        ),
+        DropDownItem(
+            "Hide",
+            Icons.Filled.VisibilityOff
+        ),
+        DropDownItem(
+            "Delete",
+            Icons.Filled.Delete
+        )
+    )
+
     Box(
         modifier = modifier
             .animateContentSize()
     ) {
-//        Canvas(
-//            modifier = modifier
-//                .matchParentSize(),
-//        ) {
-//
-//            val clipPath = Path().apply {
-//                lineTo(size.width - cutCornerSize.toPx(), 0f)
-//                lineTo(size.width, cutCornerSize.toPx())
-//                lineTo(size.width, size.height)
-//                lineTo(0f, size.height)
-//                close()
-//            }
-//            clipPath(clipPath) {
-//
-//                drawRoundRect(
-//                    color = Color(note.color),
-//                    size = size,
-//                    cornerRadius = CornerRadius(cornerRadius.toPx())
-//                )
-//                clipPath(clipPath) {
-//
-//                    drawRoundRect(
-//                        color = Color(
-//                            ColorUtils.blendARGB(note.color, 0x000000, 0.2f)
-//                        ),
-//                        topLeft = Offset(size.width - cutCornerSize.toPx(), -100f),
-//                        size = Size(cutCornerSize.toPx() + 100f, cutCornerSize.toPx() + 100f),
-//                        cornerRadius = CornerRadius(cornerRadius.toPx())
-//                    )
-//                }
-//            } // end clipPath
-//        }
-        ElevatedCard(
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 10.dp
+        Card(
+            colors =CardDefaults.cardColors(
+                containerColor = colorResource(id = R.color.all_notes_item)
             ),
-            modifier = Modifier.background(
-                color = colorResource(id = R.color.notes_item)
-            ),
-            shape = RoundedCornerShape(16.dp)
-
+            shape = RoundedCornerShape(8.dp),
         ) {
 
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .background(
+                        color = colorResource(id = R.color.all_notes_item)
+                    )
                     .padding(start = 16.dp, end = 16.dp, top = 16.dp)
             ) {
 
@@ -129,14 +120,49 @@ fun NoteItem(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                Text(
-                    text = note.title,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .onSizeChanged {
+                            itemHeight = with(density) {
+                                it.height.toDp()
+                            }
+                        },
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ){
 
+                    Text(
+                        text = note.title,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+
+                    Image(
+                        modifier = Modifier
+                            .height(20.dp)
+                            .width(20.dp)
+                            .pointerInput(true) {
+                                detectTapGestures(
+                                    onPress = {
+                                        isDropDownVisible = true
+                                        pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
+                                    }
+
+                                )
+                            },
+                        painter = painterResource(id = R.drawable.menu_icon),
+                        contentDescription = "",
+                        contentScale = ContentScale.Fit)
+//                    IconButton(onClick = {
+//
+//                    }) {
+//                        Icon(painter = painterResource(id = R.drawable.menu_icon),
+//                            contentDescription = "Drop down")
+//                    }
+                }
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Divider(
@@ -170,20 +196,55 @@ fun NoteItem(
                     Text(text = if (expanded) "Read Less" else "Read More" ,
                         style = TextStyle(
                             color = Color.Black,
-                            fontSize = 18.sp
+                            fontSize = 16.sp
                         )
                     )
                 }
-
-
-                IconButton(onClick = {
-
-                }) {
-                    Icon(painter = painterResource(id = R.drawable.menu_icon),
-                        contentDescription = "Drop down")
-                }
-
             }
+
+            DropdownMenu(
+                expanded = isDropDownVisible,
+                onDismissRequest = {
+                    isDropDownVisible = false
+                },
+                offset = pressOffset.copy(
+                    y = pressOffset.y - itemHeight * 5,
+                    x = pressOffset.x + itemHeight * 5
+                ),
+            ){
+                dropdownItems.forEach {
+                    DropdownMenuItem(
+                        modifier = Modifier.padding(8.dp),
+                        leadingIcon = {
+                            Icon(imageVector = it.icon, contentDescription = "icons")
+                        },
+                        text = {
+                               Text(text = it.text)
+                        },
+                        onClick = {
+
+                            Log.d("TAG","${it.text} clicked")
+
+                            if(it.text.equals("Delete")){
+                                onDeleteClick.invoke()
+                            } else if(it.text.equals("Hide")){
+                                onSecretClick.invoke()
+                            }else if (it.text.equals("Favourite")){
+                                onBookMarkChange.invoke()
+                            }
+                            isDropDownVisible = false
+                        },
+                        trailingIcon = {
+
+                            if(note.isBookMarked){
+                                Icons.Filled.SelectAll
+                            }
+                        }
+                    )
+                }
+            }
+
+
 
 //            Row (
 //                modifier  = Modifier
@@ -240,6 +301,5 @@ fun NoteItem(
 //
 //            }
         }
-
     }
  }
