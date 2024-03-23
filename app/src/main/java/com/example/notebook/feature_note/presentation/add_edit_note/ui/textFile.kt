@@ -140,30 +140,33 @@ fun MainScreentesting(
 
                     item{
 
-                        ElevatedCard(
+                        RichTextEditor(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(50.dp),
-                            elevation = CardDefaults.cardElevation(
-                                defaultElevation = 10.dp,
-                                focusedElevation = 12.dp,
+                                .fillMaxHeight()
+                                .fillMaxWidth(),
+                            singleLine= true,
+                            maxLines = 1,
+                            state = stateTitle,
+                            colors = RichTextEditorDefaults.richTextEditorColors(
+                                containerColor = Color.White,
+                                cursorColor = Color.Black
+                            ),
+                        )
 
-                                )
-                        ) {
 
-                            RichTextEditor(
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .fillMaxWidth(),
-                                singleLine= true,
-                                maxLines = 1,
-                                state = stateTitle,
-                                colors = RichTextEditorDefaults.richTextEditorColors(
-                                    containerColor = Color.White,
-                                    cursorColor = Color.Black
-                                ),
-                            )
-                        }
+//                        ElevatedCard(
+//                            modifier = Modifier
+//                                .fillMaxWidth()
+//                                .height(50.dp),
+//                            elevation = CardDefaults.cardElevation(
+//                                defaultElevation = 10.dp,
+//                                focusedElevation = 12.dp,
+//
+//                                )
+//                        ) {
+//
+//
+//                        }
                     }
                     item{
                         RichTextEditor(
@@ -621,54 +624,104 @@ fun TextBottomSheet(
     val titleSize = MaterialTheme.typography.displaySmall.fontSize
     val subtitleSize = MaterialTheme.typography.titleLarge.fontSize
 
+    val scaffoldState = rememberBottomSheetScaffoldState()
 
 
-    ModalBottomSheet(
-        modifier = Modifier.background(
-            color = colorResource(id = R.color.app_black)
-        ),
-        sheetState = sheetState,
-        onDismissRequest = {
-            onDismiss.invoke()
-        }) {
 
-        EditorControls(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp),
-            state = state,
-            onBoldClick = {
-                onBoldClick.invoke()
-                          },
-            onItalicClick = {
-                            onItalicClick.invoke()
-            },
-            onUnderlineClick = {
-                               onUnderlineClick.invoke()
-            },
-             onTitleClick = {
-                            onTitleClick.invoke()
-            },
-            onSubtitleClick = {
-                              onSubtitleClick.invoke()
-            },
-            onTextColorClick = {
-                               onTextColorClick.invoke()
-            },
-            onStartAlignClick = {
-                onStartAlignClick.invoke()
-            },
-            onEndAlignClick = {
-                              onEndAlignClick.invoke()
-            },
-            onCenterAlignClick = {
-                                 onCenterAlignClick.invoke()
-            },
-            onExportClick = {
-                Log.d("Editor", state.toHtml())
-            }
-        )
+
+    BottomSheetScaffold(
+        scaffoldState = scaffoldState,
+        sheetContent = {
+            EditorControls(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp),
+                state = state,
+                onBoldClick = {
+                    onBoldClick.invoke()
+                },
+                onItalicClick = {
+                    onItalicClick.invoke()
+                },
+                onUnderlineClick = {
+                    onUnderlineClick.invoke()
+                },
+                onTitleClick = {
+                    onTitleClick.invoke()
+                },
+                onSubtitleClick = {
+                    onSubtitleClick.invoke()
+                },
+                onTextColorClick = {
+                    onTextColorClick.invoke()
+                },
+                onStartAlignClick = {
+                    onStartAlignClick.invoke()
+                },
+                onEndAlignClick = {
+                    onEndAlignClick.invoke()
+                },
+                onCenterAlignClick = {
+                    onCenterAlignClick.invoke()
+                },
+                onExportClick = {
+                    Log.d("Editor", state.toHtml())
+                }
+            )
+        }
+
+    ) {
+
+
     }
+
+
+//    ModalBottomSheet(
+//        modifier = Modifier.background(
+//            color = colorResource(id = R.color.app_black)
+//        ),
+//        sheetState = sheetState,
+//        onDismissRequest = {
+//            onDismiss.invoke()
+//        }) {
+//
+//        EditorControls(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(100.dp),
+//            state = state,
+//            onBoldClick = {
+//                onBoldClick.invoke()
+//                          },
+//            onItalicClick = {
+//                            onItalicClick.invoke()
+//            },
+//            onUnderlineClick = {
+//                               onUnderlineClick.invoke()
+//            },
+//             onTitleClick = {
+//                            onTitleClick.invoke()
+//            },
+//            onSubtitleClick = {
+//                              onSubtitleClick.invoke()
+//            },
+//            onTextColorClick = {
+//                               onTextColorClick.invoke()
+//            },
+//            onStartAlignClick = {
+//                onStartAlignClick.invoke()
+//            },
+//            onEndAlignClick = {
+//                              onEndAlignClick.invoke()
+//            },
+//            onCenterAlignClick = {
+//                                 onCenterAlignClick.invoke()
+//            },
+//            onExportClick = {
+//                Log.d("Editor", state.toHtml())
+//            }
+//        )
+//    }
 }
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
