@@ -76,8 +76,6 @@ fun MainScreentesting(
         mutableStateOf(colors[0])
     }
 
-    val state = rememberRichTextState()
-
     val titleSize = MaterialTheme.typography.displaySmall.fontSize
     val subtitleSize = MaterialTheme.typography.titleLarge.fontSize
 
@@ -108,8 +106,7 @@ fun MainScreentesting(
 
     val color = Color(0xDEDEDEDE)
 
-    Surface(
-    ) {
+    Surface{
 
         val systemUiController = rememberSystemUiController()
         val darkTheme = isSystemInDarkTheme()
@@ -136,63 +133,50 @@ fun MainScreentesting(
                         bottomsheet = false
                     },
                     onBoldClick = {
-//                        viewModel.updateTitleEditorState(
-//                            RichTextState.toggleSpanStyle(
-//                                SpanStyle(fontWeight = FontWeight.Bold)
-//                            )
-//                        )
-                        viewModel.editorTitleState.toggleSpanStyle(
+
+                        viewModel.editorContentState.toggleSpanStyle(
                             SpanStyle(fontWeight = FontWeight.Bold)
                         )
-//                        state.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
                     },
                     onItalicClick = {
-                        viewModel.editorTitleState.toggleSpanStyle(
+                        viewModel.editorContentState.toggleSpanStyle(
                             SpanStyle(fontStyle = FontStyle.Italic)
                         )
-//                        state.toggleSpanStyle(SpanStyle(fontStyle = FontStyle.Italic))
                     },
                     onUnderlineClick = {
-                        viewModel.editorTitleState.toggleSpanStyle(
+                        viewModel.editorContentState.toggleSpanStyle(
                             SpanStyle(textDecoration = TextDecoration.Underline)
                         )
-//                        state.toggleSpanStyle(SpanStyle(textDecoration = TextDecoration.Underline))
                     },
                     onTitleClick = {
-                        viewModel.editorTitleState.toggleSpanStyle(
+                        viewModel.editorContentState.toggleSpanStyle(
                             SpanStyle(fontSize = titleSize)
                         )
-                        state.toggleSpanStyle(SpanStyle(fontSize = titleSize))
                     },
                     onSubtitleClick = {
-                        viewModel.editorTitleState.toggleSpanStyle(
+                        viewModel.editorContentState.toggleSpanStyle(
                             SpanStyle(fontSize = subtitleSize)
                         )
-//                        state.toggleSpanStyle(SpanStyle(fontSize = subtitleSize))
                     },
                     onTextColorClick = {
                         colorPickerOpen = true
                     },
                     onStartAlignClick = {
-                        viewModel.editorTitleState.toggleParagraphStyle(
+                        viewModel.editorContentState.toggleParagraphStyle(
                             ParagraphStyle(textAlign = TextAlign.Start)
                         )
-//                        state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Start))
                     },
                     onEndAlignClick = {
-                        viewModel.editorTitleState.toggleParagraphStyle(
+                        viewModel.editorContentState.toggleParagraphStyle(
                             ParagraphStyle(textAlign = TextAlign.End)
                         )
-//                        state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.End))
                     },
                     onCenterAlignClick = {
-                        viewModel.editorTitleState.toggleParagraphStyle(
+                        viewModel.editorContentState.toggleParagraphStyle(
                             ParagraphStyle(textAlign = TextAlign.Center)
                         )
-//                        state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Center))
                     },
                     onExportClick = {
-                        Log.d("Editor", state.toHtml())
                     }
                 )
             },
@@ -204,7 +188,6 @@ fun MainScreentesting(
                     .background(
                         color = colorResource(id = R.color.edit_notes_bg)
                     )
-            
             ) {
                 Column(
                     modifier = Modifier.padding(4.dp)
@@ -229,13 +212,13 @@ fun MainScreentesting(
                                 colors = RichTextEditorDefaults.richTextEditorColors(
                                     containerColor = colorResource(id = R.color.edit_notes_bg),
                                     cursorColor = Color.Black
-                                )
+                                ),
                             )
                         }
                         item{
                             RichTextEditor(
                                 modifier = Modifier
-                                    .height(1000.dp)
+                                    .height(600.dp)
                                     .fillMaxWidth(),
                                 state = viewModel.editorContentState,
                                 colors = RichTextEditorDefaults.richTextEditorColors(
@@ -253,7 +236,7 @@ fun MainScreentesting(
                             onColorSelected = {
                                 currentlySelected = it
                                 colorPickerOpen = false
-                                state.toggleSpanStyle(SpanStyle(color = currentlySelected))
+                                viewModel.editorContentState.toggleSpanStyle(SpanStyle(color = currentlySelected))
                             }
                         )
                     }
@@ -306,55 +289,7 @@ fun MainScreentesting(
                                 tint = Color.White)
                         }
                     }
-
                 }
-
-                /*
-            Box(
-                modifier= Modifier.fillMaxSize()
-            ){
-                if (bottomsheet){
-                    TextBottomSheet(
-                        onDismiss = {
-                            bottomsheet = false
-                        },
-                        onBoldClick = {
-                            state.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
-                        },
-                        onItalicClick = {
-                            state.toggleSpanStyle(SpanStyle(fontStyle = FontStyle.Italic))
-                        },
-                        onUnderlineClick = {
-                            state.toggleSpanStyle(SpanStyle(textDecoration = TextDecoration.Underline))
-                        },
-                        onTitleClick = {
-                            state.toggleSpanStyle(SpanStyle(fontSize = titleSize))
-                        },
-                        onSubtitleClick = {
-                            state.toggleSpanStyle(SpanStyle(fontSize = subtitleSize))
-                        },
-                        onTextColorClick = {
-                            colorPickerOpen = true
-                        },
-                        onStartAlignClick = {
-                            state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Start))
-                        },
-                        onEndAlignClick = {
-                            state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.End))
-                        },
-                        onCenterAlignClick = {
-                            state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Center))
-                        },
-                        onExportClick = {
-                            Log.d("Editor", state.toHtml())
-                        }
-
-                    )
-                }
-            }
-            //end of bottom sheet
-
-                 */
             }
         }
     }

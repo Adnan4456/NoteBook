@@ -61,8 +61,6 @@ fun NoteItem(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    val icon  = if(note.isBookMarked) Icons.Default.BookmarkRemove
-                else Icons.Outlined.BookmarkAdd
 
     var isPlaying by remember { mutableStateOf(false) }
 
@@ -83,7 +81,6 @@ fun NoteItem(
         mutableStateOf(0.dp)
     }
     val density = LocalDensity.current
-
 
     LaunchedEffect(note.isBookMarked) {
         isPlaying = true
@@ -155,14 +152,6 @@ fun NoteItem(
 
                         )
                     )
-
-//                    Text(
-//                        text = note.title,
-//                        style = MaterialTheme.typography.bodyLarge,
-//                        color = MaterialTheme.colorScheme.onSurface,
-//                        maxLines = 1,
-//                        overflow = TextOverflow.Ellipsis
-//                    )
 
                     Image(
                         modifier = Modifier
