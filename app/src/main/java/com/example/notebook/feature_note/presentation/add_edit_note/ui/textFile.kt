@@ -85,8 +85,12 @@ fun MainScreentesting(
     }
 
 
-    Scaffold {
-        Box {
+    Scaffold(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
             Column(
                 modifier = Modifier.padding(16.dp)
             ) {
@@ -153,20 +157,6 @@ fun MainScreentesting(
                             ),
                         )
 
-
-//                        ElevatedCard(
-//                            modifier = Modifier
-//                                .fillMaxWidth()
-//                                .height(50.dp),
-//                            elevation = CardDefaults.cardElevation(
-//                                defaultElevation = 10.dp,
-//                                focusedElevation = 12.dp,
-//
-//                                )
-//                        ) {
-//
-//
-//                        }
                     }
                     item{
                         RichTextEditor(
@@ -195,8 +185,6 @@ fun MainScreentesting(
                         }
                     )
                 }
-
-
                 //end of reich text and color dialog
             }
 
@@ -247,167 +235,55 @@ fun MainScreentesting(
             }
 
             //Model BottomSheetSheet
-            if (bottomsheet){
-                TextBottomSheet(
-                    onDismiss = {
-                        bottomsheet = false
-                    },
-                    onBoldClick = {
-                        state.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
-                    },
-                    onItalicClick = {
-                        state.toggleSpanStyle(SpanStyle(fontStyle = FontStyle.Italic))
-                    },
-                    onUnderlineClick = {
-                        state.toggleSpanStyle(SpanStyle(textDecoration = TextDecoration.Underline))
-                    },
-                    onTitleClick = {
-                        state.toggleSpanStyle(SpanStyle(fontSize = titleSize))
-                    },
-                    onSubtitleClick = {
-                        state.toggleSpanStyle(SpanStyle(fontSize = subtitleSize))
-                    },
-                    onTextColorClick = {
-                        colorPickerOpen = true
-                    },
-                    onStartAlignClick = {
-                        state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Start))
-                    },
-                    onEndAlignClick = {
-                        state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.End))
-                    },
-                    onCenterAlignClick = {
-                        state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Center))
-                    },
-                    onExportClick = {
-                        Log.d("Editor", state.toHtml())
-                    }
+            Box(
+                modifier= Modifier.fillMaxSize()
+            ){
+                if (bottomsheet){
+                    TextBottomSheet(
+                        onDismiss = {
+                            bottomsheet = false
+                        },
+                        onBoldClick = {
+                            state.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
+                        },
+                        onItalicClick = {
+                            state.toggleSpanStyle(SpanStyle(fontStyle = FontStyle.Italic))
+                        },
+                        onUnderlineClick = {
+                            state.toggleSpanStyle(SpanStyle(textDecoration = TextDecoration.Underline))
+                        },
+                        onTitleClick = {
+                            state.toggleSpanStyle(SpanStyle(fontSize = titleSize))
+                        },
+                        onSubtitleClick = {
+                            state.toggleSpanStyle(SpanStyle(fontSize = subtitleSize))
+                        },
+                        onTextColorClick = {
+                            colorPickerOpen = true
+                        },
+                        onStartAlignClick = {
+                            state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Start))
+                        },
+                        onEndAlignClick = {
+                            state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.End))
+                        },
+                        onCenterAlignClick = {
+                            state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Center))
+                        },
+                        onExportClick = {
+                            Log.d("Editor", state.toHtml())
+                        }
 
-                )
+                    )
+                }
             }
+
 
             //end of bottom sheet
         }
     }
 }
 
-
-
-//@Composable
-//fun Bottom(
-//    modifier: Modifier
-//) {
-//    val icons = listOf(
-//        BottomIcons(
-//            title = "Text",
-//            Icons.Default.TextFields,
-//        ),
-//        BottomIcons(
-//            title = "Color",
-//            Icons.Default.FormatColorText,
-//        ),
-//
-//        BottomIcons(
-//            title = "Circle",
-//            Icons.Default.AccountCircle,
-//        ),
-//
-//        BottomIcons(
-//            title = "Setting",
-//            Icons.Default.Settings,
-//        ),
-//
-//        BottomIcons(
-//            title = "Help",
-//            Icons.Default.Help,
-//        ),
-//
-//        BottomIcons(
-//            title = "Home",
-//            Icons.Default.Home,
-//        ),
-//    )
-//
-//    var bottomsheet by rememberSaveable{
-//        mutableStateOf(false)
-//    }
-//
-//    var selectedIndex by remember {
-//        mutableStateOf(0)
-//    }
-//
-//
-//
-//    Card(
-//        modifier = modifier
-//            .fillMaxWidth()
-//            .height(50.dp),
-//        colors = CardDefaults.cardColors(
-//            containerColor = colorResource(id = R.color.app_black)
-//        )
-//    ) {
-//
-//        Row(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .fillMaxHeight()
-//                .verticalScroll(rememberScrollState()),
-//            verticalAlignment = Alignment.CenterVertically,
-//            horizontalArrangement = Arrangement.SpaceBetween
-//        ) {
-//            IconButton(
-//                modifier = Modifier
-//                    .height(50.dp)
-//                    .width(30.dp),
-//                onClick = { }) {
-//
-//                Icon(
-//                    painter = painterResource(id = R.drawable.add_image),
-//                    contentDescription = "",
-//                tint = Color.White)
-//            }
-//            IconButton(
-//                modifier = Modifier
-//                    .height(50.dp)
-//                    .width(30.dp),
-//                onClick = {
-//                    bottomsheet = true
-//                }) {
-//
-//                Icon(
-//                    painter = painterResource(id = R.drawable.bx_text),
-//                    contentDescription = "",
-//                    tint = Color.White)
-//            }
-//        }
-//
-//
-//        //Model BottomSheetSheet
-//        if (bottomsheet){
-//            TextBottomSheet(
-//                onDismiss = {
-//                    bottomsheet = false
-//                },
-//               onItalicClick = {
-//
-//               },
-//                onColorSelected= {
-//
-//                }
-//            )
-//        }
-//    }
-//}
-@Composable
-fun IconItem(icon: BottomIcons) {
-    val context = LocalContext.current
-    IconButton(onClick = {
-        Toast.makeText(context,icon.title,Toast.LENGTH_LONG).show()
-    }) {
-        Icon(imageVector = icon.icon, contentDescription = null)
-    }
-
-}
 @Composable
 fun Header() {
 
@@ -628,7 +504,7 @@ fun TextBottomSheet(
 
 
 
-
+/*
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
         sheetContent = {
@@ -670,58 +546,55 @@ fun TextBottomSheet(
             )
         }
 
-    ) {
+    ) {}
+*/
 
-
-    }
-
-
-//    ModalBottomSheet(
-//        modifier = Modifier.background(
-//            color = colorResource(id = R.color.app_black)
-//        ),
+    ModalBottomSheet(
+        modifier = Modifier.background(
+            color = colorResource(id = R.color.app_black)
+        ),
 //        sheetState = sheetState,
-//        onDismissRequest = {
-//            onDismiss.invoke()
-//        }) {
-//
-//        EditorControls(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(100.dp),
-//            state = state,
-//            onBoldClick = {
-//                onBoldClick.invoke()
-//                          },
-//            onItalicClick = {
-//                            onItalicClick.invoke()
-//            },
-//            onUnderlineClick = {
-//                               onUnderlineClick.invoke()
-//            },
-//             onTitleClick = {
-//                            onTitleClick.invoke()
-//            },
-//            onSubtitleClick = {
-//                              onSubtitleClick.invoke()
-//            },
-//            onTextColorClick = {
-//                               onTextColorClick.invoke()
-//            },
-//            onStartAlignClick = {
-//                onStartAlignClick.invoke()
-//            },
-//            onEndAlignClick = {
-//                              onEndAlignClick.invoke()
-//            },
-//            onCenterAlignClick = {
-//                                 onCenterAlignClick.invoke()
-//            },
-//            onExportClick = {
-//                Log.d("Editor", state.toHtml())
-//            }
-//        )
-//    }
+        onDismissRequest = {
+            onDismiss.invoke()
+        }) {
+
+        EditorControls(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp),
+            state = state,
+            onBoldClick = {
+                onBoldClick.invoke()
+                          },
+            onItalicClick = {
+                            onItalicClick.invoke()
+            },
+            onUnderlineClick = {
+                               onUnderlineClick.invoke()
+            },
+             onTitleClick = {
+                            onTitleClick.invoke()
+            },
+            onSubtitleClick = {
+                              onSubtitleClick.invoke()
+            },
+            onTextColorClick = {
+                               onTextColorClick.invoke()
+            },
+            onStartAlignClick = {
+                onStartAlignClick.invoke()
+            },
+            onEndAlignClick = {
+                              onEndAlignClick.invoke()
+            },
+            onCenterAlignClick = {
+                                 onCenterAlignClick.invoke()
+            },
+            onExportClick = {
+                Log.d("Editor", state.toHtml())
+            }
+        )
+    }
 }
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
