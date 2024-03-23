@@ -63,7 +63,6 @@ fun NoteItem(
     var isPlaying by remember { mutableStateOf(false) }
 
     var isDropDownVisible by remember { mutableStateOf(false) }
-    var selectedDropDownItem by remember { mutableStateOf("") }
 
     var pressOffset by remember{
 
@@ -156,12 +155,6 @@ fun NoteItem(
                         painter = painterResource(id = R.drawable.menu_icon),
                         contentDescription = "",
                         contentScale = ContentScale.Fit)
-//                    IconButton(onClick = {
-//
-//                    }) {
-//                        Icon(painter = painterResource(id = R.drawable.menu_icon),
-//                            contentDescription = "Drop down")
-//                    }
                 }
                 Spacer(modifier = Modifier.height(4.dp))
 
@@ -214,16 +207,18 @@ fun NoteItem(
             ){
                 dropdownItems.forEach {
                     DropdownMenuItem(
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(4.dp),
                         leadingIcon = {
                             Icon(imageVector = it.icon, contentDescription = "icons")
                         },
                         text = {
-                               Text(text = it.text)
+                               Text(text = it.text ,
+                               style = TextStyle(
+                                   fontSize = 16.sp,
+
+                               ))
                         },
                         onClick = {
-
-                            Log.d("TAG","${it.text} clicked")
 
                             if(it.text.equals("Delete")){
                                 onDeleteClick.invoke()

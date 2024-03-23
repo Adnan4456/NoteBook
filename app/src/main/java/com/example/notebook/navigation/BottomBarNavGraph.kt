@@ -54,12 +54,15 @@ fun BottomNavGraph(
                 },
             )
         ){
-//            val color = it.arguments?.getInt("noteColor") ?: -1
+            val color = it.arguments?.getInt("noteColor") ?: -1
 //            AddEditNoteScreen(
 //                navController = navController,
 //                noteColor = color
 //            )
-            MainScreentesting()
+            MainScreentesting(
+                navController = navController,
+                noteColor = color
+            )
         }
 
 
