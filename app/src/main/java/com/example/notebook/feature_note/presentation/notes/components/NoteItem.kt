@@ -39,12 +39,16 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.notebook.R
 import com.example.notebook.feature_note.domain.model.Note
+import com.mohamedrejeb.richeditor.model.rememberRichTextState
+import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
+import com.mohamedrejeb.richeditor.ui.material3.RichTextEditorDefaults
 
 data class DropDownItem(
     val text:String,
     val icon: ImageVector
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteItem(
     note: Note,
@@ -61,6 +65,13 @@ fun NoteItem(
                 else Icons.Outlined.BookmarkAdd
 
     var isPlaying by remember { mutableStateOf(false) }
+
+    val stateContent = rememberRichTextState()
+
+    val stateTitle =  rememberRichTextState()
+
+    stateTitle.setHtml(note.title)
+    stateContent.setHtml(note.content)
 
     var isDropDownVisible by remember { mutableStateOf(false) }
 
@@ -98,14 +109,14 @@ fun NoteItem(
             .animateContentSize()
     ) {
         Card(
-            colors =CardDefaults.cardColors(
+            colors = CardDefaults.cardColors(
                 containerColor = colorResource(id = R.color.all_notes_item)
             ),
             shape = RoundedCornerShape(8.dp),
         ) {
 
             Column(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize()
                     .background(
                         color = colorResource(id = R.color.all_notes_item)
@@ -131,18 +142,33 @@ fun NoteItem(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ){
 
-                    Text(
-                        text = note.title,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurface,
+                    //Title
+                    RichTextEditor(
+                        modifier = modifier.weight(.7f),
+                        enabled = true,
+                        state = stateTitle,
+                        readOnly = true,
+                        singleLine= true,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        colors = RichTextEditorDefaults.richTextEditorColors(
+                            containerColor = colorResource(id = R.color.all_notes_item)
+
+                        )
                     )
+
+//                    Text(
+//                        text = note.title,
+//                        style = MaterialTheme.typography.bodyLarge,
+//                        color = MaterialTheme.colorScheme.onSurface,
+//                        maxLines = 1,
+//                        overflow = TextOverflow.Ellipsis
+//                    )
 
                     Image(
                         modifier = Modifier
                             .height(20.dp)
                             .width(20.dp)
+                            .weight(.3f)
                             .pointerInput(true) {
                                 detectTapGestures(
                                     onPress = {
@@ -158,22 +184,17 @@ fun NoteItem(
                 }
                 Spacer(modifier = Modifier.height(4.dp))
 
-                Divider(
-                    modifier = Modifier.padding(1.dp),
-                    thickness = 1.dp,
-                    color = Color.LightGray.copy(alpha = .5f)
+                //content description
+                RichTextEditor(
+                    modifier = modifier,
+                    enabled = true,
+                    readOnly = true,
+                    state = stateContent,
+                    maxLines =  if (expanded) 7 else 3,
+                    colors = RichTextEditorDefaults.richTextEditorColors(
+                        containerColor = colorResource(id = R.color.all_notes_item)
+                    ),
                 )
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Text(
-                    text = note.content,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines =  if (expanded) 10 else 5,
-                    overflow = TextOverflow.Ellipsis
-                )
-
 
             }
             Row(
@@ -201,8 +222,8 @@ fun NoteItem(
                     isDropDownVisible = false
                 },
                 offset = pressOffset.copy(
-                    y = pressOffset.y - itemHeight * 5,
-                    x = pressOffset.x + itemHeight * 5
+                    y = pressOffset.y - itemHeight ,
+                    x = pressOffset.x + itemHeight
                 ),
             ){
                 dropdownItems.forEach {
@@ -215,7 +236,6 @@ fun NoteItem(
                                Text(text = it.text ,
                                style = TextStyle(
                                    fontSize = 16.sp,
-
                                ))
                         },
                         onClick = {

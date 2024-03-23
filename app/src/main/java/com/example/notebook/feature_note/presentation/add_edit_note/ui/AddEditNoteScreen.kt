@@ -291,9 +291,7 @@ fun AddEditNoteScreen(
                                 Icon(Icons.Default.Mic, contentDescription = "")
 
                             }
-                            
                         }
-
                     }
                     ElevatedButton(
                         onClick = {

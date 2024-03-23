@@ -19,9 +19,6 @@ class DialogButtonViewModel
     @Inject constructor()
     :ViewModel() {
 
-
-
-
     var isBold = mutableStateOf(false)
     var italicSelected = mutableStateOf(false)
     var underlineSelected = mutableStateOf(false)
@@ -31,15 +28,5 @@ class DialogButtonViewModel
     var linkSelected = mutableStateOf(false)
     var alignmentSelected = mutableStateOf(1)
 
-//    var italicSelected by remember { mutableStateOf(false) }
-//    var underlineSelected by rememberSaveable { mutableStateOf(false) }
-//    var titleSelected by rememberSaveable { mutableStateOf(false) }
-//    var subtitleSelected by rememberSaveable { mutableStateOf(false) }
-//    var textColorSelected by rememberSaveable { mutableStateOf(false) }
-//    var linkSelected by rememberSaveable { mutableStateOf(false) }
-//    //    var alignmentSelected by rememberSaveable { mutableIntStateOf(0) }
-//    var alignmentSelected by rememberSaveable {
-//        mutableStateOf(1)
-//    }
 
 }
