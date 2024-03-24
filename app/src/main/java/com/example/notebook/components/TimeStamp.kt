@@ -13,7 +13,7 @@ fun formatTimestamp(timestamp: Long): String {
 
     val instant = Instant.ofEpochMilli(timestamp)
 
-    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy\nHH:mm")
+    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
 
     // Convert Instant to formatted String
     return formatter.format(instant.atZone(ZoneId.systemDefault()))
