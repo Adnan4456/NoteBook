@@ -120,11 +120,13 @@ fun NoteItem(
                     )
                     .padding(start = 16.dp, end = 16.dp, top = 16.dp)
             ) {
-
                 AsyncImage(
                     model = note.imageBitmap,
                     contentDescription = "",
-                    modifier = Modifier.fillMaxWidth()
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
                 )
 
                 Row(

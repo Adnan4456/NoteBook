@@ -1,7 +1,11 @@
 package com.example.notebook.feature_note.presentation.add_edit_note.ui
 
 import android.annotation.SuppressLint
+import android.graphics.BitmapFactory
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -30,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.notebook.feature_note.presentation.add_edit_note.components.TwoColorDialog
 import com.example.notebook.feature_note.presentation.add_edit_note.components.colourSaver
 import com.mohamedrejeb.richeditor.model.RichTextState
@@ -42,6 +48,7 @@ import com.example.notebook.feature_note.presentation.notes.NotesEvent
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.io.InputStream
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -82,6 +89,19 @@ fun MainScreentesting(
     val scaffoldState = rememberBottomSheetScaffoldState()
 
     val scope   = rememberCoroutineScope()
+    var inputStream: InputStream
+
+    val pickPhotoLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = {uri ->
+
+            if(uri != null){
+                inputStream = context.getContentResolver().openInputStream(uri)!!
+                viewModel.bitmap.value = BitmapFactory.decodeStream(inputStream)
+            }
+
+        })
+
 
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -201,6 +221,39 @@ fun MainScreentesting(
                     ){
 
                         item{
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth(.5f)
+                                    .height(200.dp)
+                                    .clickable {
+                                    },
+                            ){
+
+                                    Card (
+                                        colors = CardDefaults.cardColors(
+                                        ),
+                                        elevation =CardDefaults.cardElevation(
+                                            defaultElevation = 8.dp,
+                                            pressedElevation = 4.dp,
+                                            focusedElevation = 6.dp
+                                        ),
+                                        shape = RoundedCornerShape(8.dp)
+                                    ){
+
+                                        AsyncImage(
+                                            model = viewModel.bitmap.value,
+                                            contentDescription = "",
+                                            contentScale = ContentScale.FillBounds,
+                                            modifier = Modifier.fillMaxWidth()
+                                        )
+                                    }
+                            }
+                        }
+
+
+
+                        item{
+                            Spacer(modifier = Modifier.height(16.dp))
 
                             RichTextEditor(
                                 modifier = Modifier
@@ -235,8 +288,8 @@ fun MainScreentesting(
                             currentlySelected = currentlySelected,
                             onColorSelected = {
                                 currentlySelected = it
-                                colorPickerOpen = false
                                 viewModel.editorContentState.toggleSpanStyle(SpanStyle(color = currentlySelected))
+                                colorPickerOpen = false
                             }
                         )
                     }
@@ -260,41 +313,69 @@ fun MainScreentesting(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        IconButton(
-                            modifier = Modifier
-                                .height(50.dp)
-                                .width(30.dp),
-                            onClick = { }) {
 
-                            Icon(
-                                painter = painterResource(id = R.drawable.add_image),
-                                contentDescription = "",
-                                tint = Color.White)
+                        Row(
+
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+
+                            Spacer(modifier = Modifier.width(8.dp))
+
+                            IconButton(
+                                modifier = Modifier
+                                    .height(50.dp)
+                                    .width(30.dp),
+                                onClick = {
+                                    pickPhotoLauncher.launch(
+                                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                    )
+                                }) {
+
+                                Icon(
+                                    modifier = Modifier
+                                        .height(40.dp)
+                                        .width(20.dp),
+                                    painter = painterResource(id = R.drawable.add_image),
+                                    contentDescription = "",
+                                    tint = Color.White)
+                            }
+                            IconButton(
+                                modifier = Modifier
+                                    .height(50.dp)
+                                    .width(30.dp),
+                                onClick = {
+                                    scope.launch {
+                                        scaffoldState.bottomSheetState.expand()
+                                    }
+
+                                }) {
+
+                                Icon(
+                                    modifier = Modifier
+                                        .height(40.dp)
+                                        .width(20.dp),
+                                    painter = painterResource(id = R.drawable.bx_text),
+                                    contentDescription = "",
+                                    tint = Color.White)
+                            }
                         }
-                        IconButton(
-                            modifier = Modifier
-                                .height(50.dp)
-                                .width(30.dp),
-                            onClick = {
-//                                bottomsheet = true
-                                scope.launch {
-                                    scaffoldState.bottomSheetState.expand()
-                                }
 
-                            }) {
-
+                        IconButton(onClick = { /*TODO*/ }) {
                             Icon(
-                                painter = painterResource(id = R.drawable.bx_text),
+                                    modifier = Modifier
+                                        .height(40.dp)
+                                        .width(20.dp),
+                                painter = painterResource(id = R.drawable.menu_icon),
                                 contentDescription = "",
                                 tint = Color.White)
+
                         }
                     }
                 }
             }
         }
     }
-
-
 }
 
 @Composable
@@ -331,13 +412,13 @@ fun Header(viewModel: AddEditNoteViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            Icon(
-                modifier = Modifier
-                    .height(25.dp)
-                    .width(25.dp),
-                imageVector = Icons.Default.Mic,
-                contentDescription = "",
-            tint = colorResource(id = R.color.app_black))
+//            Icon(
+//                modifier = Modifier
+//                    .height(25.dp)
+//                    .width(25.dp),
+//                imageVector = Icons.Default.Mic,
+//                contentDescription = "",
+//            tint = colorResource(id = R.color.app_black))
 
             Spacer(modifier = Modifier.width(16.dp))
 
@@ -386,16 +467,23 @@ fun myScrollableColumn(){
     {
         mutableStateOf(colors[0])
     }
+    var inputStream: InputStream
+    val context = LocalContext.current
+
 
     val state = rememberRichTextState()
     val stateTitle = rememberRichTextState()
     val titleSize = MaterialTheme.typography.displaySmall.fontSize
     val subtitleSize = MaterialTheme.typography.titleLarge.fontSize
 
+
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
     ){
+
+
         item {
             EditorControls(
                 modifier = Modifier
