@@ -96,7 +96,8 @@ class AddEditNoteViewModel
 
 
     fun onEvent(event:AddEditNoteEvent){
-
+      Log.d("TAG","${editorTitleState.annotatedString}")
+        Log.d("TAG","${editorContentState.annotatedString}")
         when(event){
             is AddEditNoteEvent.EnterTitle -> {
                 _noteTitle.value = noteTitle.value.copy(

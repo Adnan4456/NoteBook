@@ -1,6 +1,9 @@
 package com.example.notebook.feature_note.presentation.notes.components
 
 
+import android.os.Build
+import android.text.Html
+import android.text.Spanned
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.animateContentSize
@@ -30,6 +33,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
@@ -38,6 +42,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.notebook.R
+import com.example.notebook.components.NormalTextComponent
+import com.example.notebook.components.formatTimestamp
 import com.example.notebook.feature_note.domain.model.Note
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
@@ -62,6 +68,7 @@ fun NoteItem(
     var expanded by remember { mutableStateOf(false) }
 
 
+
     var isPlaying by remember { mutableStateOf(false) }
 
     val stateContent = rememberRichTextState()
@@ -69,6 +76,7 @@ fun NoteItem(
     val stateTitle =  rememberRichTextState()
 
     stateTitle.setHtml(note.title)
+
     stateContent.setHtml(note.content)
 
     var isDropDownVisible by remember { mutableStateOf(false) }
@@ -81,6 +89,7 @@ fun NoteItem(
         mutableStateOf(0.dp)
     }
     val density = LocalDensity.current
+
 
     LaunchedEffect(note.isBookMarked) {
         isPlaying = true
@@ -117,134 +126,131 @@ fun NoteItem(
                     .fillMaxSize()
                     .background(
                         color = colorResource(id = R.color.all_notes_item)
-                    )
-            ) {
-                Card (
-                    colors = CardDefaults.cardColors(
                     ),
-                    elevation =CardDefaults.cardElevation(
-                        defaultElevation = 8.dp,
-                        pressedElevation = 4.dp,
-                        focusedElevation = 6.dp
-                    ),
-                    shape = RoundedCornerShape(8.dp)
-                ){
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.Start
 
-                    AsyncImage(
-                        model = note.imageBitmap,
-                        contentDescription = "",
-                        contentScale = ContentScale.FillBounds,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp)
+            ) {
+//                Card (
+//                    colors = CardDefaults.cardColors(
+//                    ),
+//                    elevation =CardDefaults.cardElevation(
+//                        defaultElevation = 8.dp,
+//                        pressedElevation = 4.dp,
+//                        focusedElevation = 6.dp
+//                    ),
+//                    shape = RoundedCornerShape(8.dp)
+//                ){
+//
+//
+//                }
+//
+                AsyncImage(
+                    model = note.imageBitmap,
+                    contentDescription = "",
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp)
+                )
+//                Row(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(8.dp)
+//                        .onSizeChanged {
+//                            itemHeight = with(density) {
+//                                it.height.toDp()
+//                            }
+//                        },
+//
+//                    verticalAlignment = Alignment.CenterVertically,
+//                    horizontalArrangement = Arrangement.SpaceBetween
+//                ){
+//                }
+                Column(
+                    modifier = Modifier.padding(8.dp)
+                ) {
+
+                    Text(text = stateTitle.annotatedString.toString() ,
+                        style = TextStyle(
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                     )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+                    if(note.imageBitmap == null){
+                        Divider()
+                    }
+                    Text(
+                        text = stateContent.annotatedString,
+                        style = TextStyle(
+                            fontSize = 14.sp),
+                        maxLines =  if (expanded) 7 else 2,
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
                 }
 
+                Text(
+                    modifier = Modifier.padding(start = 8.dp),
+                    text = formatTimestamp(note.timestamp),
+                    style = TextStyle(
+                        fontSize = 12.sp),
+                    maxLines =  1,
+                )
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp)
                         .onSizeChanged {
                             itemHeight = with(density) {
                                 it.height.toDp()
                             }
                         },
-
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
-                ){
+                ) {
 
-                    //Title
-                    RichTextEditor(
-//                        modifier = Mo.weight(.7f),
-                        enabled = true,
-                        state = stateTitle,
-                        readOnly = true,
-                        singleLine= true,
-                        maxLines = 1,
-                        colors = RichTextEditorDefaults.richTextEditorColors(
-                            containerColor = colorResource(id = R.color.all_notes_item)
-
-                        )
-                    )
-
-//                    Image(
-//                        modifier = Modifier
-//                            .height(20.dp)
-//                            .width(20.dp)
-//                            .pointerInput(true) {
-//                                detectTapGestures(
-//                                    onPress = {
-//                                        isDropDownVisible = true
-//                                        pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
-//                                    }
-//
-//                                )
-//                            },
-//                        painter = painterResource(id = R.drawable.menu_icon),
-//                        contentDescription = "",
-//                        contentScale = ContentScale.Fit)
-                }
-                Spacer(modifier = Modifier.height(4.dp))
-
-                //content description
-                RichTextEditor(
-                    enabled = true,
-                    readOnly = true,
-                    state = stateContent,
-                    maxLines =  if (expanded) 4 else 1,
-                    colors = RichTextEditorDefaults.richTextEditorColors(
-                        containerColor = colorResource(id = R.color.all_notes_item)
-                    ),
-                )
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-
-                TextButton(
-                    onClick = {
-                        expanded = !expanded
-                    })
-                {
-                    Text(text = if (expanded) "Read Less" else "Read More" ,
-                        style = TextStyle(
-                            color = Color.Black,
-                            fontSize = 16.sp
-                        )
-                    )
-                }
-
-                Image(
-                    modifier = Modifier
-                        .height(20.dp)
-                        .width(20.dp)
-                        .pointerInput(true) {
-                            detectTapGestures(
-                                onPress = {
-                                    isDropDownVisible = true
-                                    pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
-                                    Log.d("offset","${pressOffset.x} and  ${pressOffset.y}")
-                                }
+                    TextButton(
+                        onClick = {
+                            expanded = !expanded
+                        })
+                    {
+                        Text(text = if (expanded) "Read Less" else "Read More" ,
+                            style = TextStyle(
+                                color = Color.Black,
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold
                             )
-                        },
-                    painter = painterResource(id = R.drawable.menu_icon),
-                    contentDescription = "",
-                    contentScale = ContentScale.Fit)
-            }
+                        )
+                    }
 
+                    Image(
+                        modifier = Modifier
+                            .height(20.dp)
+                            .width(30.dp)
+                            .padding(end = 8.dp)
+                            .pointerInput(true) {
+                                detectTapGestures(
+                                    onPress = {
+                                        isDropDownVisible = true
+                                        pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
+                                    }
+                                )
+                            },
+                        painter = painterResource(id = R.drawable.menu_icon),
+                        contentDescription = "",
+                        contentScale = ContentScale.Fit)
+                }
+
+            }
             DropdownMenu(
                 expanded = isDropDownVisible,
                 onDismissRequest = {
                     isDropDownVisible = false
                 },
                 offset = pressOffset.copy(
-                    y = pressOffset.y  ,
-                    x = pressOffset.x
+                    y = pressOffset.y - itemHeight ,
+                    x = pressOffset.x + itemHeight
                 ),
             ){
                 dropdownItems.forEach {
@@ -279,63 +285,6 @@ fun NoteItem(
                     )
                 }
             }
-
-
-
-//            Row (
-//                modifier  = Modifier
-//                    .fillMaxWidth()
-//                    .padding(8.dp),
-//                horizontalArrangement = Arrangement.SpaceBetween
-//            ){
-//
-//              ElevatedCard(
-//                  elevation = CardDefaults.cardElevation(
-//                      defaultElevation = 5.dp
-//                  )
-//              ) {
-//                  IconButton(onClick = {
-//                      onSecretClick.invoke()
-//                  }) {
-//                      Icon(imageVector = Icons.Default.VisibilityOff ,
-//                          contentDescription = "Secret Note")
-//
-//                  }
-//              }
-//
-//                ElevatedCard (
-//                    elevation = CardDefaults.cardElevation(
-//                        defaultElevation = 5.dp
-//                    )
-//                        ){
-//                    IconButton(
-//
-//                        onClick = {
-//                            onBookMarkChange.invoke()
-//                            isPlaying = true
-//                        },
-//                    ) {
-//
-//                        LottieAnimation(
-//                            modifier = Modifier.size(30.dp),
-//                            composition = composition,
-//                            progress = if (isPlaying) 1f else 0f,
-//                        )
-//                        Icon(
-//                            imageVector = icon,
-//                            contentDescription = "Bookmark changed")
-//                    }
-//                }
-//                ElevatedCard {
-//                    IconButton(
-//                        onClick = onDeleteClick,
-//                    ) {
-//                        Icon(imageVector = Icons.Default.Delete,
-//                            contentDescription = "Note Deleted")
-//                    }
-//                }
-//
-//            }
         }
     }
  }

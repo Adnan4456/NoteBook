@@ -270,6 +270,10 @@ fun MainScreentesting(
                                     cursorColor = Color.Black
                                 ),
                             )
+                            LaunchedEffect(viewModel.editorTitleState.annotatedString) {
+                                // This code will run each time the rich text is changed.
+                                Log.d("TAG", "${this}")
+                            }
                         }
                         item{
                             RichTextEditor(

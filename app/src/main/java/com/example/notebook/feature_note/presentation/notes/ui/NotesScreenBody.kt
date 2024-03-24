@@ -52,11 +52,11 @@ fun AllNotesList(
 
         }else {
 
-            LazyColumn(
+            LazyVerticalGrid(
                 modifier = Modifier.fillMaxSize(),
-//                columns = GridCells.Fixed(2),
+                columns = GridCells.Fixed(2),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
-//                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
             ){
                 items(state.notes){ note ->
 
