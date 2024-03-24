@@ -40,6 +40,9 @@ fun SearchBar(
     SearchBar(
         modifier= Modifier
             .fillMaxWidth(),
+//        colors = SearchBarDefaults.colors(
+//            containerColor = Color.White
+//        ),
         colors = SearchBarDefaults.colors(
             containerColor = Color.White
         ),
@@ -50,7 +53,7 @@ fun SearchBar(
             onSearchQuery(query)
         },
         onSearch = {
-            //press search icon on keybpard
+
             active = false
             focusManager.clearFocus()
 
