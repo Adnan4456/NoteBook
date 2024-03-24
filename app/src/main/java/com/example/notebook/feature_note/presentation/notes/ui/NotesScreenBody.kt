@@ -8,9 +8,11 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
@@ -50,11 +52,11 @@ fun AllNotesList(
 
         }else {
 
-            LazyVerticalGrid(
+            LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                columns = GridCells.Fixed(2),
+//                columns = GridCells.Fixed(2),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+//                horizontalArrangement = Arrangement.spacedBy(10.dp)
             ){
                 items(state.notes){ note ->
 
@@ -109,7 +111,6 @@ fun AllNotesList(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ){
 
-
             items(state.notes){ note ->
 
                 AnimatedVisibility(
@@ -160,9 +161,7 @@ fun AllNotesList(
 
             }
         }
-
     }
-
 }
 
 @Composable

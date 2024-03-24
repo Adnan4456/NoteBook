@@ -3,6 +3,7 @@ package com.example.notebook.feature_note.presentation.add_edit_note.ui
 import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import android.util.Log
+import androidx.activity.compose.LocalFullyDrawnReporterOwner
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -72,8 +73,9 @@ fun MainScreentesting(
         Color(0xFF000000),
     )
 
-    val titleState = viewModel.noteTitle.value
-    val contentState = viewModel.noteContent.value
+
+    val state = rememberRichTextState()
+
     val context = LocalContext.current
 
     var colorPickerOpen by rememberSaveable { mutableStateOf(false) }
@@ -90,6 +92,7 @@ fun MainScreentesting(
 
     val scope   = rememberCoroutineScope()
     var inputStream: InputStream
+
 
     val pickPhotoLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
@@ -369,7 +372,6 @@ fun MainScreentesting(
                                 painter = painterResource(id = R.drawable.menu_icon),
                                 contentDescription = "",
                                 tint = Color.White)
-
                         }
                     }
                 }
@@ -428,6 +430,7 @@ fun Header(viewModel: AddEditNoteViewModel) {
                     .height(37.dp),
                 shape = RoundedCornerShape(8.dp),
                 onClick = {
+                    Log.d("richtext" , "${viewModel.editorTitleState.toString()}")
                           viewModel.onEvent(AddEditNoteEvent.SaveNote)
                 },
                 colors = ButtonDefaults.buttonColors(
@@ -444,127 +447,7 @@ fun Header(viewModel: AddEditNoteViewModel) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun myScrollableColumn(){
-    val colors = listOf(
-        Color(0xFFEF9A9A),
-        Color(0xFFF48FB1),
-        Color(0xFF80CBC4),
-        Color(0xFFA5D6A7),
-        Color(0xFFFFCC80),
-        Color(0xFFFFAB91),
-        Color(0xFF81D4FA),
-        Color(0xFFCE93D8),
-        Color(0xFFB39DDB),
-        Color(0xFFFFFFFF),
-        Color(0xFF000000),
-    )
 
-    var colorPickerOpen by rememberSaveable { mutableStateOf(false) }
-
-    var currentlySelected by rememberSaveable(saver = colourSaver())
-    {
-        mutableStateOf(colors[0])
-    }
-    var inputStream: InputStream
-    val context = LocalContext.current
-
-
-    val state = rememberRichTextState()
-    val stateTitle = rememberRichTextState()
-    val titleSize = MaterialTheme.typography.displaySmall.fontSize
-    val subtitleSize = MaterialTheme.typography.titleLarge.fontSize
-
-
-
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-    ){
-
-
-        item {
-            EditorControls(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp),
-                state = state,
-                onBoldClick = {
-                    Log.d("TAG","Bold is clicked")
-                    state.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
-                },
-                onItalicClick = {
-                    state.toggleSpanStyle(SpanStyle(fontStyle = FontStyle.Italic))
-                },
-                onUnderlineClick = {
-                    state.toggleSpanStyle(SpanStyle(textDecoration = TextDecoration.Underline))
-                },
-                onTitleClick = {
-                    state.toggleSpanStyle(SpanStyle(fontSize = titleSize))
-                },
-                onSubtitleClick = {
-                    state.toggleSpanStyle(SpanStyle(fontSize = subtitleSize))
-                },
-                onTextColorClick = {
-                    colorPickerOpen = true
-                },
-                onStartAlignClick = {
-                    state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Start))
-                },
-                onEndAlignClick = {
-                    state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.End))
-                },
-                onCenterAlignClick = {
-                    state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Center))
-                },
-                onExportClick = {
-                    Log.d("Editor", state.toHtml())
-                }
-            )
-        }
-
-        item{
-                RichTextEditor(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth(),
-                    singleLine= true,
-                    maxLines = 1,
-                    state = stateTitle,
-                    colors = RichTextEditorDefaults.richTextEditorColors(
-                        containerColor = colorResource(id = R.color.edit_notes_bg),
-                        cursorColor = Color.Black
-                    ),
-                )
-        }
-        item{
-            RichTextEditor(
-                modifier = Modifier
-                    .height(700.dp)
-                    .fillMaxWidth(),
-                state = state,
-                colors = RichTextEditorDefaults.richTextEditorColors(
-                    containerColor = colorResource(id = R.color.edit_notes_bg),
-                    cursorColor = Color.Black
-                )
-            )
-        }
-    }
-
-    if (colorPickerOpen) {
-        TwoColorDialog(
-            colorList = colors,
-            onDismiss = { colorPickerOpen = false },
-            currentlySelected = currentlySelected,
-            onColorSelected = {
-                currentlySelected = it
-                colorPickerOpen = false
-                state.toggleSpanStyle(SpanStyle(color = currentlySelected))
-            }
-        )
-    }
-}
 
 @Composable
 fun TextBottomSheet(

@@ -118,32 +118,45 @@ fun NoteItem(
                     .background(
                         color = colorResource(id = R.color.all_notes_item)
                     )
-                    .padding(start = 16.dp, end = 16.dp, top = 16.dp)
             ) {
-                AsyncImage(
-                    model = note.imageBitmap,
-                    contentDescription = "",
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                )
+                Card (
+                    colors = CardDefaults.cardColors(
+                    ),
+                    elevation =CardDefaults.cardElevation(
+                        defaultElevation = 8.dp,
+                        pressedElevation = 4.dp,
+                        focusedElevation = 6.dp
+                    ),
+                    shape = RoundedCornerShape(8.dp)
+                ){
+
+                    AsyncImage(
+                        model = note.imageBitmap,
+                        contentDescription = "",
+                        contentScale = ContentScale.FillBounds,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp)
+                    )
+                }
 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(8.dp)
                         .onSizeChanged {
                             itemHeight = with(density) {
                                 it.height.toDp()
                             }
                         },
+
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ){
 
                     //Title
                     RichTextEditor(
-                        modifier = modifier.weight(.7f),
+//                        modifier = Mo.weight(.7f),
                         enabled = true,
                         state = stateTitle,
                         readOnly = true,
@@ -155,40 +168,40 @@ fun NoteItem(
                         )
                     )
 
-                    Image(
-                        modifier = Modifier
-                            .height(20.dp)
-                            .width(20.dp)
-                            .weight(.3f)
-                            .pointerInput(true) {
-                                detectTapGestures(
-                                    onPress = {
-                                        isDropDownVisible = true
-                                        pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
-                                    }
-
-                                )
-                            },
-                        painter = painterResource(id = R.drawable.menu_icon),
-                        contentDescription = "",
-                        contentScale = ContentScale.Fit)
+//                    Image(
+//                        modifier = Modifier
+//                            .height(20.dp)
+//                            .width(20.dp)
+//                            .pointerInput(true) {
+//                                detectTapGestures(
+//                                    onPress = {
+//                                        isDropDownVisible = true
+//                                        pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
+//                                    }
+//
+//                                )
+//                            },
+//                        painter = painterResource(id = R.drawable.menu_icon),
+//                        contentDescription = "",
+//                        contentScale = ContentScale.Fit)
                 }
                 Spacer(modifier = Modifier.height(4.dp))
 
                 //content description
                 RichTextEditor(
-                    modifier = modifier,
                     enabled = true,
                     readOnly = true,
                     state = stateContent,
-                    maxLines =  if (expanded) 7 else 3,
+                    maxLines =  if (expanded) 4 else 1,
                     colors = RichTextEditorDefaults.richTextEditorColors(
                         containerColor = colorResource(id = R.color.all_notes_item)
                     ),
                 )
-
             }
             Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -205,6 +218,23 @@ fun NoteItem(
                         )
                     )
                 }
+
+                Image(
+                    modifier = Modifier
+                        .height(20.dp)
+                        .width(20.dp)
+                        .pointerInput(true) {
+                            detectTapGestures(
+                                onPress = {
+                                    isDropDownVisible = true
+                                    pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
+                                    Log.d("offset","${pressOffset.x} and  ${pressOffset.y}")
+                                }
+                            )
+                        },
+                    painter = painterResource(id = R.drawable.menu_icon),
+                    contentDescription = "",
+                    contentScale = ContentScale.Fit)
             }
 
             DropdownMenu(
@@ -213,8 +243,8 @@ fun NoteItem(
                     isDropDownVisible = false
                 },
                 offset = pressOffset.copy(
-                    y = pressOffset.y - itemHeight ,
-                    x = pressOffset.x + itemHeight
+                    y = pressOffset.y  ,
+                    x = pressOffset.x
                 ),
             ){
                 dropdownItems.forEach {

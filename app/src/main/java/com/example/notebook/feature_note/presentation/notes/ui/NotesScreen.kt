@@ -38,7 +38,6 @@ fun NotesScreen(
     val state = viewModel.state.value
     val snackbarHostState = remember { SnackbarHostState() }
 
-
      val density = LocalDensity.current
 
 
