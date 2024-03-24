@@ -1,41 +1,60 @@
 package com.example.notebook.feature_note.presentation.notes.components
 
 
+import android.os.Build
+import android.text.Html
+import android.text.Spanned
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 
-import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 
-import androidx.compose.material.icons.filled.BookmarkRemove
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
+
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.ColorUtils
 import coil.compose.AsyncImage
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.notebook.R
+import com.example.notebook.components.NormalTextComponent
+import com.example.notebook.components.formatTimestamp
 import com.example.notebook.feature_note.domain.model.Note
+import com.mohamedrejeb.richeditor.model.rememberRichTextState
+import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
+import com.mohamedrejeb.richeditor.ui.material3.RichTextEditorDefaults
 
+data class DropDownItem(
+    val text:String,
+    val icon: ImageVector
+)
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteItem(
     note: Note,
@@ -48,159 +67,227 @@ fun NoteItem(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    val icon  = if(note.isBookMarked) Icons.Default.BookmarkRemove
-                else Icons.Outlined.BookmarkAdd
+
 
     var isPlaying by remember { mutableStateOf(false) }
 
-    val composition by rememberLottieComposition(
-        spec = LottieCompositionSpec.RawRes(R.raw.bookmark)
-    )
+    val stateContent = rememberRichTextState()
+
+    val stateTitle =  rememberRichTextState()
+
+    stateTitle.setHtml(note.title)
+
+    stateContent.setHtml(note.content)
+
+    var isDropDownVisible by remember { mutableStateOf(false) }
+
+    var pressOffset by remember{
+
+        mutableStateOf(DpOffset.Zero)
+    }
+    var itemHeight by remember {
+        mutableStateOf(0.dp)
+    }
+    val density = LocalDensity.current
 
 
     LaunchedEffect(note.isBookMarked) {
         isPlaying = true
     }
 
+    val dropdownItems = listOf(
+        DropDownItem(
+            "Favourite",
+            Icons.Filled.Star
+        ),
+        DropDownItem(
+            "Hide",
+            Icons.Filled.VisibilityOff
+        ),
+        DropDownItem(
+            "Delete",
+            Icons.Filled.Delete
+        )
+    )
+
     Box(
         modifier = modifier
             .animateContentSize()
     ) {
-        Canvas(
-            modifier = modifier
-                .matchParentSize(),
+        Card(
+            colors = CardDefaults.cardColors(
+                containerColor = colorResource(id = R.color.all_notes_item)
+            ),
+            shape = RoundedCornerShape(8.dp),
         ) {
 
-            val clipPath = Path().apply {
-                lineTo(size.width - cutCornerSize.toPx(), 0f)
-                lineTo(size.width, cutCornerSize.toPx())
-                lineTo(size.width, size.height)
-                lineTo(0f, size.height)
-                close()
-            }
-            clipPath(clipPath) {
-
-                drawRoundRect(
-                    color = Color(note.color),
-                    size = size,
-                    cornerRadius = CornerRadius(cornerRadius.toPx())
-                )
-                clipPath(clipPath) {
-
-                    drawRoundRect(
-                        color = Color(
-                            ColorUtils.blendARGB(note.color, 0x000000, 0.2f)
-                        ),
-                        topLeft = Offset(size.width - cutCornerSize.toPx(), -100f),
-                        size = Size(cutCornerSize.toPx() + 100f, cutCornerSize.toPx() + 100f),
-                        cornerRadius = CornerRadius(cornerRadius.toPx())
-                    )
-                }
-            } // end clipPath
-        }
-        Column {
-
             Column(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxSize()
-                    .padding(start = 16.dp, end = 16.dp, top = 16.dp)
-                    .padding(end = 16.dp)
+                    .background(
+                        color = colorResource(id = R.color.all_notes_item)
+                    ),
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.Start
+
             ) {
+//                Card (
+//                    colors = CardDefaults.cardColors(
+//                    ),
+//                    elevation =CardDefaults.cardElevation(
+//                        defaultElevation = 8.dp,
+//                        pressedElevation = 4.dp,
+//                        focusedElevation = 6.dp
+//                    ),
+//                    shape = RoundedCornerShape(8.dp)
+//                ){
+//
+//
+//                }
+//
+                if(note.imageBitmap != null){
+                    AsyncImage(
+                        model = note.imageBitmap,
+                        contentDescription = "",
+                        contentScale = ContentScale.FillBounds,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(150.dp)
+                    )
+                }
+//                Row(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(8.dp)
+//                        .onSizeChanged {
+//                            itemHeight = with(density) {
+//                                it.height.toDp()
+//                            }
+//                        },
+//
+//                    verticalAlignment = Alignment.CenterVertically,
+//                    horizontalArrangement = Arrangement.SpaceBetween
+//                ){
+//                }
+                Column(
+                    modifier = Modifier.padding(8.dp)
+                ) {
 
-                AsyncImage(
-                    model = note.imageBitmap,
-                    contentDescription = "",
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Text(
-                    text = note.title,
-                    style = MaterialTheme.typography.displaySmall,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = note.content,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines =  if (expanded) 10 else 5,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                TextButton(
-                    onClick = {
-                        expanded = !expanded
-                    })
-                {
-                    Text(text = if (expanded) "Read Less" else "Read More" ,
+                    Text(text = stateTitle.annotatedString.toString() ,
                         style = TextStyle(
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
                         )
                     )
-                }
-            }
 
-            Row (
-                modifier  = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ){
-
-              ElevatedCard(
-                  elevation = CardDefaults.cardElevation(
-                      defaultElevation = 5.dp
-                  )
-              ) {
-                  IconButton(onClick = {
-                      onSecretClick.invoke()
-                  }) {
-                      Icon(imageVector = Icons.Default.VisibilityOff ,
-                          contentDescription = "Secret Note")
-
-                  }
-              }
-
-                ElevatedCard (
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 5.dp
+                    Spacer(modifier = Modifier.height(4.dp))
+                    if(note.imageBitmap == null){
+                        Divider()
+                        Spacer(modifier = Modifier.height(4.dp))
+                    }
+                    Text(
+                        text = stateContent.annotatedString,
+                        style = TextStyle(
+                            fontSize = 14.sp),
+                        maxLines =  if (expanded) 7 else 2,
                     )
-                        ){
-                    IconButton(
+                    Spacer(modifier = Modifier.height(4.dp))
+                }
 
-                        onClick = {
-                            onBookMarkChange.invoke()
-                            isPlaying = true
+                Text(
+                    modifier = Modifier.padding(start = 8.dp),
+                    text = formatTimestamp(note.timestamp),
+                    style = TextStyle(
+                        fontSize = 12.sp),
+                    maxLines =  1,
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .onSizeChanged {
+                            itemHeight = with(density) {
+                                it.height.toDp()
+                            }
                         },
-                    ) {
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
 
-                        LottieAnimation(
-                            modifier = Modifier.size(30.dp),
-                            composition = composition,
-                            progress = if (isPlaying) 1f else 0f,
+                    TextButton(
+                        onClick = {
+                            expanded = !expanded
+                        })
+                    {
+                        Text(text = if (expanded) "Read Less" else "Read More" ,
+                            style = TextStyle(
+                                color = Color.Black,
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold
+                            )
                         )
-                        Icon(
-                            imageVector = icon,
-                            contentDescription = "Bookmark changed")
                     }
-                }
-                ElevatedCard {
-                    IconButton(
-                        onClick = onDeleteClick,
-                    ) {
-                        Icon(imageVector = Icons.Default.Delete,
-                            contentDescription = "Note Deleted")
-                    }
+
+                    Image(
+                        modifier = Modifier
+                            .height(20.dp)
+                            .width(30.dp)
+                            .padding(end = 8.dp)
+                            .pointerInput(true) {
+                                detectTapGestures(
+                                    onPress = {
+                                        isDropDownVisible = true
+                                        pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
+                                    }
+                                )
+                            },
+                        painter = painterResource(id = R.drawable.menu_icon),
+                        contentDescription = "",
+                        contentScale = ContentScale.Fit)
                 }
 
             }
-        }// end canvas
+            DropdownMenu(
+                expanded = isDropDownVisible,
+                onDismissRequest = {
+                    isDropDownVisible = false
+                },
+                offset = pressOffset.copy(
+                    y = pressOffset.y - itemHeight ,
+                    x = pressOffset.x + itemHeight
+                ),
+            ){
+                dropdownItems.forEach {
+                    DropdownMenuItem(
+                        modifier = Modifier.padding(4.dp),
+                        leadingIcon = {
+                            Icon(imageVector = it.icon, contentDescription = "icons")
+                        },
+                        text = {
+                               Text(text = it.text ,
+                               style = TextStyle(
+                                   fontSize = 16.sp,
+                               ))
+                        },
+                        onClick = {
 
+                            if(it.text.equals("Delete")){
+                                onDeleteClick.invoke()
+                            } else if(it.text.equals("Hide")){
+                                onSecretClick.invoke()
+                            }else if (it.text.equals("Favourite")){
+                                onBookMarkChange.invoke()
+                            }
+                            isDropDownVisible = false
+                        },
+                        trailingIcon = {
+
+                            if(note.isBookMarked){
+                                Icons.Filled.SelectAll
+                            }
+                        }
+                    )
+                }
+            }
+        }
     }
  }

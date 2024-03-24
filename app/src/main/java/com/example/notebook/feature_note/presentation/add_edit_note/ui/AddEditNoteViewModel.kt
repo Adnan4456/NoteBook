@@ -2,6 +2,7 @@ package com.example.notebook.feature_note.presentation.add_edit_note.ui
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.SavedStateHandle
@@ -12,6 +13,8 @@ import com.example.notebook.feature_note.domain.model.Note
 import com.example.notebook.feature_note.domain.use_cases.NoteUseCases
 import com.example.notebook.feature_note.presentation.add_edit_note.AddEditNoteEvent
 import com.example.notebook.feature_note.presentation.add_edit_note.NoteTextFieldState
+import com.mohamedrejeb.richeditor.model.RichTextState
+import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -29,6 +32,17 @@ class AddEditNoteViewModel
     private val _noteTitle = mutableStateOf(NoteTextFieldState(
         hint = "Enter title..."
     ))
+
+    var editorTitleState by mutableStateOf(RichTextState())
+
+    var editorContentState by mutableStateOf(RichTextState())
+        private set
+    fun updateTitleEditorState(newState: RichTextState) {
+        editorTitleState = newState
+    }
+    fun updateContentEditorState(newState: RichTextState){
+        editorContentState = newState
+    }
 
     private val _isBookmarked = mutableStateOf(false)
 
@@ -51,6 +65,7 @@ class AddEditNoteViewModel
     val eventFlow = _eventFlow.asSharedFlow()
 
     private var currentNoteId: Int ? = null
+
     init {
 
         savedStateHandle.get<Int>("noteId")?.let {noteId ->
@@ -59,15 +74,17 @@ class AddEditNoteViewModel
 
                     noteUseCase.getNote(noteId)?.also {note ->
                         currentNoteId = note.id
-                        _noteTitle.value = noteTitle.value.copy(
-                            text = note.title,
-                            isHintVisible = false
-                        )
-                        _noteContent.value = _noteContent.value.copy(
-                            text = note.content,
-                            isHintVisible = false
-                        )
-                        _noteColor.value = note.color
+//                        _noteTitle.value = noteTitle.value.copy(
+//                            text = note.title,
+//                            isHintVisible = false
+//                        )
+                        editorTitleState.setHtml(note.title)
+                        editorContentState.setHtml(note.content)
+//                        _noteContent.value = _noteContent.value.copy(
+//                            text = note.content,
+//                            isHintVisible = false
+//                        )
+//                        _noteColor.value = note.color
                         _isBookmarked.value = note.isBookMarked
                         _isSecret.value = note.isSecrete
                          bitmap.value = note.imageBitmap
@@ -79,7 +96,8 @@ class AddEditNoteViewModel
 
 
     fun onEvent(event:AddEditNoteEvent){
-
+      Log.d("TAG","${editorTitleState.annotatedString}")
+        Log.d("TAG","${editorContentState.annotatedString}")
         when(event){
             is AddEditNoteEvent.EnterTitle -> {
                 _noteTitle.value = noteTitle.value.copy(
@@ -108,13 +126,17 @@ class AddEditNoteViewModel
                 _noteColor.value = event.color
             }
             is AddEditNoteEvent.SaveNote -> {
+//               Log.d("toHtml","${ editorTitleState.toHtml()}")
+//                Log.d("annotatedString","${ editorTitleState.annotatedString}")
+//                Log.d("","${editorTitleState.}")
                 viewModelScope.launch {
                     try {
 
                         noteUseCase.addNoteUseCase(
                             Note(
-                                title = noteTitle.value.text,
-                                content = noteContent.value.text,
+//                                title = noteTitle.value.text,
+                                title = editorTitleState.toHtml(),
+                                content =  editorContentState.toHtml(),
                                 timestamp = System.currentTimeMillis(),
                                 color = noteColor.value,
                                 id = currentNoteId,
@@ -134,7 +156,6 @@ class AddEditNoteViewModel
                 }
             }
         }
-
     }
 
     sealed class UiEvent{

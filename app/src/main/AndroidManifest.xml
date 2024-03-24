@@ -16,18 +16,6 @@
         android:theme="@style/Theme.NoteBook"
         tools:targetApi="31">
         <activity
-            android:name=".feature_splash_screen.SplashActivity"
-            android:exported="true"
-            android:theme="@style/Theme.MySplash">
-
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-
-        </activity>
-        <activity
             android:windowSoftInputMode="adjustResize"
             android:name=".MainActivity"
             android:exported="true"

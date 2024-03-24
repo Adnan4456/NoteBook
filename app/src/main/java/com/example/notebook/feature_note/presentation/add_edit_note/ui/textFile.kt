@@ -1,28 +1,28 @@
 package com.example.notebook.feature_note.presentation.add_edit_note.ui
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.Icon
+import android.graphics.BitmapFactory
 import android.util.Log
+import androidx.activity.compose.LocalFullyDrawnReporterOwner
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.ParagraphStyle
@@ -34,6 +34,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.notebook.feature_note.presentation.add_edit_note.components.TwoColorDialog
 import com.example.notebook.feature_note.presentation.add_edit_note.components.colourSaver
 import com.mohamedrejeb.richeditor.model.RichTextState
@@ -41,66 +44,353 @@ import com.mohamedrejeb.richeditor.model.rememberRichTextState
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
 import com.mohamedrejeb.richeditor.ui.material3.RichTextEditorDefaults
 import com.example.notebook.R
-import com.example.notebook.feature_note.presentation.notes.components.ClickableCard
+import com.example.notebook.feature_note.presentation.add_edit_note.AddEditNoteEvent
+import com.example.notebook.feature_note.presentation.notes.NotesEvent
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.io.InputStream
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MainScreentesting() {
-    Scaffold {
+fun MainScreentesting(
+    navController: NavController,
+    noteColor: Int,
+    viewModel: AddEditNoteViewModel = hiltViewModel()
+) {
+    val colors = listOf(
+        Color(0xFFEF9A9A),
+        Color(0xFFF48FB1),
+        Color(0xFF80CBC4),
+        Color(0xFFA5D6A7),
+        Color(0xFFFFCC80),
+        Color(0xFFFFAB91),
+        Color(0xFF81D4FA),
+        Color(0xFFCE93D8),
+        Color(0xFFB39DDB),
+        Color(0xFFFFFFFF),
+        Color(0xFF000000),
+    )
 
-        Box {
 
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
+    val state = rememberRichTextState()
 
-                Header()
-                Spacer(modifier = Modifier.height(30.dp))
-                myScrollableColumn()
+    val context = LocalContext.current
 
+    var colorPickerOpen by rememberSaveable { mutableStateOf(false) }
+
+    var currentlySelected by rememberSaveable(saver = colourSaver())
+    {
+        mutableStateOf(colors[0])
+    }
+
+    val titleSize = MaterialTheme.typography.displaySmall.fontSize
+    val subtitleSize = MaterialTheme.typography.titleLarge.fontSize
+
+    val scaffoldState = rememberBottomSheetScaffoldState()
+
+    val scope   = rememberCoroutineScope()
+    var inputStream: InputStream
+
+
+    val pickPhotoLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = {uri ->
+
+            if(uri != null){
+                inputStream = context.getContentResolver().openInputStream(uri)!!
+                viewModel.bitmap.value = BitmapFactory.decodeStream(inputStream)
             }
-            Bottom(
-                modifier = Modifier.align(Alignment.BottomCenter)
+
+        })
+
+
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(key1 = true){
+        viewModel.eventFlow.collectLatest {event ->
+            when(event){
+                is AddEditNoteViewModel.UiEvent.ShowSnackBar ->{
+                    snackbarHostState.showSnackbar(
+                        message = event.message
+                    )
+                }
+                is AddEditNoteViewModel.UiEvent.SaveNote ->{
+                    navController.navigateUp()
+                }
+            }
+        }
+    }
+
+    var bottomsheet by rememberSaveable{
+        mutableStateOf(false)
+    }
+
+    val color = Color(0xDEDEDEDE)
+
+    Surface{
+
+        val systemUiController = rememberSystemUiController()
+        val darkTheme = isSystemInDarkTheme()
+
+        SideEffect {
+            systemUiController.setSystemBarsColor(
+                color = color
             )
         }
-    }
-}
+
+        BottomSheetScaffold(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    color = colorResource(
+                        id = R.color.edit_notes_bg
+                    )
+                ),
+            sheetContainerColor = colorResource(id = R.color.app_black),
+            scaffoldState = scaffoldState,
+            sheetContent ={
+                TextBottomSheet(
+                    onDismiss = {
+                        bottomsheet = false
+                    },
+                    onBoldClick = {
+
+                        viewModel.editorContentState.toggleSpanStyle(
+                            SpanStyle(fontWeight = FontWeight.Bold)
+                        )
+                    },
+                    onItalicClick = {
+                        viewModel.editorContentState.toggleSpanStyle(
+                            SpanStyle(fontStyle = FontStyle.Italic)
+                        )
+                    },
+                    onUnderlineClick = {
+                        viewModel.editorContentState.toggleSpanStyle(
+                            SpanStyle(textDecoration = TextDecoration.Underline)
+                        )
+                    },
+                    onTitleClick = {
+                        viewModel.editorContentState.toggleSpanStyle(
+                            SpanStyle(fontSize = titleSize)
+                        )
+                    },
+                    onSubtitleClick = {
+                        viewModel.editorContentState.toggleSpanStyle(
+                            SpanStyle(fontSize = subtitleSize)
+                        )
+                    },
+                    onTextColorClick = {
+                        colorPickerOpen = true
+                    },
+                    onStartAlignClick = {
+                        viewModel.editorContentState.toggleParagraphStyle(
+                            ParagraphStyle(textAlign = TextAlign.Start)
+                        )
+                    },
+                    onEndAlignClick = {
+                        viewModel.editorContentState.toggleParagraphStyle(
+                            ParagraphStyle(textAlign = TextAlign.End)
+                        )
+                    },
+                    onCenterAlignClick = {
+                        viewModel.editorContentState.toggleParagraphStyle(
+                            ParagraphStyle(textAlign = TextAlign.Center)
+                        )
+                    },
+                    onExportClick = {
+                    }
+                )
+            },
+            sheetPeekHeight = 0.dp
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        color = colorResource(id = R.color.edit_notes_bg)
+                    )
+            ) {
+                Column(
+                    modifier = Modifier.padding(4.dp)
+                ) {
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Header(viewModel , navController)
+                    Spacer(modifier = Modifier.height(30.dp))
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                    ){
+
+                        item{
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth(.5f)
+                                    .height(200.dp)
+                                    .clickable {
+                                    },
+                            ){
+
+                                    Card (
+                                        colors = CardDefaults.cardColors(
+                                        ),
+                                        elevation =CardDefaults.cardElevation(
+                                            defaultElevation = 8.dp,
+                                            pressedElevation = 4.dp,
+                                            focusedElevation = 6.dp
+                                        ),
+                                        shape = RoundedCornerShape(8.dp)
+                                    ){
+
+                                        AsyncImage(
+                                            model = viewModel.bitmap.value,
+                                            contentDescription = "",
+                                            contentScale = ContentScale.FillBounds,
+                                            modifier = Modifier.fillMaxWidth()
+                                        )
+                                    }
+                            }
+                        }
 
 
-@Composable
-fun Bottom(
-    modifier: Modifier
-) {
-    val icons = listOf(
-        Icons.Default.Add,
-        Icons.Default.Delete,
-        Icons.Default.AccountCircle,
-        Icons.Default.Settings,
-        Icons.Default.Help,
-        Icons.Default.Home
-    )
-    LazyRow(
-        modifier = modifier.padding(16.dp)
-            .height(100.dp)
-            .fillMaxWidth()
-    ){
-        items(icons) { icon ->
-            IconItem(icon)
+
+                        item{
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            RichTextEditor(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                singleLine= true,
+                                maxLines = 1,
+                                state = viewModel.editorTitleState,
+                                supportingText = { Text(text = "Content")},
+                                colors = RichTextEditorDefaults.richTextEditorColors(
+                                    containerColor = colorResource(id = R.color.edit_notes_bg),
+                                    cursorColor = Color.Black
+                                ),
+                            )
+                            LaunchedEffect(viewModel.editorTitleState.annotatedString) {
+                                // This code will run each time the rich text is changed.
+                                Log.d("TAG", "${this}")
+                            }
+                        }
+                        item{
+                            RichTextEditor(
+                                modifier = Modifier
+                                    .height(600.dp)
+                                    .fillMaxWidth(),
+                                state = viewModel.editorContentState,
+                                colors = RichTextEditorDefaults.richTextEditorColors(
+                                    containerColor = colorResource(id = R.color.edit_notes_bg),
+                                    cursorColor = Color.Black
+                                )
+                            )
+                        }
+                    }
+                    if (colorPickerOpen) {
+                        TwoColorDialog(
+                            colorList = colors,
+                            onDismiss = { colorPickerOpen = false },
+                            currentlySelected = currentlySelected,
+                            onColorSelected = {
+                                currentlySelected = it
+                                viewModel.editorContentState.toggleSpanStyle(SpanStyle(color = currentlySelected))
+                                colorPickerOpen = false
+                            }
+                        )
+                    }
+                }
+
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .align(Alignment.BottomCenter),
+                    colors = CardDefaults.cardColors(
+                        containerColor = colorResource(id = R.color.app_black)
+                    )
+                ) {
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
+                            .verticalScroll(rememberScrollState()),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+
+                        Row(
+
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+
+                            Spacer(modifier = Modifier.width(8.dp))
+
+                            IconButton(
+                                modifier = Modifier
+                                    .height(50.dp)
+                                    .width(30.dp),
+                                onClick = {
+                                    pickPhotoLauncher.launch(
+                                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                    )
+                                }) {
+
+                                Icon(
+                                    modifier = Modifier
+                                        .height(40.dp)
+                                        .width(20.dp),
+                                    painter = painterResource(id = R.drawable.add_image),
+                                    contentDescription = "",
+                                    tint = Color.White)
+                            }
+                            IconButton(
+                                modifier = Modifier
+                                    .height(50.dp)
+                                    .width(30.dp),
+                                onClick = {
+                                    scope.launch {
+                                        scaffoldState.bottomSheetState.expand()
+                                    }
+
+                                }) {
+
+                                Icon(
+                                    modifier = Modifier
+                                        .height(40.dp)
+                                        .width(20.dp),
+                                    painter = painterResource(id = R.drawable.bx_text),
+                                    contentDescription = "",
+                                    tint = Color.White)
+                            }
+                        }
+
+                        IconButton(onClick = { /*TODO*/ }) {
+                            Icon(
+                                    modifier = Modifier
+                                        .height(40.dp)
+                                        .width(20.dp),
+                                painter = painterResource(id = R.drawable.menu_icon),
+                                contentDescription = "",
+                                tint = Color.White)
+                        }
+                    }
+                }
+            }
         }
     }
 }
+
 @Composable
-fun IconItem(icon: ImageVector) {
-    // You can customize how you want to display the icon here
-    // For simplicity, I'm just displaying the icon directly
-    Icon(imageVector = icon, contentDescription = null)
-}
-@Composable
-fun Header() {
+fun Header(viewModel: AddEditNoteViewModel , navController: NavController) {
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -115,6 +405,7 @@ fun Header() {
            )
            TextButton(
                onClick = {
+                   navController.popBackStack()
                }) {
                Text(text = "Back" ,
                    style = TextStyle(
@@ -128,13 +419,13 @@ fun Header() {
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            Icon(
-                modifier = Modifier
-                    .height(25.dp)
-                    .width(25.dp),
-                imageVector = Icons.Default.Mic,
-                contentDescription = "",
-            tint = colorResource(id = R.color.app_black))
+//            Icon(
+//                modifier = Modifier
+//                    .height(25.dp)
+//                    .width(25.dp),
+//                imageVector = Icons.Default.Mic,
+//                contentDescription = "",
+//            tint = colorResource(id = R.color.app_black))
 
             Spacer(modifier = Modifier.width(16.dp))
 
@@ -144,7 +435,8 @@ fun Header() {
                     .height(37.dp),
                 shape = RoundedCornerShape(8.dp),
                 onClick = {
-
+                    Log.d("richtext" , "${viewModel.editorTitleState.toString()}")
+                          viewModel.onEvent(AddEditNoteEvent.SaveNote)
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorResource(id = R.color.app_black)
@@ -160,134 +452,64 @@ fun Header() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun myScrollableColumn(){
-    val colors = listOf(
-        Color(0xFFEF9A9A),
-        Color(0xFFF48FB1),
-        Color(0xFF80CBC4),
-        Color(0xFFA5D6A7),
-        Color(0xFFFFCC80),
-        Color(0xFFFFAB91),
-        Color(0xFF81D4FA),
-        Color(0xFFCE93D8),
-        Color(0xFFB39DDB),
-        Color(0xFFFFFFFF),
-        Color(0xFF000000),
-    )
 
-    var colorPickerOpen by rememberSaveable { mutableStateOf(false) }
-    var currentlySelected by rememberSaveable(saver = colourSaver())
-    {
-        mutableStateOf(colors[0])
-    }
+
+@Composable
+fun TextBottomSheet(
+    onDismiss: (() -> Unit),
+    onItalicClick:()->Unit,
+    onBoldClick: ()->Unit,
+    onUnderlineClick:()->Unit,
+    onTitleClick:()->Unit,
+    onSubtitleClick:() ->Unit,
+    onTextColorClick: () -> Unit,
+    onStartAlignClick:() -> Unit,
+    onEndAlignClick:() -> Unit,
+    onCenterAlignClick:() -> Unit,
+    onExportClick:() -> Unit
+){
 
     val state = rememberRichTextState()
-    val stateTitle = rememberRichTextState()
-    val titleSize = MaterialTheme.typography.displaySmall.fontSize
-    val subtitleSize = MaterialTheme.typography.titleLarge.fontSize
 
-    LazyColumn(
+
+
+    EditorControls(
         modifier = Modifier
-            .fillMaxSize()
-    ){
-        item {
-
-            EditorControls(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp),
-                state = state,
-                onBoldClick = {
-                    state.toggleSpanStyle(SpanStyle(fontWeight = FontWeight.Bold))
-                },
-                onItalicClick = {
-                    state.toggleSpanStyle(SpanStyle(fontStyle = FontStyle.Italic))
-                },
-                onUnderlineClick = {
-                    state.toggleSpanStyle(SpanStyle(textDecoration = TextDecoration.Underline))
-                },
-                onTitleClick = {
-                    state.toggleSpanStyle(SpanStyle(fontSize = titleSize))
-                },
-                onSubtitleClick = {
-                    state.toggleSpanStyle(SpanStyle(fontSize = subtitleSize))
-                },
-                onTextColorClick = {
-                    colorPickerOpen = true
-                },
-                onStartAlignClick = {
-                    state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Start))
-                },
-                onEndAlignClick = {
-                    state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.End))
-                },
-                onCenterAlignClick = {
-                    state.toggleParagraphStyle(ParagraphStyle(textAlign = TextAlign.Center))
-                },
-                onExportClick = {
-                    Log.d("Editor", state.toHtml())
-                }
-            )
+            .fillMaxWidth(),
+        state = state,
+        onBoldClick = {
+            onBoldClick.invoke()
+        },
+        onItalicClick = {
+            onItalicClick.invoke()
+        },
+        onUnderlineClick = {
+            onUnderlineClick.invoke()
+        },
+        onTitleClick = {
+            onTitleClick.invoke()
+        },
+        onSubtitleClick = {
+            onSubtitleClick.invoke()
+        },
+        onTextColorClick = {
+            onTextColorClick.invoke()
+        },
+        onStartAlignClick = {
+            onStartAlignClick.invoke()
+        },
+        onEndAlignClick = {
+            onEndAlignClick.invoke()
+        },
+        onCenterAlignClick = {
+            onCenterAlignClick.invoke()
+        },
+        onExportClick = {
+            Log.d("Editor", state.toHtml())
         }
+    )
 
-        item{
-
-            ElevatedCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp,
-                    focusedElevation = 12.dp,
-
-                )
-            ) {
-
-                RichTextEditor(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth(),
-                    singleLine= true,
-                    maxLines = 1,
-                    state = stateTitle,
-                    colors = RichTextEditorDefaults.richTextEditorColors(
-                        containerColor = Color.White,
-                        cursorColor = Color.Black
-                    ),
-                )
-            }
-        }
-        item{
-            RichTextEditor(
-                modifier = Modifier
-                    .height(1000.dp)
-                    .fillMaxWidth(),
-                state = state,
-                colors = RichTextEditorDefaults.richTextEditorColors(
-                    containerColor = Color.White,
-                    cursorColor = Color.Black
-                )
-            )
-        }
-    }
-
-
-    if (colorPickerOpen) {
-        TwoColorDialog(
-            colorList = colors,
-            onDismiss = { colorPickerOpen = false },
-            currentlySelected = currentlySelected,
-            onColorSelected = {
-                currentlySelected = it
-                colorPickerOpen = false
-                state.toggleSpanStyle(SpanStyle(color = currentlySelected))
-            }
-        )
-    }
 }
-
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun EditorControls(
@@ -303,34 +525,24 @@ fun EditorControls(
     onEndAlignClick: () -> Unit,
     onCenterAlignClick: () -> Unit,
     onExportClick: () -> Unit,
+    viewModel: DialogButtonViewModel = hiltViewModel()
 ) {
-
-    var boldSelected by rememberSaveable { mutableStateOf(false) }
-    var italicSelected by rememberSaveable { mutableStateOf(false) }
-    var underlineSelected by rememberSaveable { mutableStateOf(false) }
-    var titleSelected by rememberSaveable { mutableStateOf(false) }
-    var subtitleSelected by rememberSaveable { mutableStateOf(false) }
-    var textColorSelected by rememberSaveable { mutableStateOf(false) }
-    var linkSelected by rememberSaveable { mutableStateOf(false) }
-//    var alignmentSelected by rememberSaveable { mutableIntStateOf(0) }
-    var alignmentSelected by rememberSaveable {
-        mutableStateOf(1)
-    }
-
-
-
 
     var showLinkDialog by remember { mutableStateOf(false) }
 
     FlowRow(
         modifier = modifier
             .fillMaxWidth()
-            .padding(all = 10.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+            .padding(top = 10.dp, bottom = 30.dp, start = 10.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         ControlWrapper(
-            selected = boldSelected,
-            onChangeClick = { boldSelected = it },
+            selected = viewModel.isBold.value,
+            onChangeClick = {
+//                boldSelected = it
+                viewModel.isBold.value = it
+                            },
             onClick = onBoldClick
         ) {
             Icon(
@@ -340,8 +552,8 @@ fun EditorControls(
             )
         }
         ControlWrapper(
-            selected = italicSelected,
-            onChangeClick = { italicSelected = it },
+            selected = viewModel.italicSelected.value,
+            onChangeClick = {  viewModel.italicSelected.value = it },
             onClick = onItalicClick
         ) {
             Icon(
@@ -351,8 +563,8 @@ fun EditorControls(
             )
         }
         ControlWrapper(
-            selected = underlineSelected,
-            onChangeClick = { underlineSelected = it },
+            selected =  viewModel.underlineSelected.value,
+            onChangeClick = {  viewModel.underlineSelected.value = it },
             onClick = onUnderlineClick
         ) {
             Icon(
@@ -362,8 +574,8 @@ fun EditorControls(
             )
         }
         ControlWrapper(
-            selected = titleSelected,
-            onChangeClick = { titleSelected = it },
+            selected = viewModel.titleSelected.value,
+            onChangeClick = { viewModel.titleSelected.value = it },
             onClick = onTitleClick
         ) {
             Icon(
@@ -373,8 +585,8 @@ fun EditorControls(
             )
         }
         ControlWrapper(
-            selected = subtitleSelected,
-            onChangeClick = { subtitleSelected = it },
+            selected = viewModel.subtitleSelected.value,
+            onChangeClick = { viewModel.subtitleSelected.value = it },
             onClick = onSubtitleClick
         ) {
             Icon(
@@ -384,8 +596,8 @@ fun EditorControls(
             )
         }
         ControlWrapper(
-            selected = textColorSelected,
-            onChangeClick = { textColorSelected = it },
+            selected = viewModel.textColorSelected.value,
+            onChangeClick = { viewModel.textColorSelected.value = it },
             onClick = onTextColorClick
         ) {
             Icon(
@@ -395,8 +607,8 @@ fun EditorControls(
             )
         }
         ControlWrapper(
-            selected = linkSelected,
-            onChangeClick = { linkSelected = it },
+            selected = viewModel.linkSelected.value,
+            onChangeClick = { viewModel.linkSelected.value = it },
             onClick = { showLinkDialog = true }
         ) {
             Icon(
@@ -406,8 +618,8 @@ fun EditorControls(
             )
         }
         ControlWrapper(
-            selected = alignmentSelected == 0,
-            onChangeClick = { alignmentSelected = 0 },
+            selected = viewModel.alignmentSelected.value == 0,
+            onChangeClick = { viewModel.alignmentSelected.value = 0 },
             onClick = onStartAlignClick
         ) {
             Icon(
@@ -417,8 +629,8 @@ fun EditorControls(
             )
         }
         ControlWrapper(
-            selected = alignmentSelected == 1,
-            onChangeClick = { alignmentSelected = 1 },
+            selected = viewModel.alignmentSelected.value == 1,
+            onChangeClick = { viewModel.alignmentSelected.value = 1 },
             onClick = onCenterAlignClick
         ) {
             Icon(
@@ -428,25 +640,13 @@ fun EditorControls(
             )
         }
         ControlWrapper(
-            selected = alignmentSelected == 2,
-            onChangeClick = { alignmentSelected = 2 },
+            selected = viewModel.alignmentSelected.value == 2,
+            onChangeClick = { viewModel.alignmentSelected.value = 2 },
             onClick = onEndAlignClick
         ) {
             Icon(
                 imageVector = Icons.Default.FormatAlignRight,
                 contentDescription = "End Align Control",
-                tint = MaterialTheme.colorScheme.onPrimary
-            )
-        }
-        ControlWrapper(
-            selected = true,
-            selectedColor = MaterialTheme.colorScheme.tertiary,
-            onChangeClick = { },
-            onClick = onExportClick
-        ) {
-            Icon(
-                imageVector = Icons.Default.Save,
-                contentDescription = "Export Control",
                 tint = MaterialTheme.colorScheme.onPrimary
             )
         }
@@ -457,15 +657,15 @@ fun EditorControls(
 @Composable
 fun ControlWrapper(
     selected: Boolean,
-    selectedColor: Color = MaterialTheme.colorScheme.primary,
-    unselectedColor: Color = MaterialTheme.colorScheme.inversePrimary,
+    selectedColor: Color = colorResource(id = R.color.selected),
+    unselectedColor: Color =  colorResource(id = R.color.un_selected),
     onChangeClick: (Boolean) -> Unit,
     onClick: () -> Unit,
     content: @Composable () -> Unit
 ) {
     Box(
         modifier = Modifier
-            .clip(RoundedCornerShape(size = 6.dp))
+            .clip(RoundedCornerShape(size = 16.dp))
             .clickable {
                 onClick()
                 onChangeClick(!selected)
@@ -474,15 +674,19 @@ fun ControlWrapper(
                 if (selected) selectedColor
                 else unselectedColor
             )
-            .border(
-                width = 1.dp,
-                color = Color.LightGray,
-                shape = RoundedCornerShape(size = 6.dp)
-            )
-            .padding(all = 8.dp),
+//            .border(
+//                width = 1.dp,
+//                color = Color.LightGray,
+//                shape = RoundedCornerShape(size = 6.dp)
+//            )
+            .padding(all = 16.dp),
         contentAlignment = Alignment.Center
     ) {
         content()
     }
 }
 
+data class BottomIcons(
+    val title: String,
+    val icon : ImageVector
+)

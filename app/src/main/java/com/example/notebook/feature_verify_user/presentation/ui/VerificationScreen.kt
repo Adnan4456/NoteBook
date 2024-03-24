@@ -20,17 +20,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.navigation.compose.rememberNavController
 import com.example.notebook.components.*
 import com.example.notebook.feature_login.domain.model.LoginResult
-import com.example.notebook.feature_note.presentation.util.Screen
 import com.example.notebook.feature_verify_user.presentation.VerifyUserEvent
-import com.example.notebook.navigateToSingleTop
 
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun VerificationScreen(
-    navController: NavController,
     viewModel: VerificationViewModel = hiltViewModel(),
     onCompleteListener: () -> Unit
 ){
@@ -39,7 +35,6 @@ fun VerificationScreen(
 
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val navControllertest  = rememberNavController()
     val context = LocalContext.current
 
     val verificationState by viewModel.verificationState.collectAsState()

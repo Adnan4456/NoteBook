@@ -5,6 +5,7 @@ import FilterView
 import android.annotation.SuppressLint
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -12,7 +13,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
- import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -25,7 +27,6 @@ import com.example.notebook.R
 import com.example.notebook.feature_note.presentation.notes.NotesEvent
 import com.example.notebook.feature_note.presentation.notes.NotesViewModel
 import com.example.notebook.feature_note.presentation.notes.components.*
-import com.example.notebook.feature_note.presentation.util.Screen
 import com.google.firebase.auth.FirebaseAuth
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
@@ -39,16 +40,32 @@ fun NotesScreen(
     val state = viewModel.state.value
     val snackbarHostState = remember { SnackbarHostState() }
 
-
      val density = LocalDensity.current
 
 
     Scaffold(
+        floatingActionButtonPosition = FabPosition.End,
+        floatingActionButton = {
+            FilterView(
+                items = listOf(
+                    FilterFabMenuItem("Note", R.drawable.ic_note),
+                    FilterFabMenuItem("Todo", R.drawable.ic_todo)
+                ),
+                modifier = Modifier
+//                    .align(Alignment.BottomEnd)
+                    .padding(8.dp),
+                navController
+            )
+        },
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         },
-    ) {
-        Box{
+    ) {innerPadding ->
+        Box(
+            modifier = Modifier.background(
+               color = Color.White.copy(alpha = .7f)
+            )
+        ){
 
             Column(
                 modifier = Modifier
@@ -75,14 +92,18 @@ fun NotesScreen(
 
                         Text(
                             text = stringResource(id = R.string.notetitle),
-                            style = MaterialTheme.typography.displayMedium,
+                            style = MaterialTheme.typography.bodyLarge,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.weight(1f))
 
                         IconButton(
                             onClick = {
                                 firbaseAuth.signOut()
-                                navController.navigate(Screen.LoginScreen.route)
+                                navController.navigate(route ="auth_graph"){
+                                    popUpTo("home_graph"){
+                                        inclusive = false
+                                    }
+                                }
                             },
                         ) {
                             Icon(
@@ -93,7 +114,7 @@ fun NotesScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(18.dp))
                 SearchBar { query ->
                     viewModel.onSearchQueryChanged(query)
                 }
@@ -119,32 +140,20 @@ fun NotesScreen(
                         }
                     )
                 }
-
                 Header(navController)
-
             }
-
-            FilterView(
-                items = listOf(
-                    FilterFabMenuItem("Note", R.drawable.ic_note),
-                    FilterFabMenuItem("Todo", R.drawable.ic_todo)
-                ),
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(16.dp),
-                navController
-            )
         }
     }
 }
 @Composable
 fun NoNotesImage(
-    navController: NavController
+//    navController: NavController
 ){
 
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie))
 
-    val repeatableSpec = rememberInfiniteTransition().animateFloat(
+    val repeatableSpec = rememberInfiniteTransition()
+        .animateFloat(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
@@ -165,19 +174,7 @@ fun NoNotesImage(
             composition = composition,
             progress = repeatableSpec.value
         )
-        Text(text = "Create your first note !")
-
-        // Example usage of FilterView
-        FilterView(
-            items = listOf(
-                FilterFabMenuItem("Note", R.drawable.ic_lock),
-                FilterFabMenuItem("Todo", R.drawable.add_photo)
-            ),
-            modifier = Modifier
-//                .align(Alignment.BottomEnd)
-                .padding(16.dp),
-            navController
-        )
+        Text(text = "Create your  note !")
     }
 
 }

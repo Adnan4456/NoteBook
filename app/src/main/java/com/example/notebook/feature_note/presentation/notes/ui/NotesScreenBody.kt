@@ -1,13 +1,13 @@
 package com.example.notebook.feature_note.presentation.notes.ui
 
-import android.util.Log
+
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -16,12 +16,8 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.notebook.R
@@ -29,8 +25,7 @@ import com.example.notebook.feature_note.presentation.bookmarked_notes.BookMarke
 import com.example.notebook.feature_note.presentation.notes.NotesEvent
 import com.example.notebook.feature_note.presentation.notes.NotesViewModel
 import com.example.notebook.feature_note.presentation.notes.components.NoteItem
-import com.example.notebook.feature_note.presentation.notes.components.header
-import com.example.notebook.feature_note.presentation.util.Screen
+import com.example.notebook.feature_note.presentation.util.BottomBarScreen
 import com.example.notebook.feature_secret_note.presentation.ui.SecretNotes
 import com.example.notebook.feature_verify_user.presentation.ui.VerificationScreen
 import com.example.notebook.ui.theme.AppTheme
@@ -47,10 +42,11 @@ fun AllNotesList(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
+
     if (AppTheme.orientation == Orientation.Portrait){
 
         if(state.notes.isEmpty()){
-            NoNotesImage(navController)
+            NoNotesImage()
 
         }else {
 
@@ -62,7 +58,6 @@ fun AllNotesList(
             ){
                 items(state.notes){ note ->
 
-                    Log.d("TAG","title =  ${note.title}")
                     AnimatedVisibility(
                         visible = true ,
                         enter = fadeIn(animationSpec = tween(5000)),
@@ -72,17 +67,15 @@ fun AllNotesList(
                         NoteItem(
                             note = note,
                             modifier = Modifier
-
                                 .fillMaxWidth()
                                 .clickable {
                                     navController.navigate(
-                                        Screen.AddEditNoteScreen.route +
+                                        BottomBarScreen.AddEditNoteScreen.route +
                                                 "?noteId=${note.id}&noteColor=${note.color}"
                                     )
                                 },
                             onDeleteClick = {
                                 viewModel.onEvent(NotesEvent.DeleteNote(note))
-
                                 scope.launch {
                                     val result = snackbarHostState.showSnackbar(
                                         context.getString(R.string.note_delete),
@@ -116,7 +109,6 @@ fun AllNotesList(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ){
 
-
             items(state.notes){ note ->
 
                 AnimatedVisibility(
@@ -131,7 +123,7 @@ fun AllNotesList(
                             .fillMaxWidth()
                             .clickable {
                                 navController.navigate(
-                                    Screen.AddEditNoteScreen.route +
+                                    BottomBarScreen.AddEditNoteScreen.route +
                                             "?noteId=${note.id}&noteColor=${note.color}"
                                 )
                             },
@@ -150,7 +142,6 @@ fun AllNotesList(
                             }
                         },
                         onBookMarkChange = {
-                            Log.d("TAG", "Bookmark in screen")
                             viewModel.onEvent(NotesEvent.Bookmark(note))
                             scope.launch {
                                 snackbarHostState.showSnackbar(
@@ -167,9 +158,7 @@ fun AllNotesList(
 
             }
         }
-
     }
-
 }
 
 @Composable
@@ -189,11 +178,16 @@ fun HiddenNotesList(
     if(verified){
         SecretNotes(navController)
     }else{
-        VerificationScreen(navController = navController,
-            onCompleteListener = {
-                verified = true
+        LazyColumn(){
+            item {
+
+                VerificationScreen(
+                    onCompleteListener = {
+                        verified = true
+                    }
+                )
             }
-        )
+        }
     }
 }
 

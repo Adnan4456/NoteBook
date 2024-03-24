@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.notebook.R
-import com.example.notebook.feature_note.presentation.util.Screen
+import com.example.notebook.feature_note.presentation.util.AuthScreen
 import com.example.notebook.feature_splash_screen.pages.ExplainPager
 import com.example.notebook.feature_splash_screen.pages.NotePager
 import com.example.notebook.feature_splash_screen.pages.TodoPager
@@ -233,7 +233,7 @@ fun DeatilScreen(
                                 TextButton(
                                     modifier = Modifier.fillMaxWidth(),
                                     onClick = {
-                                        navController.navigate(Screen.SignUpScreen.route)
+                                        navController.navigate(AuthScreen.SignUpScreen.route)
                                     }) {
 
                                     Text(
@@ -260,7 +260,7 @@ fun DeatilScreen(
                                 TextButton(
                                     modifier = Modifier.fillMaxWidth(),
                                     onClick = {
-                                        navController.navigate(Screen.LoginScreen.route)
+                                        navController.navigate(AuthScreen.LoginScreen.route)
                                     }) {
 
                                     Text(

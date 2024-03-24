@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.notebook.R
@@ -39,6 +40,9 @@ fun SearchBar(
     SearchBar(
         modifier= Modifier
             .fillMaxWidth(),
+//        colors = SearchBarDefaults.colors(
+//            containerColor = Color.White
+//        ),
         colors = SearchBarDefaults.colors(
             containerColor = Color.White
         ),
@@ -49,7 +53,7 @@ fun SearchBar(
             onSearchQuery(query)
         },
         onSearch = {
-            //press search icon on keybpard
+
             active = false
             focusManager.clearFocus()
 
@@ -197,7 +201,7 @@ fun CardRow(onClick: (String) -> Unit, modifier: Modifier) {
 
         Row(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             for (index in cardTexts.indices step 2) {

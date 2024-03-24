@@ -28,7 +28,8 @@ import com.example.notebook.common.rememberImeState
 import com.example.notebook.components.*
 import com.example.notebook.feature_internet_connectivity.domain.ConnectivityObserver
 import com.example.notebook.feature_login.domain.model.LoginResult
-import com.example.notebook.feature_note.presentation.util.Screen
+import com.example.notebook.feature_note.presentation.util.AuthScreen
+import com.example.notebook.navigation.Graph
 import kotlinx.coroutines.launch
 
 @Composable
@@ -191,7 +192,7 @@ fun LoginScreen(
                             text = AnnotatedString(stringResource(id = R.string.forget_password)),
                             onClick = {
                                 //navigate to forget password screen
-                                navController.navigate(Screen.ForgetPasswordScreen.route)
+                                navController.navigate(AuthScreen.ForgetPasswordScreen.route)
                             }
                         )
                     }
@@ -229,9 +230,14 @@ fun LoginScreen(
                         )
                     }
                     is LoginResult.isSuccessful -> {
-                        Toast.makeText(LocalContext.current ,"Login in successfully",Toast.LENGTH_SHORT).show()
                         showDialog = false
-                        navController.navigate(Screen.NotesScreen.route)
+
+//                        navController.popBackStack()
+                        navController.navigate(Graph.HOME){
+                            popUpTo(AuthScreen.LoginScreen.route){
+                                inclusive = true
+                            }
+                        }
                     }
                     is LoginResult.onFailure -> {
                         val errorMessage = (loginState as LoginResult.onFailure)
@@ -255,13 +261,13 @@ fun LoginScreen(
 
                         Text(
                             modifier = Modifier.clickable {
-                                navController.navigate(Screen.LoginScreen.route)
+                                navController.navigate(AuthScreen.LoginScreen.route)
                             },
                             text =  "Don`t have account yet  ?",
                         )
                         Text(
                             modifier = Modifier.clickable {
-                                navController.navigate(Screen.SignUpScreen.route)
+                                navController.navigate(AuthScreen.SignUpScreen.route)
                             },
                             text = buildAnnotatedString {
                                 withStyle(style =  SpanStyle(
