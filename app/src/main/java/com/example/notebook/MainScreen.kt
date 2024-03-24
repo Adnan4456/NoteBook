@@ -1,18 +1,12 @@
 package com.example.notebook
 
 
-import FilterFabMenuItem
-import FilterView
+
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.outlined.Security
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -20,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -50,9 +44,12 @@ fun MainScreen(
     }
 
     Scaffold (
-        Modifier.background(colorResource(id = R.color.background_color)),
-        floatingActionButton = {
-        },
+        Modifier.
+        background(
+//            colorResource(id = R.color.background_color)
+        color = Color.White
+        ),
+
         bottomBar = {
             NavigationBar(navController)
         }
@@ -77,13 +74,15 @@ fun NavigationBar(navController: NavHostController){
     val bottomBarDestination = screenList.any { it.route == currentDestination?.route }
 
     if(bottomBarDestination){
-        NavigationBar() {
+        NavigationBar(
+            containerColor = Color.White,
+            tonalElevation = 8.dp
+        ) {
             screenList.forEach { screen ->
                 AddItem(
                     screen = screen,
                     currentDestination = currentDestination,
                     navController = navController)
-
             }
         }
     }
@@ -119,9 +118,4 @@ fun RowScope.AddItem(
             }
         }
     )
-}
-
-
-enum class TabScreen{
-    Home , BookMark , SecretNotes
 }

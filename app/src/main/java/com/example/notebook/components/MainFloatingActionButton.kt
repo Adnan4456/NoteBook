@@ -3,10 +3,14 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
+import androidx.compose.material3.FloatingActionButtonDefaults.containerColor
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,12 +41,13 @@ fun FilterFabMenuButton(
         onClick = {
             onClick(item)
         },
-//        backgroundColor = colorResource(
-//            id = R.color.primary_color
-//        )
+
+        containerColor = colorResource(id = R.color.app_black)
     ) {
         Icon(
-            painter = painterResource(item.icon), contentDescription = null, tint = colorResource(
+            painter = painterResource(item.icon),
+            contentDescription = null, 
+            tint = colorResource(
                 id = R.color.white
             )
         )
@@ -83,10 +88,9 @@ fun FilterFabMenuItem(
     ) {
 
         //label
-//        FilterFabMenuLabel(label = "Add Notes")
-        FilterFabMenuLabel(label = "Add Todo")
+//        FilterFabMenuLabel(label = "Add Todo")
 
-        //fab
+
         FilterFabMenuButton(item = menuItem, onClick = onMenuItemClick)
 
     }
@@ -132,7 +136,7 @@ fun FilterFabMenu(
                     menuItem = menuItem,
                     onMenuItemClick = {
 //                        Toast.makeText()
-                        Log.d("TAG","${it.label}")
+//                        Log.d("TAG","${it.label}")
                         if(it.label.equals("Note")){
                          navController.navigate(BottomBarScreen.AddEditNoteScreen.route)
                         }
@@ -156,7 +160,7 @@ fun FilterFab(
     FloatingActionButton(
         modifier = modifier
             .rotate(rotation),
-        elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 0.dp),
+        elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 10.dp),
         onClick = {
             onClick(
                 if (state == FilterFabState.EXPANDED) {
@@ -166,13 +170,15 @@ fun FilterFab(
                 }
             )
         },
+        containerColor = colorResource(id = R.color.un_selected),
 //        backgroundColor = colorResource(
 //            R.color.primary_color
 //        ),
         shape = CircleShape
     ) {
         Icon(
-            painter = painterResource(R.drawable.add_photo),
+//            painter = painterResource(R.drawable.add_photo),
+            imageVector = Icons.Default.Add,
             contentDescription = null,
             tint = Color.White
         )
@@ -186,10 +192,6 @@ fun FilterView(
     modifier: Modifier = Modifier,
     navController: NavController
 ) {
-
-//    var filterFabState by rememberSaveable {
-//        mutableStateOf(FilterFabState.COLLAPSED)
-//    }
 
 
 
@@ -213,10 +215,14 @@ fun FilterView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(16.dp), horizontalAlignment = Alignment.End,
-        verticalArrangement = Arrangement.spacedBy(16.dp,Alignment.Bottom)
+            .padding(4.dp),
+        horizontalAlignment = Alignment.End,
+        verticalArrangement = Arrangement.spacedBy(1.dp,Alignment.Bottom)
     ) {
-        FilterFabMenu(items = items, visible = filterFabState == FilterFabState.EXPANDED , navController = navController )
+        FilterFabMenu(
+            items = items,
+            visible = filterFabState == FilterFabState.EXPANDED ,
+            navController = navController )
         FilterFab(
             state = filterFabState,
             rotation = iconRotationDegree, onClick = { state ->

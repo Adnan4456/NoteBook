@@ -216,7 +216,7 @@ fun MainScreentesting(
                     modifier = Modifier.padding(4.dp)
                 ) {
                     Spacer(modifier = Modifier.height(8.dp))
-                    Header(viewModel)
+                    Header(viewModel , navController)
                     Spacer(modifier = Modifier.height(30.dp))
                     LazyColumn(
                         modifier = Modifier
@@ -385,7 +385,7 @@ fun MainScreentesting(
 }
 
 @Composable
-fun Header(viewModel: AddEditNoteViewModel) {
+fun Header(viewModel: AddEditNoteViewModel , navController: NavController) {
 
     Row(
         modifier = Modifier
@@ -405,6 +405,7 @@ fun Header(viewModel: AddEditNoteViewModel) {
            )
            TextButton(
                onClick = {
+                   navController.popBackStack()
                }) {
                Text(text = "Back" ,
                    style = TextStyle(

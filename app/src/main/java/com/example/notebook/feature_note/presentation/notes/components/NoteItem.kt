@@ -145,14 +145,16 @@ fun NoteItem(
 //
 //                }
 //
-                AsyncImage(
-                    model = note.imageBitmap,
-                    contentDescription = "",
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(150.dp)
-                )
+                if(note.imageBitmap != null){
+                    AsyncImage(
+                        model = note.imageBitmap,
+                        contentDescription = "",
+                        contentScale = ContentScale.FillBounds,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(150.dp)
+                    )
+                }
 //                Row(
 //                    modifier = Modifier
 //                        .fillMaxWidth()
@@ -181,6 +183,7 @@ fun NoteItem(
                     Spacer(modifier = Modifier.height(4.dp))
                     if(note.imageBitmap == null){
                         Divider()
+                        Spacer(modifier = Modifier.height(4.dp))
                     }
                     Text(
                         text = stateContent.annotatedString,
