@@ -1,5 +1,7 @@
 package com.example.notebook.feature_todo.presentation.todo.ui
 
+import android.util.Log
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,6 +9,9 @@ import com.example.notebook.feature_todo.domain.use_cases.TodoUseCases
 import com.example.notebook.feature_todo.presentation.todo.TodoEvents
 import com.example.notebook.feature_todo.presentation.todo.TodoState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,20 +23,23 @@ class TodoViewModel
 
 
     private val _todoState =  mutableStateOf(TodoState())
-
-    val todoState = _todoState
+    val todoState: State<TodoState> = _todoState
+    private var getTodoJob: Job? = null
 
     init {
         getAllTodos()
     }
 
     private fun getAllTodos() {
-        viewModelScope.launch {
-
-            val todo = todoUseCases.getTodoUseCase.invoke()
-
-        }
-
+        Log.d("TAG","inside Viewmodel")
+        getTodoJob?.cancel()
+        getTodoJob =   todoUseCases.getTodoUseCase.invoke()
+            .onEach {todos ->
+                Log.d("viewModel = ","${todos}")
+                _todoState.value = todoState.value.copy(
+                         todo = todos
+                     )
+        }.launchIn(viewModelScope)
     }
 
     fun onEvent(event: TodoEvents){

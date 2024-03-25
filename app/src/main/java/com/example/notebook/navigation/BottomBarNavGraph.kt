@@ -12,6 +12,7 @@ import com.example.notebook.feature_note.presentation.notes.ui.NotesScreen
 import com.example.notebook.feature_note.presentation.util.BottomBarScreen
 import com.example.notebook.feature_secret_note.presentation.ui.SecretNotes
 import com.example.notebook.feature_todo.presentation.edit_todo.ui.AddTodoScreen
+import com.example.notebook.feature_todo.presentation.todo.ui.TodoScreen
 import com.example.notebook.feature_verify_user.presentation.ui.VerificationScreen
 import com.google.firebase.auth.FirebaseAuth
 
@@ -73,6 +74,10 @@ fun BottomNavGraph(
 
         composable(route = BottomBarScreen.AddTodoScreen.route){
             AddTodoScreen()
+        }
+
+        composable(route = BottomBarScreen.TodoScreen.route){
+            TodoScreen()
         }
 
         composable(route = BottomBarScreen.SecretNotes.route){

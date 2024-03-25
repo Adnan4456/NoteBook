@@ -68,7 +68,9 @@ fun NavigationBar(navController: NavHostController){
 
     val screenList = listOf(
         BottomBarScreen.NotesScreen,
-        BottomBarScreen.BookMarkedScreen,
+        BottomBarScreen.TodoScreen
+//        BottomBarScreen.BookMarkedScreen,
+
     )
 
     val bottomBarDestination = screenList.any { it.route == currentDestination?.route }
