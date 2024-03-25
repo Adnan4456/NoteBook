@@ -42,7 +42,6 @@ fun AllNotesList(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-
     if (AppTheme.orientation == Orientation.Portrait){
 
         if(state.notes.isEmpty()){

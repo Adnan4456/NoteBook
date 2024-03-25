@@ -7,6 +7,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import java.time.LocalDateTime
+import java.time.ZoneId
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -16,9 +17,10 @@ fun DatePickerScreen() {
 
 
     val datePickerState = remember {
+
         DatePickerState(
             yearRange = (2023..2024),
-            initialSelectedDateMillis = dateTime.second.toLong(),
+            initialSelectedDateMillis = dateTime.toMillis(),
             initialDisplayMode = DisplayMode.Picker,
             initialDisplayedMonthMillis = null
         )
@@ -26,3 +28,4 @@ fun DatePickerScreen() {
 
     DatePicker(state = datePickerState)
 }
+fun LocalDateTime.toMillis() = this.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()

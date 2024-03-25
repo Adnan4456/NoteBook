@@ -1,12 +1,10 @@
 package com.example.notebook.feature_note.presentation.notes
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.notebook.feature_note.domain.model.Note
-import com.example.notebook.feature_note.domain.use_cases.GetBookMarkedNotesUseCase
 import com.example.notebook.feature_note.domain.use_cases.NoteUseCases
 import com.example.notebook.feature_note.domain.utils.NoteOrder
 import com.example.notebook.feature_note.domain.utils.OrderType

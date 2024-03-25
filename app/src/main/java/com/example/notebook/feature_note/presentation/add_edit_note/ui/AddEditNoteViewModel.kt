@@ -96,8 +96,7 @@ class AddEditNoteViewModel
 
 
     fun onEvent(event:AddEditNoteEvent){
-      Log.d("TAG","${editorTitleState.annotatedString}")
-        Log.d("TAG","${editorContentState.annotatedString}")
+
         when(event){
             is AddEditNoteEvent.EnterTitle -> {
                 _noteTitle.value = noteTitle.value.copy(
@@ -126,9 +125,7 @@ class AddEditNoteViewModel
                 _noteColor.value = event.color
             }
             is AddEditNoteEvent.SaveNote -> {
-//               Log.d("toHtml","${ editorTitleState.toHtml()}")
-//                Log.d("annotatedString","${ editorTitleState.annotatedString}")
-//                Log.d("","${editorTitleState.}")
+
                 viewModelScope.launch {
                     try {
 
