@@ -28,7 +28,8 @@ class TodoViewModel
     private fun getAllTodos() {
         viewModelScope.launch {
 
-            todoUseCases.getTodoUseCase
+            val todo = todoUseCases.getTodoUseCase.invoke()
+
         }
 
     }

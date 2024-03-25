@@ -435,7 +435,7 @@ fun Header(viewModel: AddEditNoteViewModel , navController: NavController) {
                     .height(37.dp),
                 shape = RoundedCornerShape(8.dp),
                 onClick = {
-                    Log.d("richtext" , "${viewModel.editorTitleState.toString()}")
+//                    Log.d("richtext" , "${viewModel.editorTitleState.toString()}")
                           viewModel.onEvent(AddEditNoteEvent.SaveNote)
                 },
                 colors = ButtonDefaults.buttonColors(
