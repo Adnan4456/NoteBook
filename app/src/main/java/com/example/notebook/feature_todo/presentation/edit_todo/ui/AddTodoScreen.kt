@@ -99,8 +99,6 @@ fun AddTodoScreen(
                     .height(37.dp),
                 shape = RoundedCornerShape(8.dp),
                 onClick = {
-//                    Log.d("richtext" , "${viewModel.editorTitleState.toString()}")
-//                        viewModel.onEvent(AddEditNoteEvent.SaveNote)
                     viewModel.onSave()
                 },
                 colors = ButtonDefaults.buttonColors(

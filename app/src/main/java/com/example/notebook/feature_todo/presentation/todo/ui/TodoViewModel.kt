@@ -5,6 +5,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.notebook.feature_todo.domain.model.ChecklistItem
+import com.example.notebook.feature_todo.domain.model.Todo
 import com.example.notebook.feature_todo.domain.use_cases.TodoUseCases
 import com.example.notebook.feature_todo.presentation.todo.TodoEvents
 import com.example.notebook.feature_todo.presentation.todo.TodoState
@@ -25,6 +27,7 @@ class TodoViewModel
     private val _todoState =  mutableStateOf(TodoState())
     val todoState: State<TodoState> = _todoState
     private var getTodoJob: Job? = null
+    lateinit var checklist:ChecklistItem
 
     init {
         getAllTodos()
@@ -39,7 +42,9 @@ class TodoViewModel
                 _todoState.value = todoState.value.copy(
                          todo = todos
                      )
+
         }.launchIn(viewModelScope)
+
     }
 
     fun onEvent(event: TodoEvents){
@@ -57,8 +62,17 @@ class TodoViewModel
             is TodoEvents.MakeSecretTodo -> {
 
             }
+            is TodoEvents.EditTodo -> {
+                Log.d("TAG","${event.todo.title}")
+            }
+            is TodoEvents.EditCheckItem -> {
+                _todoState.value.todo
+                Log.d("checkitem = ","${event.checkItemList.title}")
+            }
         }
-
     }
 
+    fun onTaskDelete(task: Todo, item: ChecklistItem){
+        _todoState.value
+    }
 }
