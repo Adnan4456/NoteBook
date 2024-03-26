@@ -20,6 +20,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.notebook.R
 import com.example.notebook.feature_todo.domain.model.Todo
@@ -38,7 +39,7 @@ fun TodoItem(
             .background(
                 color = colorResource(id = R.color.all_notes_item)
             )
-            .padding(16.dp),
+            .padding(8.dp),
         elevation = CardDefaults.cardElevation(
             focusedElevation = 10.dp,
             defaultElevation = 4.dp
@@ -51,14 +52,15 @@ fun TodoItem(
                 .fillMaxWidth()
                 .background(
                     color = colorResource(id = R.color.all_notes_item)
-                ),
+                ).padding(8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(text = mytask.title,
             style = TextStyle(
                 color =  colorResource(id = R.color.app_black),
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp
             ))
 
             Row(
