@@ -5,6 +5,8 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
+import com.example.notebook.feature_todo.domain.model.ChecklistItem
 import com.example.notebook.feature_todo.domain.model.Todo
 import kotlinx.coroutines.flow.Flow
 
@@ -23,6 +25,9 @@ interface TodoDao {
 
     @Delete
     suspend fun deleteTodo(todo: Todo)
+
+    @Query("Update Todo SET checklist = :checklistItem where id = todo.id")
+    suspend fun updateChecklistItem(todoID: Int,checklistItem: ChecklistItem)
 
 
     @Query("Select * from Todo WHERE isBookMarked = 1 and isSecrete = 0")

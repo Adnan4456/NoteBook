@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.notebook.feature_todo.domain.model.ChecklistItem
 import com.example.notebook.feature_todo.domain.model.Todo
 import com.example.notebook.feature_todo.domain.use_cases.TodoUseCases
+import com.example.notebook.feature_todo.domain.use_cases.UpdateCheckListUseCase
 import com.example.notebook.feature_todo.presentation.todo.TodoEvents
 import com.example.notebook.feature_todo.presentation.todo.TodoState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TodoViewModel
 @Inject constructor(
-    private val todoUseCases: TodoUseCases
+    private val todoUseCases: TodoUseCases,
+    private val  updateCheckListUseCase:UpdateCheckListUseCase
     ):ViewModel() {
 
 
@@ -66,8 +68,8 @@ class TodoViewModel
                 Log.d("TAG","${event.todo.title}")
             }
             is TodoEvents.EditCheckItem -> {
-                _todoState.value.todo
-                Log.d("checkitem = ","${event.checkItemList.title}")
+//                _todoState.value.todo
+                Log.d("checkitem = ","todo title = ${event.todo.title}    andchecklist title = ${event.checkItemList.title}")
             }
         }
     }

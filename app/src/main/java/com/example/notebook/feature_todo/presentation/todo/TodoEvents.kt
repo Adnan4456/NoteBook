@@ -13,5 +13,5 @@ sealed class TodoEvents {
 
     data class MakeSecretTodo (val todo:Todo): TodoEvents()
      data class EditTodo(val todo:Todo): TodoEvents()
-    data class EditCheckItem (val checkItemList:ChecklistItem): TodoEvents()
+    data class EditCheckItem (val todo:Todo , val checkItemList:ChecklistItem): TodoEvents()
 }
