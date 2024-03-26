@@ -60,7 +60,7 @@ fun TodoItem(
             style = TextStyle(
                 color =  colorResource(id = R.color.app_black),
                 fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
+                fontSize = 20.sp
             ))
 
             Row(
@@ -88,16 +88,32 @@ fun TodoItem(
                 )
             }
         }
-        Divider()
-        Column {
+        Divider(
+            modifier = Modifier
+                .background(
+                    color = colorResource(id = R.color.all_notes_item)
+                )
+        )
+        Column (
+            modifier = Modifier
+                .background(
+                    color = colorResource(id = R.color.all_notes_item)
+                )  .padding(8.dp)
+        ){
             Text(text = mytask.description,
                 style = TextStyle(
                     color =  colorResource(id = R.color.app_black),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
                 )
             )
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = colorResource(id = R.color.all_notes_item)
+                    ),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -105,12 +121,17 @@ fun TodoItem(
                 Text(text = mytask.timestamp.toString())
             }
         }
-//        Divider()
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp)
+            .background(
+                color = colorResource(id = R.color.all_notes_item)
+            ))
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .background(
+                    color = colorResource(id = R.color.all_notes_item)
+                )
         ) {
             if (mytask.checklist.size>0){
                 CheckItems(mytask.checklist.get(0),

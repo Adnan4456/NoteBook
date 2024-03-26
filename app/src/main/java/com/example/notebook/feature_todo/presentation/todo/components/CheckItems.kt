@@ -21,6 +21,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
@@ -47,7 +48,10 @@ fun CheckItems(
     }
 
     Box(modifier = Modifier
-        .fillMaxWidth(),
+        .fillMaxWidth()
+        .background(
+            color = colorResource(id = R.color.all_notes_item)
+        ),
         contentAlignment = Alignment.Center
     ){
 
@@ -74,12 +78,11 @@ fun CheckItems(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(1f)
-                    .background(
-                        color = colorResource(id = R.color.selected).copy(
-                            alpha = .5f
-                        )
-                    ),
+                    .weight(1f),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+
                 elevation = CardDefaults.cardElevation(
                     focusedElevation = 10.dp,
                     defaultElevation = 8.dp
@@ -87,7 +90,8 @@ fun CheckItems(
             ){
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .weight(1f),
                     verticalAlignment = Alignment.CenterVertically,
                 ){
                     Checkbox(
@@ -97,9 +101,16 @@ fun CheckItems(
                             isChecked.value = it
                             onStatusChange(it)
                         },
+                        colors = CheckboxDefaults.colors(
+                            checkedColor = colorResource(id = R.color.main_color),
+                            uncheckedColor = colorResource(id = R.color.selected)
+                        ),
                     )
                     TextField(
                         enabled = isEnable.value,
+                        textStyle= TextStyle(
+                            color = Color.Black
+                        ),
                         value = item.title,
                         onValueChange = {
 //                        textFieldValue = it.copy(text = it.text.trim())
@@ -108,10 +119,10 @@ fun CheckItems(
                             newTitle.value = it
                         },
                         colors = TextFieldDefaults.textFieldColors(
-                            containerColor = Color.Transparent,
+                            containerColor = Color.White,
                             disabledIndicatorColor = Color.Transparent,
                             errorIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.White,
                             unfocusedIndicatorColor = Color.Transparent,
                         ),
                         placeholder = {
@@ -177,9 +188,7 @@ fun CheckItems(
                         modifier = Modifier.size(16.dp)
                     )
                 }
-
             }
-
         }
 
         if(isChecked.value){

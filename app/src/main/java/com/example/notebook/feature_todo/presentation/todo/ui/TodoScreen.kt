@@ -1,6 +1,7 @@
 package com.example.notebook.feature_todo.presentation.todo.ui
 
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -9,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
@@ -33,7 +35,11 @@ fun TodoScreen(
         }
         else
         {
-            LazyColumn(){
+            LazyColumn(
+                modifier = Modifier.background(
+                    color = colorResource(id = R.color.all_notes_item)
+                    )
+            ){
                 items(
                     state.todo
                 ){task ->
