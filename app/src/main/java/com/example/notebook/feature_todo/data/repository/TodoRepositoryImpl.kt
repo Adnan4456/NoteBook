@@ -43,7 +43,7 @@ class TodoRepositoryImpl
         return dao.getSecretTodo()
     }
 
-    override suspend fun updatechecklistItem(todo_id: Int, checklistItem: ChecklistItem) {
-        return dao.updateChecklistItem(todo_id , checklistItem)
-    }
+//    override suspend fun updatechecklistItem(todo_id: Int, checklistItem: ChecklistItem) {
+//        return dao.updateChecklistItem(todo_id , checklistItem)
+//    }
 }

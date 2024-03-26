@@ -18,6 +18,6 @@ interface TodoRepository {
 
      fun getSecretTodo():Flow<List<Todo>>
 
-     suspend fun updatechecklistItem(todo_id: Int , checklistItem: ChecklistItem)
+//     suspend fun updatechecklistItem(todo_id: Int , checklistItem: ChecklistItem)
 
 }

@@ -125,7 +125,7 @@ fun TodoItem(
                 CheckItems(mytask.checklist.get(1),
                 onStatusChange = {newValue ->
                     Log.d("CheckItems", "New value of TextField: $newValue")
-                    viewModel.onEvent(TodoEvents.EditCheckItem(mytask , ))
+//                    viewModel.onEvent(TodoEvents.EditCheckItem(mytask , ))
                                  },
                     onValueChange = {
                         Log.d("Title","new title${it}")

@@ -1,8 +1,7 @@
 package com.example.notebook.feature_todo.domain.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
+import com.example.notebook.components.Converters
 
 
 @Entity
@@ -23,7 +22,9 @@ data class Todo(
     @ColumnInfo(name = "timestamp")
     val timestamp: Long?,
 
+    @TypeConverters(Converters::class)
     @ColumnInfo(name = "checklist")
+//    @Embedded
     val checklist: List<ChecklistItem>,
 
     val isBookMarked : Boolean = false,
