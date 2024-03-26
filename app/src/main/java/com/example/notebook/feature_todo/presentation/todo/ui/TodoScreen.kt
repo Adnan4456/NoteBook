@@ -1,5 +1,6 @@
 package com.example.notebook.feature_todo.presentation.todo.ui
 
+import android.util.Log
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -26,6 +27,7 @@ fun TodoScreen(
 ){
 
     val state = viewModel.todoState.value
+    Log.d("value = ","${state.todo.toString()}")
     Column() {
         Text(text = "Todo ")
         if(state.todo.isEmpty()){

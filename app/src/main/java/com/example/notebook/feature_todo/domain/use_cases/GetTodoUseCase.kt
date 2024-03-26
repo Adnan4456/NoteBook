@@ -11,10 +11,9 @@ class GetTodoUseCase(
 ) {
 
     operator fun invoke():Flow<List<Todo>>{
-        Log.d("TAG","inside GetTodoUseCase")
         return repository.getTodo()
-            .onEach {
-                Log.d("TAD","GETTodoUseCase ${it}")
-            }
+//            .onEach {
+//                Log.d("TAD","GETTodoUseCase ${it}")
+//            }
     }
 }

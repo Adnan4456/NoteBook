@@ -16,11 +16,7 @@ class TodoRepositoryImpl
     ):TodoRepository
 {
     override fun getTodo(): Flow<List<Todo>> {
-        Log.d("TAG","inside TodoRepositoryImpl")
         return dao.getTodo()
-            .onEach {
-                Log.d("Todo = ","${it}")
-            }
     }
 
     override suspend fun getTodoById(id: Int): Todo? {

@@ -149,7 +149,6 @@ fun CheckItems(
                                 } else {
                                     false
                                 }
-
                             },
 //                        .focusRequester(focusRequester)
 //                        .onFocusChanged {
