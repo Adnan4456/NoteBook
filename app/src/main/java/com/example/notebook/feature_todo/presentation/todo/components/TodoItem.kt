@@ -56,6 +56,8 @@ fun TodoItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+
+            viewModel.update()
             Text(text = mytask.title,
             style = TextStyle(
                 color =  colorResource(id = R.color.app_black),
@@ -148,7 +150,7 @@ fun TodoItem(
                 CheckItems(mytask.checklist.get(1),
                 onStatusChange = {newValue ->
                     Log.d("CheckItems", "New value of TextField: $newValue")
-//                    viewModel.onEvent(TodoEvents.EditCheckItem(mytask , ))
+                    viewModel.onEvent(TodoEvents.EditCheckItem(mytask , mytask.checklist.get(1)))
                                  },
                     onValueChange = {
                         Log.d("Title","new title${it}")

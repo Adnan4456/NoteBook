@@ -29,6 +29,10 @@ class TodoViewModel
 
     private val _todoState =  mutableStateOf(TodoState())
     val todoState: State<TodoState> = _todoState
+    private lateinit var  allTodos: List<Todo>
+
+     val _stateList = MutableStateFlow(TodoState())
+
     private var getTodoJob: Job? = null
     lateinit var checklist:ChecklistItem
 
@@ -37,52 +41,60 @@ class TodoViewModel
     }
 
     fun update() {
-//        todoState.getValue()
+        allTodos =  todoState.value.todo
+        Log.d("TAG","alltodo list = ${allTodos.size}")
     }
     @OptIn(FlowPreview::class)
     private fun getAllTodos() {
-        Log.d("TAG","inside Viewmodel")
-//        getTodoJob?.cancel()
-//        getTodoJob =   todoUseCases.getTodoUseCase.invoke()
-//            .onEach {todos ->
-//                Log.d("viewModel = ","${todos}")
-//                _todoState.value = todoState.value.copy(
-//                         todo = todos
-//                     )
 
-//        }.launchIn(viewModelScope)
+        getTodoJob?.cancel()
+        getTodoJob =   todoUseCases.getTodoUseCase.invoke()
+            .onEach {todos ->
 
-        try{
-
-            viewModelScope.launch {
-                Log.d("TAG","inside viewmodel scope ")
-                val list = todoUseCases.getTodoUseCase
-                    .invoke()
-                    .onStart {
-                        Log.d("TAG","coroutine flow is started")
-                    }
-                    .flatMapConcat  {
-                    Log.d("TAG","in side flatMap function${it.size}")
-                        it.asFlow()
-                    }
-                    .onCompletion {
-                        Log.d("TAG","onCompleted function called")
-                    }
-                    .onEmpty {
-                        Log.d("TAG","onEmpty function called")
-                    }
-                    .toList()
-                Log.d("List" , "${list.size}")
                 _todoState.value = todoState.value.copy(
-                    todo = list
+                         todo = todos
+                )
+                _stateList .value = _stateList.value.copy(
+                    todo = todos
                 )
 
-                Log.d("TAG"," after function executed  ")
-            }
+        }.launchIn(viewModelScope)
 
-        }catch (e: Exception) {
-            Log.d("exception","${e.message}")
-        }
+//        try{
+//
+//            viewModelScope.launch {
+//                Log.d("TAG","inside viewmodel scope ")
+//                val list = todoUseCases.getTodoUseCase
+//                    .invoke()
+//                    .                onEach {
+//                    Log.d("TAG","size = ${it.size}")
+//                }
+//                    .onStart {
+//                        Log.d("TAG","coroutine flow is started")
+//                    }
+//                    .flatMapConcat  {
+//                    Log.d("TAG","in side flatMap function${it.size}")
+//                        it.asFlow()
+//                    }
+//                    .onCompletion {
+//                        Log.d("TAG","onCompleted function called")
+//                    }
+//                    .onEmpty {
+//                        Log.d("TAG","onEmpty function called")
+//                    }
+//
+////                    .toList()
+////                Log.d("List" , "${list.size}")
+////                _todoState.value = todoState.value.copy(
+////                    todo = list
+////                )
+//
+//                Log.d("TAG"," after function executed  ")
+//            }
+//
+//        }catch (e: Exception) {
+//            Log.d("exception","${e.message}")
+//        }
 
     }
 
@@ -105,7 +117,6 @@ class TodoViewModel
                 Log.d("TAG","${event.todo.title}")
             }
             is TodoEvents.EditCheckItem -> {
-//                _todoState.value.todo
                 Log.d("checkitem = ","todo title = ${event.todo.title}    andchecklist title = ${event.checkItemList.title}")
             }
         }

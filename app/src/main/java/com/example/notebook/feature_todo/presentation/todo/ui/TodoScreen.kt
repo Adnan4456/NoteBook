@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,7 +28,8 @@ fun TodoScreen(
 ){
 
     val state = viewModel.todoState.value
-    Log.d("value = ","${state.todo.toString()}")
+    val mylist = viewModel._stateList.collectAsState()
+
     Column() {
         Text(text = "Todo ")
         if(state.todo.isEmpty()){

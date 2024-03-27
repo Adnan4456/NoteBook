@@ -64,6 +64,7 @@ fun CheckItems(
         ){
             IconButton(
                 onClick = {
+                          //Delete checkItem
 //                vm.onCheckableDelete(item)
                 },
                 modifier = Modifier.size(32.dp)
@@ -82,7 +83,6 @@ fun CheckItems(
                 colors = CardDefaults.cardColors(
                     containerColor = Color.White
                 ),
-
                 elevation = CardDefaults.cardElevation(
                     focusedElevation = 10.dp,
                     defaultElevation = 8.dp
@@ -97,7 +97,7 @@ fun CheckItems(
                     Checkbox(
                         checked = isChecked.value ,
                         onCheckedChange = {
-                            item.isCompleted  = it
+//                            item.isCompleted  = it
                             isChecked.value = it
                             onStatusChange(it)
                         },
@@ -117,6 +117,7 @@ fun CheckItems(
 //                        vm.onCheckableValueChange(item,textFieldValue.text)
                             item.title = it
                             newTitle.value = it
+                            onValueChange.invoke(newTitle.value)
                         },
                         colors = TextFieldDefaults.textFieldColors(
                             containerColor = Color.White,
@@ -166,6 +167,7 @@ fun CheckItems(
             IconButton(
                 onClick = {
                     isEnable.value = !isEnable.value
+                    Log.d("TAG","enable = ${ isEnable.value}")
                 },
                 modifier = Modifier.size(32.dp)
             ) {
