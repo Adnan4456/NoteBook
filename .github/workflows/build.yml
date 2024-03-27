@@ -1,2 +1,26 @@
+name:  Build
 
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.2
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.2.1
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Upload a Build artifacts
+        uses: actions/upload-artifact@v4.3.1
+        with:
+          name: Note.apk
+          path: app/build/outputs/apk/app-debug.apk
