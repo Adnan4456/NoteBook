@@ -39,11 +39,6 @@ class LoginViewModel @Inject constructor(
 
 
     init {
-//        viewModelScope.launch {
-//            networkConnectivityObserver.observe().onEach {status ->
-//               // networkState = status
-//            }
-//        }
 
         observeNetworkStatus()
     }
