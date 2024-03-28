@@ -13,7 +13,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 import javax.inject.Inject
@@ -29,7 +28,6 @@ class LoginViewModel @Inject constructor(
 
     private val _networkStatus = MutableStateFlow(ConnectivityObserver.Status.Unavailable)
 
-//    var networkState by mutableStateOf(ConnectivityObserver.Status.Available)
     val networkStatus = _networkStatus
 
     var allValidationPassed by mutableStateOf(true)
@@ -38,13 +36,7 @@ class LoginViewModel @Inject constructor(
     val loginState: StateFlow<LoginResult>
         get() = _loginState
 
-
     init {
-//        viewModelScope.launch {
-//            networkConnectivityObserver.observe().onEach {status ->
-//               // networkState = status
-//            }
-//        }
 
         observeNetworkStatus()
     }
@@ -118,8 +110,6 @@ class LoginViewModel @Inject constructor(
             }catch (_:Exception){
 
             }
-
-
         }
     }
 }
