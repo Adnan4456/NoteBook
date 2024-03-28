@@ -48,7 +48,8 @@ class TodoViewModel
     private fun getAllTodos() {
 
         getTodoJob?.cancel()
-        getTodoJob =   todoUseCases.getTodoUseCase.invoke()
+        getTodoJob =   todoUseCases.getTodoUseCase
+            .invoke()
             .onEach {todos ->
 
                 _todoState.value = todoState.value.copy(
@@ -60,6 +61,9 @@ class TodoViewModel
 
         }.launchIn(viewModelScope)
 
+//        _todoState.value = _todoState.value.todo.find {
+//
+//        }
 //        try{
 //
 //            viewModelScope.launch {
