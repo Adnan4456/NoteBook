@@ -28,7 +28,6 @@ class LoginViewModel @Inject constructor(
 
     private val _networkStatus = MutableStateFlow(ConnectivityObserver.Status.Unavailable)
 
-//    var networkState by mutableStateOf(ConnectivityObserver.Status.Available)
     val networkStatus = _networkStatus
 
     var allValidationPassed by mutableStateOf(true)
@@ -36,7 +35,6 @@ class LoginViewModel @Inject constructor(
     private val _loginState = MutableStateFlow<LoginResult>(LoginResult.initialState)
     val loginState: StateFlow<LoginResult>
         get() = _loginState
-
 
     init {
 
@@ -112,8 +110,6 @@ class LoginViewModel @Inject constructor(
             }catch (_:Exception){
 
             }
-
-
         }
     }
 }

@@ -52,11 +52,11 @@ class LoginViewModelTest{
 
 
         `when`(emailAndPasswordUseCase.emailUseCase.invoke("test@example.com")).thenReturn(
-            ValidationResult(true))
+            ValidationResult(true)
+        )
 
         `when`(emailAndPasswordUseCase.passwordUseCase.invoke("password")).thenReturn(
             ValidationResult(true))
-
     }
 
     @Test
