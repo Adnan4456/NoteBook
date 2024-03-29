@@ -45,7 +45,6 @@ class TodoViewModel
         allTodos.indexOf(todo)
         val indexOfTodoToUpdate = _todoState.value.todo.indexOfFirst{
             it.id == todo.id
-
         }
         Log.d("update index = ","${indexOfTodoToUpdate}")
         Log.d("TAG","alltodo list = ${allTodos.size}")

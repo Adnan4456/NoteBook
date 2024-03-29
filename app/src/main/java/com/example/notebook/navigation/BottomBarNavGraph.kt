@@ -12,6 +12,7 @@ import com.example.notebook.feature_note.presentation.notes.ui.NotesScreen
 import com.example.notebook.feature_note.presentation.util.BottomBarScreen
 import com.example.notebook.feature_secret_note.presentation.ui.SecretNotes
 import com.example.notebook.feature_todo.presentation.edit_todo.ui.AddTodoScreen
+import com.example.notebook.feature_todo.presentation.todo.ui.TodoDetailScreen
 import com.example.notebook.feature_todo.presentation.todo.ui.TodoScreen
 import com.example.notebook.feature_verify_user.presentation.ui.VerificationScreen
 import com.google.firebase.auth.FirebaseAuth
@@ -65,8 +66,6 @@ fun BottomNavGraph(
                 noteColor = color
             )
         }
-
-
         composable(route = BottomBarScreen.BookMarkedScreen.route){
             BookMarkedScreen(navController = navController)
 //            MainScreentesting()
@@ -77,9 +76,12 @@ fun BottomNavGraph(
         }
 
         composable(route = BottomBarScreen.TodoScreen.route){
-            TodoScreen()
+            TodoScreen(navController)
         }
 
+        composable(route = BottomBarScreen.TodoDetailScreen.route){
+            TodoDetailScreen()
+        }
         composable(route = BottomBarScreen.SecretNotes.route){
 
             if(verified){
@@ -92,6 +94,5 @@ fun BottomNavGraph(
                 )
             }
         }
-
     }
 }

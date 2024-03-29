@@ -2,6 +2,7 @@ package com.example.notebook.feature_todo.presentation.todo.ui
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,15 +15,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.notebook.R
+import com.example.notebook.feature_note.presentation.util.BottomBarScreen
 import com.example.notebook.feature_todo.presentation.todo.components.TodoItem
 
 
 @Composable
 fun TodoScreen(
+    navController: NavHostController,
     viewModel: TodoViewModel = hiltViewModel()
 ){
 
@@ -33,7 +37,7 @@ fun TodoScreen(
         Text(text = "Todo ")
         if(state.todo.isEmpty()){
 
-            Text(text = "Todo is empty please add data")
+
             NoNotesImage()
         }
         else
@@ -46,7 +50,12 @@ fun TodoScreen(
                 items(
                     state.todo
                 ){task ->
-                    TodoItem(mytask = task)
+                    TodoItem(
+                        modifier = Modifier.clickable {
+                            navController.navigate(BottomBarScreen.TodoDetailScreen.route
+                            + "task")
+                        },
+                        mytask = task)
                 }
             }
         }
