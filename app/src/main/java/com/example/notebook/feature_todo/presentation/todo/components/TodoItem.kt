@@ -57,7 +57,6 @@ fun TodoItem(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
-            viewModel.update()
             Text(text = mytask.title,
             style = TextStyle(
                 color =  colorResource(id = R.color.app_black),
@@ -154,7 +153,6 @@ fun TodoItem(
                                  },
                     onValueChange = {
                         Log.d("Title","new title${it}")
-
                     }
                 )
             }

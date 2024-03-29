@@ -54,7 +54,6 @@ fun CheckItems(
         contentAlignment = Alignment.Center
     ){
 
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
