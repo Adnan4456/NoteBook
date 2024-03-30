@@ -37,7 +37,6 @@ fun TodoScreen(
         Text(text = "Todo ")
         if(state.todo.isEmpty()){
 
-
             NoNotesImage()
         }
         else
@@ -52,8 +51,7 @@ fun TodoScreen(
                 ){task ->
                     TodoItem(
                         modifier = Modifier.clickable {
-                            navController.navigate(BottomBarScreen.TodoDetailScreen.route
-                            + "task"=${task})
+                            navController.navigate(BottomBarScreen.TodoDetailScreen.route)
                         },
                         mytask = task)
                 }
