@@ -8,7 +8,7 @@ import com.example.notebook.components.Converters
 data class Todo(
 
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    var id: Long = 0,
 
     @ColumnInfo(name = "title")
     val title: String,

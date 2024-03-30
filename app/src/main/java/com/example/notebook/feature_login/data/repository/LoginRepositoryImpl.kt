@@ -17,7 +17,9 @@ class LoginRepositoryImpl
         return withContext(Dispatchers.IO){
             try {
               val result =  firebaseAuth.signInWithEmailAndPassword(email, password)
-                   .addOnCompleteListener{}
+                   .addOnCompleteListener{
+
+                   }
                    .addOnFailureListener{
 
                    }.await()

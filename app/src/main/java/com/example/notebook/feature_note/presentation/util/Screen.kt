@@ -23,6 +23,8 @@ sealed class BottomBarScreen(
     object TodoScreen:BottomBarScreen("Todo","todo_screen" , icon = Icons.Filled.Book)
 
     object  Test:BottomBarScreen("testing" , "testing")
+
+    object TodoDetailScreen: BottomBarScreen("detail_todo", "detail_todo")
 }
 
 sealed class AuthScreen(val route:String){

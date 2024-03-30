@@ -54,7 +54,6 @@ fun CheckItems(
         contentAlignment = Alignment.Center
     ){
 
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -99,10 +98,11 @@ fun CheckItems(
 //                            item.isCompleted  = it
                             isChecked.value = it
                             onStatusChange(it)
+
                         },
                         colors = CheckboxDefaults.colors(
                             checkedColor = colorResource(id = R.color.main_color),
-                            uncheckedColor = colorResource(id = R.color.selected)
+                            uncheckedColor = colorResource(id = R.color.black)
                         ),
                     )
                     TextField(

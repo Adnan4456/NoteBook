@@ -40,15 +40,21 @@ class TodoViewModel
         getAllTodos()
     }
 
-    fun update() {
+    fun update(todo: Todo) {
         allTodos =  todoState.value.todo
+        allTodos.indexOf(todo)
+        val indexOfTodoToUpdate = _todoState.value.todo.indexOfFirst{
+            it.id == todo.id
+        }
+        Log.d("update index = ","${indexOfTodoToUpdate}")
         Log.d("TAG","alltodo list = ${allTodos.size}")
     }
     @OptIn(FlowPreview::class)
     private fun getAllTodos() {
 
         getTodoJob?.cancel()
-        getTodoJob =   todoUseCases.getTodoUseCase.invoke()
+        getTodoJob =   todoUseCases.getTodoUseCase
+            .invoke()
             .onEach {todos ->
 
                 _todoState.value = todoState.value.copy(
@@ -59,42 +65,6 @@ class TodoViewModel
                 )
 
         }.launchIn(viewModelScope)
-
-//        try{
-//
-//            viewModelScope.launch {
-//                Log.d("TAG","inside viewmodel scope ")
-//                val list = todoUseCases.getTodoUseCase
-//                    .invoke()
-//                    .                onEach {
-//                    Log.d("TAG","size = ${it.size}")
-//                }
-//                    .onStart {
-//                        Log.d("TAG","coroutine flow is started")
-//                    }
-//                    .flatMapConcat  {
-//                    Log.d("TAG","in side flatMap function${it.size}")
-//                        it.asFlow()
-//                    }
-//                    .onCompletion {
-//                        Log.d("TAG","onCompleted function called")
-//                    }
-//                    .onEmpty {
-//                        Log.d("TAG","onEmpty function called")
-//                    }
-//
-////                    .toList()
-////                Log.d("List" , "${list.size}")
-////                _todoState.value = todoState.value.copy(
-////                    todo = list
-////                )
-//
-//                Log.d("TAG"," after function executed  ")
-//            }
-//
-//        }catch (e: Exception) {
-//            Log.d("exception","${e.message}")
-//        }
 
     }
 
@@ -114,7 +84,7 @@ class TodoViewModel
 
             }
             is TodoEvents.EditTodo -> {
-                Log.d("TAG","${event.todo.title}")
+                Log.d("TAG","todo that will update ${event.todo.title}")
             }
             is TodoEvents.EditCheckItem -> {
                 Log.d("checkitem = ","todo title = ${event.todo.title}    andchecklist title = ${event.checkItemList.title}")

@@ -3,6 +3,7 @@ package com.example.notebook.feature_todo.presentation.todo.components
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -29,12 +30,13 @@ import com.example.notebook.feature_todo.presentation.todo.ui.TodoViewModel
 
 @Composable
 fun TodoItem(
+    modifier: Modifier,
    mytask: Todo,
    viewModel: TodoViewModel = hiltViewModel()
 ) {
 
     Card (
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(
                 color = colorResource(id = R.color.all_notes_item)
@@ -44,6 +46,7 @@ fun TodoItem(
             focusedElevation = 10.dp,
             defaultElevation = 4.dp
         )
+
 
     ){
 
@@ -57,7 +60,6 @@ fun TodoItem(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
-            viewModel.update()
             Text(text = mytask.title,
             style = TextStyle(
                 color =  colorResource(id = R.color.app_black),
@@ -139,6 +141,7 @@ fun TodoItem(
                 CheckItems(mytask.checklist.get(0),
                 onStatusChange = { newValue ->
                     Log.d("CheckItems", "New value of TextField: $newValue")
+                    viewModel.update(mytask)
                 },
                 onValueChange = {
                  Log.d("Title","new title${it}")
@@ -154,7 +157,6 @@ fun TodoItem(
                                  },
                     onValueChange = {
                         Log.d("Title","new title${it}")
-
                     }
                 )
             }
