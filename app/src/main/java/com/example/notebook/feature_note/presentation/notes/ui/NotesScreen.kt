@@ -154,7 +154,6 @@ fun NotesScreen(
 }
 @Composable
 fun NoNotesImage(
-//    navController: NavController
 ){
 
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie))

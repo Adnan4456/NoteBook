@@ -53,7 +53,8 @@ fun TodoScreen(
                         modifier = Modifier.clickable {
 //                            navController.navigate(BottomBarScreen.TodoDetailScreen.route)
                         },
-                        mytask = task)
+                        mytask = task,
+                    navController)
                 }
             }
         }

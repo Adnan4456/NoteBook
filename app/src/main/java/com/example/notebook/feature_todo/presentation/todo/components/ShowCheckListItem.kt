@@ -43,7 +43,8 @@ fun ShowCheckListItem(
                 checked = checkList.isCompleted ,
                 onCheckedChange ={
 
-            } )
+            }
+            )
 
             TextField(
                 enabled = false,

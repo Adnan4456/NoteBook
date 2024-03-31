@@ -1,4 +1,7 @@
-package com.example.notebook.feature_todo.presentation.todo.components
+package com.example.notebook.feature_todo.presentation.detail_checkItems.components
+
+
+
 
 import android.util.Log
 import android.widget.Toast
@@ -28,19 +31,19 @@ import androidx.navigation.NavHostController
 import com.example.notebook.R
 import com.example.notebook.feature_note.presentation.util.BottomBarScreen
 import com.example.notebook.feature_todo.domain.model.Todo
+import com.example.notebook.feature_todo.presentation.detail_checkItems.ui.TodoDetailScreenViewModel
 import com.example.notebook.feature_todo.presentation.todo.TodoEvents
+import com.example.notebook.feature_todo.presentation.todo.components.ShowCheckListItem
 import com.example.notebook.feature_todo.presentation.todo.ui.TodoViewModel
 
 @Composable
 fun TodoItem(
-    modifier: Modifier,
     mytask: Todo,
-    navController: NavController,
-   viewModel: TodoViewModel = hiltViewModel()
+    viewModel: TodoDetailScreenViewModel = hiltViewModel()
 ) {
 
     Card (
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .background(
                 color = colorResource(id = R.color.all_notes_item)
@@ -142,53 +145,18 @@ fun TodoItem(
                     color = colorResource(id = R.color.all_notes_item)
                 ))
 
-            Column(
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(
                         color = colorResource(id = R.color.all_notes_item)
                     )
             ) {
-                if (mytask.checklist.size>0){
-                    ShowCheckListItem(mytask.checklist.get(0))
-//                TestCheckItems(mytask.checklist.get(0),
-//                onStatusChange = { newValue ->
-//                    Log.d("CheckItems", "New value of TextField: $newValue")
-//                    viewModel.update(mytask)
-//                },
-//                onValueChange = {
-//                 Log.d("Title","new title${it}")
-//                })
-                }
-                Spacer(modifier = Modifier.height(2.dp))
-                if (mytask.checklist.size>1){
-                    ShowCheckListItem(mytask.checklist.get(1))
-//                TestCheckItems(mytask.checklist.get(1),
-//                onStatusChange = {newValue ->
-//                    Log.d("CheckItems", "New value of TextField: $newValue")
-////                    viewModel.onEvent(TodoEvents.EditCheckItem(mytask , mytask.checklist.get(1)))
-//                                 },
-//                    onValueChange = {
-//                        Log.d("Title","new title${it}")
-//                    }
-//                )
+                items(mytask.checklist){ check->
+                    CheckItems(check)
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                modifier = Modifier
-                    .clickable {
-                        navController.navigate(
-                            BottomBarScreen.TodoDetailScreen.route +
-                                    "todoId=${mytask.id}",
-                        )
-                    },
-                text = " See All ",
-                style = TextStyle(
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            )
         }
     }
 }

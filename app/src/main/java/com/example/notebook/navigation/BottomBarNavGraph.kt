@@ -80,9 +80,18 @@ fun BottomNavGraph(
             TodoScreen(navController)
         }
 
-        composable(route = BottomBarScreen.TodoDetailScreen.route
+        composable(route = BottomBarScreen.TodoDetailScreen.route +
+                "todoId={todoId}",
+            arguments = listOf(
+                navArgument(
+                    name = "todoId"
+                ){
+                    type = NavType.IntType
+                    defaultValue = -1
+                }
+            )
         ){
-            TodoDetailScreen()
+            TodoDetailScreen(navController)
         }
         composable(route = BottomBarScreen.SecretNotes.route){
 
