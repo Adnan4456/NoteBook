@@ -42,6 +42,7 @@ fun CheckItems(
         mutableStateOf(false)
     }
 
+
     val newTitle = remember {
         mutableStateOf("")
     }
@@ -197,5 +198,4 @@ fun CheckItems(
             )
         }
     }
-
 }

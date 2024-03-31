@@ -51,7 +51,7 @@ fun TodoScreen(
                 ){task ->
                     TodoItem(
                         modifier = Modifier.clickable {
-                            navController.navigate(BottomBarScreen.TodoDetailScreen.route)
+//                            navController.navigate(BottomBarScreen.TodoDetailScreen.route)
                         },
                         mytask = task)
                 }

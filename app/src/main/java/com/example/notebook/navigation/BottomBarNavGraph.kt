@@ -80,8 +80,7 @@ fun BottomNavGraph(
             TodoScreen(navController)
         }
 
-        composable(route = BottomBarScreen.TodoDetailScreen.route +
-                "/{Todo}",
+        composable(route = BottomBarScreen.TodoDetailScreen.route
         ){
             TodoDetailScreen()
         }

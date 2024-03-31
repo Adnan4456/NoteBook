@@ -44,126 +44,148 @@ fun TodoItem(
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(
             focusedElevation = 10.dp,
-            defaultElevation = 4.dp
+            defaultElevation = 8.dp
         )
-
-
     ){
-
-        Row(
-            Modifier
-                .fillMaxWidth()
+        Column(
+            modifier = Modifier.fillMaxSize()
                 .background(
                     color = colorResource(id = R.color.all_notes_item)
-                ).padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+                )
+                .padding(8.dp),
         ) {
 
-            Text(text = mytask.title,
-            style = TextStyle(
-                color =  colorResource(id = R.color.app_black),
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
-            ))
-
             Row(
+                Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = colorResource(id = R.color.all_notes_item)
+                    )
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+
+                Text(text = mytask.title,
+                    style = TextStyle(
+                        color =  colorResource(id = R.color.app_black),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    ))
+
+                Row(
+                    modifier = Modifier
+                        .background(
+                            color = colorResource(id = R.color.all_notes_item)
+                        ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Icon(imageVector =Icons.Default.Check ,
+                        contentDescription = "",
+                        tint = Color.Green
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Icon(imageVector =Icons.Default.Edit ,
+                        contentDescription = "",
+                        tint = Color.Blue
+                    )
+
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Icon(imageVector =Icons.Default.Delete ,
+                        contentDescription = "",
+                        tint = Color.Red
+                    )
+                }
+            }
+            Divider(
                 modifier = Modifier
                     .background(
-                color = colorResource(id = R.color.all_notes_item)
-            ),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Spacer(modifier = Modifier.width(8.dp))
-                Icon(imageVector =Icons.Default.Check ,
-                    contentDescription = "",
-                    tint = Color.Green
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Icon(imageVector =Icons.Default.Edit ,
-                    contentDescription = "",
-                    tint = Color.Blue
-                )
-
-                Spacer(modifier = Modifier.width(8.dp))
-                Icon(imageVector =Icons.Default.Delete ,
-                    contentDescription = "",
-                    tint = Color.Red
-                )
-            }
-        }
-        Divider(
-            modifier = Modifier
-                .background(
-                    color = colorResource(id = R.color.all_notes_item)
-                )
-        )
-        Column (
-            modifier = Modifier
-                .background(
-                    color = colorResource(id = R.color.all_notes_item)
-                )  .padding(8.dp)
-        ){
-            Text(text = mytask.description,
-                style = TextStyle(
-                    color =  colorResource(id = R.color.app_black),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                        color = colorResource(id = R.color.all_notes_item)
+                    )
             )
+            Column (
+                modifier = Modifier
+                    .background(
+                        color = colorResource(id = R.color.all_notes_item)
+                    )
+                    .padding(8.dp)
+            ){
+                Text(text = mytask.description,
+                    style = TextStyle(
+                        color =  colorResource(id = R.color.app_black),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
 
-            Row(
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            color = colorResource(id = R.color.all_notes_item)
+                        ),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = mytask.date.toString())
+                    Text(text = mytask.timestamp.toString())
+                }
+            }
+            Spacer(modifier = Modifier
+                .height(8.dp)
+                .background(
+                    color = colorResource(id = R.color.all_notes_item)
+                ))
+
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(
                         color = colorResource(id = R.color.all_notes_item)
-                    ),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                    )
             ) {
-                Text(text = mytask.date.toString())
-                Text(text = mytask.timestamp.toString())
+                if (mytask.checklist.size>0){
+                    ShowCheckListItem(mytask.checklist.get(0))
+//                TestCheckItems(mytask.checklist.get(0),
+//                onStatusChange = { newValue ->
+//                    Log.d("CheckItems", "New value of TextField: $newValue")
+//                    viewModel.update(mytask)
+//                },
+//                onValueChange = {
+//                 Log.d("Title","new title${it}")
+//                })
+                }
+                Spacer(modifier = Modifier.height(2.dp))
+                if (mytask.checklist.size>1){
+                    ShowCheckListItem(mytask.checklist.get(1))
+//                TestCheckItems(mytask.checklist.get(1),
+//                onStatusChange = {newValue ->
+//                    Log.d("CheckItems", "New value of TextField: $newValue")
+////                    viewModel.onEvent(TodoEvents.EditCheckItem(mytask , mytask.checklist.get(1)))
+//                                 },
+//                    onValueChange = {
+//                        Log.d("Title","new title${it}")
+//                    }
+//                )
+                }
             }
-        }
-        Spacer(modifier = Modifier.height(8.dp)
-            .background(
-                color = colorResource(id = R.color.all_notes_item)
-            ))
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                modifier = Modifier
+                    .clickable {
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    color = colorResource(id = R.color.all_notes_item)
+                    },
+                text = " See All ",
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
                 )
-        ) {
-            if (mytask.checklist.size>0){
-                CheckItems(mytask.checklist.get(0),
-                onStatusChange = { newValue ->
-                    Log.d("CheckItems", "New value of TextField: $newValue")
-                    viewModel.update(mytask)
-                },
-                onValueChange = {
-                 Log.d("Title","new title${it}")
-                })
-            }
-            Spacer(modifier = Modifier.height(2.dp))
-            if (mytask.checklist.size>1){
-
-                CheckItems(mytask.checklist.get(1),
-                onStatusChange = {newValue ->
-                    Log.d("CheckItems", "New value of TextField: $newValue")
-//                    viewModel.onEvent(TodoEvents.EditCheckItem(mytask , mytask.checklist.get(1)))
-                                 },
-                    onValueChange = {
-                        Log.d("Title","new title${it}")
-                    }
-                )
-            }
+            )
         }
+
     }
 }
-
 
 @Preview
 @Composable

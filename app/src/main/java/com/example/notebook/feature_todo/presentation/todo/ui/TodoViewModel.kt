@@ -31,7 +31,7 @@ class TodoViewModel
     val todoState: State<TodoState> = _todoState
     private lateinit var  allTodos: List<Todo>
 
-     val _stateList = MutableStateFlow(TodoState())
+    val _stateList = MutableStateFlow(TodoState())
 
     private var getTodoJob: Job? = null
     lateinit var checklist:ChecklistItem
@@ -40,14 +40,17 @@ class TodoViewModel
         getAllTodos()
     }
 
-    fun update(todo: Todo) {
+
+    fun update(todo: Todo ) {
         allTodos =  todoState.value.todo
         allTodos.indexOf(todo)
         val indexOfTodoToUpdate = _todoState.value.todo.indexOfFirst{
             it.id == todo.id
         }
+
         Log.d("update index = ","${indexOfTodoToUpdate}")
         Log.d("TAG","alltodo list = ${allTodos.size}")
+
     }
     @OptIn(FlowPreview::class)
     private fun getAllTodos() {
