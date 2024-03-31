@@ -22,16 +22,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.notebook.R
 import com.example.notebook.feature_todo.domain.model.ChecklistItem
+import com.example.notebook.feature_todo.presentation.detail_checkItems.ui.TodoDetailScreenViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CheckItems(
     item : ChecklistItem,
-//    onStatusChange:(Boolean)->Unit,
-//    onValueChange:(String)->Unit
+    viewModel: TodoDetailScreenViewModel = hiltViewModel()
 ) {
 
     var isChecked by remember { mutableStateOf(item.isCompleted) }
@@ -62,7 +63,7 @@ fun CheckItems(
             IconButton(
                 onClick = {
                           //Delete checkItem
-//                vm.onCheckableDelete(item)
+                viewModel.onCheckableDelete(item)
                 },
                 modifier = Modifier.size(32.dp)
             ) {
@@ -123,7 +124,7 @@ fun CheckItems(
             IconButton(
                 onClick = {
                     isEnable = !isEnable
-                    Log.d("TAG","enable = ${ isEnable}")
+//                    Log.d("TAG","enable = ${ isEnable}")
                 },
                 modifier = Modifier.size(32.dp)
             ) {

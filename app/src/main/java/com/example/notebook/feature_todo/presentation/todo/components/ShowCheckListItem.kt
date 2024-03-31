@@ -60,7 +60,6 @@ fun ShowCheckListItem(
                     focusedIndicatorColor = Color.White,
                     unfocusedIndicatorColor = Color.Transparent,
                 ),
-
             )
         }
     }

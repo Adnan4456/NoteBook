@@ -1,12 +1,7 @@
 package com.example.notebook.feature_todo.presentation.detail_checkItems.components
 
 
-
-
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -73,7 +68,8 @@ fun TodoItem(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
-                Text(text = mytask.title,
+                Text(
+                    text = viewModel.title.value,
                     style = TextStyle(
                         color =  colorResource(id = R.color.app_black),
                         fontWeight = FontWeight.Bold,
@@ -118,7 +114,8 @@ fun TodoItem(
                     )
                     .padding(8.dp)
             ){
-                Text(text = mytask.description,
+                Text(
+                    text = viewModel.description.value,
                     style = TextStyle(
                         color =  colorResource(id = R.color.app_black),
                         fontSize = 16.sp,
@@ -152,7 +149,7 @@ fun TodoItem(
                         color = colorResource(id = R.color.all_notes_item)
                     )
             ) {
-                items(mytask.checklist){ check->
+                items(viewModel._checkList){ check->
                     CheckItems(check)
                 }
             }
