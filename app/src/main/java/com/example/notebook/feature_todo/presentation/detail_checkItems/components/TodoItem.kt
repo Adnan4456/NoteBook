@@ -99,11 +99,15 @@ fun TodoItem(
                     )
 
                     Spacer(modifier = Modifier.width(8.dp))
-                    Icon(
-                        imageVector =Icons.Default.Delete ,
-                        contentDescription = "",
-                        tint = Color.Red
-                    )
+
+                    IconButton(onClick = {
+                        viewModel.onTaskDelete(task = mytask)
+                    }) {
+                        Icon(imageVector =Icons.Default.Delete ,
+                            contentDescription = "",
+                            tint = Color.Red
+                        )
+                    }
                 }
             }
             Divider(

@@ -107,6 +107,14 @@ class TodoDetailScreenViewModel
         updateTodo()
     }
 
+    fun onTaskDelete(task: Todo){
+        viewModelScope.launch(Dispatchers.IO) {
+
+            todoUseCases.deleTodoUseCase.invoke(task)
+        }
+
+    }
+
     private fun updateTodo(){
 
         _taskCompleted.value = _checkList.any { !it.isCompleted }
