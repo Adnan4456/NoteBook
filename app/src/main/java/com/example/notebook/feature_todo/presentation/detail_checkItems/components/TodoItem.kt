@@ -1,9 +1,7 @@
-package com.example.notebook.feature_todo.presentation.todo.components
+package com.example.notebook.feature_todo.presentation.detail_checkItems.components
 
-import android.util.Log
-import android.widget.Toast
+
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -28,19 +26,19 @@ import androidx.navigation.NavHostController
 import com.example.notebook.R
 import com.example.notebook.feature_note.presentation.util.BottomBarScreen
 import com.example.notebook.feature_todo.domain.model.Todo
+import com.example.notebook.feature_todo.presentation.detail_checkItems.ui.TodoDetailScreenViewModel
 import com.example.notebook.feature_todo.presentation.todo.TodoEvents
+import com.example.notebook.feature_todo.presentation.todo.components.ShowCheckListItem
 import com.example.notebook.feature_todo.presentation.todo.ui.TodoViewModel
 
 @Composable
 fun TodoItem(
-    modifier: Modifier,
     mytask: Todo,
-    navController: NavController,
-   viewModel: TodoViewModel = hiltViewModel()
+    viewModel: TodoDetailScreenViewModel = hiltViewModel()
 ) {
 
     Card (
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .background(
                 color = colorResource(id = R.color.all_notes_item)
@@ -52,8 +50,7 @@ fun TodoItem(
         )
     ){
         Column(
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
                 .background(
                     color = colorResource(id = R.color.all_notes_item)
                 )
@@ -71,7 +68,8 @@ fun TodoItem(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
 
-                Text(text = mytask.title,
+                Text(
+                    text = viewModel.title.value,
                     style = TextStyle(
                         color =  colorResource(id = R.color.app_black),
                         fontWeight = FontWeight.Bold,
@@ -85,18 +83,23 @@ fun TodoItem(
                         ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+
                     Spacer(modifier = Modifier.width(8.dp))
+
                     Icon(imageVector =Icons.Default.Check ,
                         contentDescription = "",
                         tint = Color.Green
                     )
+
                     Spacer(modifier = Modifier.width(8.dp))
+
                     Icon(imageVector =Icons.Default.Edit ,
                         contentDescription = "",
                         tint = Color.Blue
                     )
 
                     Spacer(modifier = Modifier.width(8.dp))
+
                     IconButton(onClick = {
                         viewModel.onTaskDelete(task = mytask)
                     }) {
@@ -105,7 +108,6 @@ fun TodoItem(
                             tint = Color.Red
                         )
                     }
-
                 }
             }
             Divider(
@@ -121,7 +123,8 @@ fun TodoItem(
                     )
                     .padding(8.dp)
             ){
-                Text(text = mytask.description,
+                Text(
+                    text = viewModel.description.value,
                     style = TextStyle(
                         color =  colorResource(id = R.color.app_black),
                         fontSize = 16.sp,
@@ -139,55 +142,27 @@ fun TodoItem(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(text = mytask.date.toString())
-                    Text(text = viewModel.convertLongToTime(mytask.timestamp!!))
+                    Text(text = mytask.timestamp.toString())
                 }
             }
             Spacer(modifier = Modifier
                 .height(8.dp)
                 .background(
                     color = colorResource(id = R.color.all_notes_item)
-                ))
-
-            Column(
+                )
+            )
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(
                         color = colorResource(id = R.color.all_notes_item)
                     )
             ) {
-                if (mytask.checklist.size>0){
-                    ShowCheckListItem(mytask.checklist.get(0))
-
-                }
-                Spacer(modifier = Modifier.height(2.dp))
-                if (mytask.checklist.size>1){
-                    ShowCheckListItem(mytask.checklist.get(1))
-//                TestCheckItems(mytask.checklist.get(1),
-//                onStatusChange = {newValue ->
-//                    Log.d("CheckItems", "New value of TextField: $newValue")
-////                    viewModel.onEvent(TodoEvents.EditCheckItem(mytask , mytask.checklist.get(1)))
-//                                 },
-//                    onValueChange = {
-//                        Log.d("Title","new title${it}")
-//                    }
-//                )
+                items(viewModel._checkList){ check->
+                    CheckItems(check)
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                modifier = Modifier
-                    .clickable {
-                        navController.navigate(
-                            BottomBarScreen.TodoDetailScreen.route +
-                                    "todoId=${mytask.id}",
-                        )
-                    },
-                text = " See All ",
-                style = TextStyle(
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            )
         }
     }
 }

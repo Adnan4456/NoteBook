@@ -11,7 +11,7 @@ class UpdateCheckListUseCase
 
 ) {
 
-    suspend fun invoke(todoID: Int,  checklistItem: ChecklistItem){
-//        repository.updatechecklistItem(todoID, checklistItem)
+    suspend fun invoke(todoID: Int,  checklistItem: List<ChecklistItem>){
+        repository.updatechecklistItem(todoID, checklistItem)
     }
 }

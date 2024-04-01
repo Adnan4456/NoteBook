@@ -1,8 +1,9 @@
-package com.example.notebook.feature_todo.presentation.todo.components
+package com.example.notebook.feature_todo.presentation.detail_checkItems.components
 
 import android.util.Log
 import android.view.KeyEvent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -10,11 +11,12 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
@@ -23,28 +25,36 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.notebook.R
 import com.example.notebook.feature_todo.domain.model.ChecklistItem
+import com.example.notebook.feature_todo.presentation.detail_checkItems.ui.TodoDetailScreenViewModel
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun CheckItems(
     item : ChecklistItem,
-    onStatusChange:(Boolean)->Unit,
-    onValueChange:(String)->Unit
+    viewModel: TodoDetailScreenViewModel = hiltViewModel()
 ) {
 
-    val isChecked = remember { mutableStateOf(item.isCompleted) }
+    var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver){
+        mutableStateOf(TextFieldValue(item.title))
+    }
+    val (focusRequester) = FocusRequester.createRefs()
 
-    val isEnable  = remember {
+
+    var isChecked by remember { mutableStateOf(item.isCompleted) }
+
+    var isEnable  by remember {
         mutableStateOf(false)
     }
 
 
-    val newTitle = remember {
-        mutableStateOf("")
+    var newTitle by remember {
+        mutableStateOf(item.title)
     }
 
     Box(modifier = Modifier
@@ -64,20 +74,21 @@ fun CheckItems(
             IconButton(
                 onClick = {
                           //Delete checkItem
-//                vm.onCheckableDelete(item)
+                viewModel.onCheckableDelete(item)
                 },
                 modifier = Modifier.size(32.dp)
             ) {
                 Icon(
+                    modifier = Modifier.size(16.dp),
                     imageVector = Icons.Default.Delete,
                     contentDescription = "Delete Checkable",
                     tint = Color.Red,
-                    modifier = Modifier.size(16.dp)
                 )
             }
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(50.dp)
                     .weight(1f),
                 colors = CardDefaults.cardColors(
                     containerColor = Color.White
@@ -94,12 +105,11 @@ fun CheckItems(
                     verticalAlignment = Alignment.CenterVertically,
                 ){
                     Checkbox(
-                        checked = isChecked.value ,
+                        checked = isChecked,
                         onCheckedChange = {
-//                            item.isCompleted  = it
-                            isChecked.value = it
-                            onStatusChange(it)
-
+                            isChecked = it
+                            Log.d("TAG","${item.isCompleted}")
+                            viewModel.onCheckableCheck(item,it)
                         },
                         colors = CheckboxDefaults.colors(
                             checkedColor = colorResource(id = R.color.main_color),
@@ -107,17 +117,12 @@ fun CheckItems(
                         ),
                     )
                     TextField(
-                        enabled = isEnable.value,
-                        textStyle= TextStyle(
-                            color = Color.Black
-                        ),
-                        value = item.title,
+                        enabled = isEnable,
+                        modifier= Modifier.fillMaxWidth(),
+                        value = textFieldValue,
                         onValueChange = {
-//                        textFieldValue = it.copy(text = it.text.trim())
-//                        vm.onCheckableValueChange(item,textFieldValue.text)
-                            item.title = it
-                            newTitle.value = it
-                            onValueChange.invoke(newTitle.value)
+                            textFieldValue = it.copy(text = it.text.trim())
+                            viewModel.onCheckableValueChange(item,textFieldValue.text)
                         },
                         colors = TextFieldDefaults.textFieldColors(
                             containerColor = Color.White,
@@ -126,52 +131,17 @@ fun CheckItems(
                             focusedIndicatorColor = Color.White,
                             unfocusedIndicatorColor = Color.Transparent,
                         ),
-                        placeholder = {
-                            Text(
-                                text = "",
-                                fontStyle = FontStyle.Italic
-                            )
-                        },
-                        modifier = Modifier
-                            .padding(start = 0.dp)
-                            .onKeyEvent {
-                                Log.d("flfklskf", it.nativeKeyEvent.keyCode.toString())
-                                if (it.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_ENTER) {
-//                                vm.onAddCheckable(item)
-                                    true
-                                } else if (it.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_DEL) {
-//                                vm.onBackOnValue(
-//                                    item,
-//                                    currentPos,
-//                                    textFieldValue.selection.start
-//                                )
-//                                currentPos = textFieldValue.selection.start
-                                    true
-                                } else {
-                                    false
-                                }
-                            },
-//                        .focusRequester(focusRequester)
-//                        .onFocusChanged {
-//                            if (it.isFocused) {
-//                                vm.onFocusGot(item)
-//                            }
-//                        },
-                        keyboardOptions = KeyboardOptions(
-                            capitalization = KeyboardCapitalization.Sentences
-                        )
                     )
                 }
             }
-
             IconButton(
                 onClick = {
-                    isEnable.value = !isEnable.value
-                    Log.d("TAG","enable = ${ isEnable.value}")
+                    isEnable = !isEnable
+//                    Log.d("TAG","enable = ${ isEnable}")
                 },
                 modifier = Modifier.size(32.dp)
             ) {
-                if(isEnable.value){
+                if(isEnable){
 
                     Icon(
                         imageVector = Icons.Default.Check,
@@ -179,7 +149,7 @@ fun CheckItems(
                         tint = Color.Black,
                         modifier = Modifier.size(16.dp)
                     )
-                    onValueChange.invoke(newTitle.value)
+//                    onValueChange.invoke(newTitle.value)
 
                 }else{
                     Icon(
@@ -192,7 +162,7 @@ fun CheckItems(
             }
         }
 
-        if(isChecked.value){
+        if(isChecked){
             Divider(
                 modifier = Modifier.fillMaxWidth()
             )

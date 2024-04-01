@@ -1,6 +1,7 @@
 package com.example.notebook.feature_note.presentation.notes.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -8,15 +9,18 @@ import androidx.navigation.NavController
 import com.example.notebook.feature_note.presentation.notes.components.CardRow
 
 @Composable
-fun Header(navController: NavController) {
+fun Header(
+    modifier: Modifier,
+    navController: NavController) {
     val (selectedCardIndex, setSelectedCardIndex) = remember { mutableStateOf("All Notes") }
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = modifier.fillMaxSize()) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
         CardRow(
-           modifier = Modifier.fillMaxWidth()
+           modifier = Modifier
+               .fillMaxWidth()
                .height(50.dp),
             onClick = {
                     index -> setSelectedCardIndex(index)

@@ -8,7 +8,7 @@ import com.example.notebook.components.Converters
 data class Todo(
 
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0,
+    var id: Int = 0,
 
     @ColumnInfo(name = "title")
     val title: String,
@@ -26,6 +26,8 @@ data class Todo(
     @ColumnInfo(name = "checklist")
 //    @Embedded
     val checklist: List<ChecklistItem>,
+
+    val completed : Boolean = false,
 
     val isBookMarked : Boolean = false,
     val isSecrete: Boolean = false,

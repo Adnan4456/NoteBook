@@ -10,14 +10,14 @@ interface TodoRepository {
 
     suspend fun getTodoById(id: Int): Todo?
 
-    suspend fun insertTodo(todo: Todo)
+    suspend fun insertTodo(todo: Todo):Long
 
-    suspend fun deleteTodo(todo: Todo)
+    suspend fun deleteTodo(todo: Todo):Int
 
     fun getBookMarkedTodo():Flow<List<Todo>>
 
      fun getSecretTodo():Flow<List<Todo>>
 
-//     suspend fun updatechecklistItem(todo_id: Int , checklistItem: ChecklistItem)
+     suspend fun updatechecklistItem(todo_id: Int , checklistItem: List<ChecklistItem>):Int
 
 }

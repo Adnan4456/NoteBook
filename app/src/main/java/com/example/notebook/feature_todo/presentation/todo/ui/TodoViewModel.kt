@@ -13,25 +13,27 @@ import com.example.notebook.feature_todo.domain.use_cases.UpdateCheckListUseCase
 import com.example.notebook.feature_todo.presentation.todo.TodoEvents
 import com.example.notebook.feature_todo.presentation.todo.TodoState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
 class TodoViewModel
 @Inject constructor(
     private val todoUseCases: TodoUseCases,
-    private val  updateCheckListUseCase:UpdateCheckListUseCase
     ):ViewModel() {
 
 
     private val _todoState =  mutableStateOf(TodoState())
     val todoState: State<TodoState> = _todoState
-    private lateinit var  allTodos: List<Todo>
 
-     val _stateList = MutableStateFlow(TodoState())
+    val _stateList = MutableStateFlow(TodoState())
 
     private var getTodoJob: Job? = null
     lateinit var checklist:ChecklistItem
@@ -40,16 +42,15 @@ class TodoViewModel
         getAllTodos()
     }
 
-    fun update(todo: Todo) {
-        allTodos =  todoState.value.todo
-        allTodos.indexOf(todo)
-        val indexOfTodoToUpdate = _todoState.value.todo.indexOfFirst{
-            it.id == todo.id
-        }
-        Log.d("update index = ","${indexOfTodoToUpdate}")
-        Log.d("TAG","alltodo list = ${allTodos.size}")
+
+    fun convertLongToTime(time: Long): String {
+        val date = Date(time)
+        val format = SimpleDateFormat("HH:mm")
+        format.setTimeZone(TimeZone.getTimeZone("GMT"))
+        return format.format(date)
     }
-    @OptIn(FlowPreview::class)
+
+
     private fun getAllTodos() {
 
         getTodoJob?.cancel()
@@ -84,15 +85,18 @@ class TodoViewModel
 
             }
             is TodoEvents.EditTodo -> {
-                Log.d("TAG","todo that will update ${event.todo.title}")
+
             }
             is TodoEvents.EditCheckItem -> {
-                Log.d("checkitem = ","todo title = ${event.todo.title}    andchecklist title = ${event.checkItemList.title}")
             }
         }
     }
 
-    fun onTaskDelete(task: Todo, item: ChecklistItem){
-        _todoState.value
+    fun onTaskDelete(task: Todo){
+        viewModelScope.launch(Dispatchers.IO) {
+
+            todoUseCases.deleTodoUseCase.invoke(task)
+        }
+
     }
 }

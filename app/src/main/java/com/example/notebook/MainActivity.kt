@@ -33,6 +33,7 @@ class MainActivity : ComponentActivity() {
 
         installSplashScreen()
 
+
         setContent {
 
             val window = rememberWindowSizeClass()

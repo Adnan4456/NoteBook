@@ -35,13 +35,12 @@ fun FilterFabMenuButton(
     modifier: Modifier = Modifier
 ) {
 
-
     FloatingActionButton(
         modifier = modifier,
         onClick = {
             onClick(item)
         },
-
+        shape = RoundedCornerShape(20),
         containerColor = colorResource(id = R.color.app_black)
     ) {
         Icon(
@@ -66,7 +65,8 @@ fun FilterFabMenuLabel(
     ) {
         Text(
             text = label, color = Color.White,
-            modifier = Modifier.padding(horizontal = 20.dp, vertical = 2.dp),
+            modifier = Modifier
+                .padding(horizontal = 20.dp, vertical = 2.dp),
             fontSize = 14.sp,
             maxLines = 1
         )
@@ -90,7 +90,6 @@ fun FilterFabMenuItem(
         //label
 //        FilterFabMenuLabel(label = "Add Todo")
 
-
         FilterFabMenuButton(item = menuItem, onClick = onMenuItemClick)
 
     }
@@ -109,34 +108,36 @@ fun FilterFabMenu(
     val enterTransition = remember {
         expandVertically(
             expandFrom = Alignment.Bottom,
-            animationSpec = tween(150, easing = FastOutSlowInEasing)
+            animationSpec = tween(200, easing = FastOutSlowInEasing)
         ) + fadeIn(
             initialAlpha = 0.3f,
-            animationSpec = tween(150, easing = FastOutSlowInEasing)
+            animationSpec = tween(200, easing = FastOutSlowInEasing)
         )
     }
 
     val exitTransition = remember {
         shrinkVertically(
             shrinkTowards = Alignment.Bottom,
-            animationSpec = tween(150, easing = FastOutSlowInEasing)
+            animationSpec = tween(200, easing = FastOutSlowInEasing)
         ) + fadeOut(
-            animationSpec = tween(150, easing = FastOutSlowInEasing)
+            animationSpec = tween(200, easing = FastOutSlowInEasing)
         )
     }
 
 
-    AnimatedVisibility(visible = visible, enter = enterTransition, exit = exitTransition) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = enterTransition,
+        exit = exitTransition) {
         Column(
-            modifier = modifier.fillMaxWidth(), horizontalAlignment = Alignment.End,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items.forEach { menuItem ->
                 FilterFabMenuItem(
                     menuItem = menuItem,
                     onMenuItemClick = {
-//                        Toast.makeText()
-//                        Log.d("TAG","${it.label}")
                         if(it.label.equals("Note")){
                          navController.navigate(BottomBarScreen.AddEditNoteScreen.route)
                         }
@@ -216,8 +217,9 @@ fun FilterView(
         modifier = modifier
             .fillMaxSize()
             .padding(4.dp),
-        horizontalAlignment = Alignment.End,
-        verticalArrangement = Arrangement.spacedBy(1.dp,Alignment.Bottom)
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Bottom
+//        verticalArrangement = Arrangement.spacedBy(1.dp,Alignment.Bottom)
     ) {
         FilterFabMenu(
             items = items,
