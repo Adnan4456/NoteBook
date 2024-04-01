@@ -7,7 +7,6 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -26,6 +25,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.notebook.R
 import com.example.notebook.feature_note.presentation.notes.NotesEvent
+import com.example.notebook.feature_note.presentation.notes.NotesState
 import com.example.notebook.feature_note.presentation.notes.NotesViewModel
 import com.example.notebook.feature_note.presentation.notes.components.*
 import com.google.firebase.auth.FirebaseAuth
@@ -41,7 +41,7 @@ fun NotesScreen(
     val state = viewModel.state.value
     val snackbarHostState = remember { SnackbarHostState() }
 
-     val density = LocalDensity.current
+    val density = LocalDensity.current
 
 
     Scaffold(
@@ -53,7 +53,6 @@ fun NotesScreen(
                     FilterFabMenuItem("Todo", R.drawable.ic_todo)
                 ),
                 modifier = Modifier
-//                    .align(Alignment.BottomEnd)
                     .padding(8.dp),
                 navController
             )
@@ -61,94 +60,188 @@ fun NotesScreen(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         },
+        topBar = {
+            ToolBar(state , viewModel ,  navController , firbaseAuth)
+//            topAppBar()
+        }
     ) {innerPadding ->
-        Box(
-            modifier = Modifier.background(
-               color = Color.White.copy(alpha = .7f)
-            )
-        ){
+//        Box(
+//            modifier = Modifier.background(
+//               color = Color.White.copy(alpha = .7f)
+//            )
+//        ){
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(8.dp)
+        ) {
+            SearchBar { query ->
+                viewModel.onSearchQueryChanged(query)
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            Header(Modifier.padding(0.dp),
+                navController)
+        }
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-
-                    Row( verticalAlignment = Alignment.CenterVertically) {
-
-                        IconButton(onClick = {
-                            viewModel.onEvent(NotesEvent.ToggleOrderSection)
-                        },
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Sort,
-                                contentDescription = "Sort Note"
-                            )
-                        }
-
-                        Text(
-                            text = stringResource(id = R.string.notetitle),
-                            style = MaterialTheme.typography.bodyLarge,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.weight(1f))
-
-                        IconButton(
-                            onClick = {
-                                firbaseAuth.signOut()
-                                navController.navigate(route ="auth_graph"){
-                                    popUpTo("home_graph"){
-                                        inclusive = false
-                                    }
-                                }
-                            },
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Logout,
-                                contentDescription = "Log Out"
-                            )
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(18.dp))
-                SearchBar { query ->
-                    viewModel.onSearchQueryChanged(query)
-                }
-                AnimatedVisibility(
-                    visible = state.isOrderSectionVisible,
-                    enter = slideInVertically {
-
-                        with(density) { -40.dp.roundToPx() }
-                    } + expandVertically(
-                        expandFrom = Alignment.Top
-                    ) + fadeIn(
-                        initialAlpha = 0.4f
-                    ),
-                    exit = slideOutVertically() + shrinkVertically() + fadeOut()
-                ) {
-                    OrderSection(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 16.dp),
-                        noteOrder = state.noteOrder,
-                        onOrderChange = {
-                            viewModel.onEvent(NotesEvent.Order(it))
-                        }
-                    )
-                }
-                Header(navController)
-//                LazyColumn( ){
-//                    item {
+//            Column(
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .padding(innerPadding)
+//                    .padding(16.dp),
+//            ) {
+//                Row(
+//                    modifier = Modifier.fillMaxWidth(),
+//                    horizontalArrangement = Arrangement.SpaceBetween,
+//                    verticalAlignment = Alignment.CenterVertically
+//                ) {
 //
+//                    Row( verticalAlignment = Alignment.CenterVertically) {
 //
+//                        IconButton(onClick = {
+//                            viewModel.onEvent(NotesEvent.ToggleOrderSection)
+//                        },
+//                        ) {
+//                            Icon(
+//                                imageVector = Icons.Default.Sort,
+//                                contentDescription = "Sort Note"
+//                            )
+//                        }
+//
+//                        Text(
+//                            text = stringResource(id = R.string.notetitle),
+//                            style = MaterialTheme.typography.bodyLarge,
+//                            textAlign = TextAlign.Center,
+//                            modifier = Modifier.weight(1f))
+//
+//                        IconButton(
+//                            onClick = {
+//                                firbaseAuth.signOut()
+//                                navController.navigate(route ="auth_graph"){
+//                                    popUpTo("home_graph"){
+//                                        inclusive = false
+//                                    }
+//                                }
+//                            },
+//                        ) {
+//                            Icon(
+//                                imageVector = Icons.Default.Logout,
+//                                contentDescription = "Log Out"
+//                            )
+//                        }
 //                    }
 //                }
+//
+//                Spacer(modifier = Modifier.height(18.dp))
+//                SearchBar { query ->
+//                    viewModel.onSearchQueryChanged(query)
+//                }
+//                AnimatedVisibility(
+//                    visible = state.isOrderSectionVisible,
+//                    enter = slideInVertically {
+//
+//                        with(density) { -40.dp.roundToPx() }
+//                    } + expandVertically(
+//                        expandFrom = Alignment.Top
+//                    ) + fadeIn(
+//                        initialAlpha = 0.4f
+//                    ),
+//                    exit = slideOutVertically() + shrinkVertically() + fadeOut()
+//                ) {
+//                    OrderSection(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(vertical = 16.dp),
+//                        noteOrder = state.noteOrder,
+//                        onOrderChange = {
+//                            viewModel.onEvent(NotesEvent.Order(it))
+//                        }
+//                    )
+//                }
+//
+//                Header(navController)
+//            }
+//        }
+    }
+}
+@Composable
+fun ToolBar(
+    state: NotesState,
+    viewModel: NotesViewModel,
+    navController: NavController,
+    firbaseAuth: FirebaseAuth
+) {
+    val density = LocalDensity.current
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+
+                IconButton(
+                    onClick = {
+                        viewModel.onEvent(NotesEvent.ToggleOrderSection)
+                    },
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Sort,
+                        contentDescription = "Sort Note"
+                    )
+                }
+
+                Text(
+                    text = stringResource(id = R.string.notetitle),
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1f)
+                )
+
+                IconButton(
+                    onClick = {
+                        firbaseAuth.signOut()
+                        navController.navigate(route = "auth_graph") {
+                            popUpTo("home_graph") {
+                                inclusive = false
+                            }
+                        }
+                    },
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Logout,
+                        contentDescription = "Log Out"
+                    )
+                }
             }
+        }
+
+        AnimatedVisibility(
+            visible = state.isOrderSectionVisible,
+            enter = slideInVertically {
+
+                with(density) { -40.dp.roundToPx() }
+            } + expandVertically(
+                expandFrom = Alignment.Top
+            ) + fadeIn(
+                initialAlpha = 0.4f
+            ),
+            exit = slideOutVertically() + shrinkVertically() + fadeOut()
+        ) {
+            OrderSection(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp),
+                noteOrder = state.noteOrder,
+                onOrderChange = {
+                    viewModel.onEvent(NotesEvent.Order(it))
+                }
+            )
         }
     }
 }
