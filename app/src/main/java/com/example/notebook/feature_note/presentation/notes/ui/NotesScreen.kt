@@ -45,18 +45,25 @@ fun NotesScreen(
 
 
     Scaffold(
-        floatingActionButtonPosition = FabPosition.End,
-        floatingActionButton = {
-            FilterView(
-                items = listOf(
-                    FilterFabMenuItem("Note", R.drawable.ic_note),
-                    FilterFabMenuItem("Todo", R.drawable.ic_todo)
-                ),
-                modifier = Modifier
-                    .padding(8.dp),
-                navController
-            )
-        },
+//        floatingActionButtonPosition = FabPosition.Center,
+//        floatingActionButton = {
+//
+//            Box(){
+//
+//                FilterView(
+//                    items = listOf(
+//                        FilterFabMenuItem("Note", R.drawable.ic_note),
+//                        FilterFabMenuItem("Todo", R.drawable.ic_todo)
+//                    ),
+//                    modifier = Modifier
+//                        .align(Alignment.Center)
+//                        .size(80.dp)
+//                        .offset(y = 50.dp),
+//                    navController
+//                )
+//            }
+//
+//        },
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         },

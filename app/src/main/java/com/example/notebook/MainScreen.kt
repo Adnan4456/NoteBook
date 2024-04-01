@@ -2,6 +2,8 @@ package com.example.notebook
 
 
 
+import FilterFabMenuItem
+import FilterView
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -10,6 +12,7 @@ import androidx.compose.material.*
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -45,10 +48,24 @@ fun MainScreen(
 
     Scaffold (
         Modifier.
-        background(
-//            colorResource(id = R.color.background_color)
-        color = Color.White
-        ),
+        background(color = Color.White),
+        floatingActionButtonPosition = FabPosition.Center,
+        floatingActionButton = {
+
+            Box(){
+
+                FilterView(
+                    items = listOf(
+                        FilterFabMenuItem("Note", R.drawable.ic_note),
+                        FilterFabMenuItem("Todo", R.drawable.ic_todo)
+                    ),
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .offset(y = 50.dp),
+                    navController
+                )
+            }
+        },
 
         bottomBar = {
             NavigationBar(navController)
@@ -77,6 +94,7 @@ fun NavigationBar(navController: NavHostController){
 
     if(bottomBarDestination){
         NavigationBar(
+            modifier = Modifier.height(70.dp),
             containerColor = Color.White,
             tonalElevation = 8.dp
         ) {
