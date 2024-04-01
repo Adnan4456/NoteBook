@@ -1,6 +1,7 @@
 package com.example.notebook.feature_todo.data.repository
 
 import com.example.notebook.feature_todo.data.data_source.TodoDao
+import com.example.notebook.feature_todo.domain.model.ChecklistItem
 import com.example.notebook.feature_todo.domain.model.Todo
 import com.example.notebook.feature_todo.domain.repository.TodoRepository
 import kotlinx.coroutines.Dispatchers
@@ -40,7 +41,7 @@ class TodoRepositoryImpl
         return dao.getSecretTodo()
     }
 
-//    override suspend fun updatechecklistItem(todo_id: Int, checklistItem: ChecklistItem) {
-//        return dao.updateChecklistItem(todo_id , checklistItem)
-//    }
+    override suspend fun updatechecklistItem(todo_id: Int, checklistItem: List<ChecklistItem>) {
+        return dao.updateChecklistItem(todo_id , checklistItem)
+    }
 }

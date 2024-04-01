@@ -13,6 +13,7 @@ import com.example.notebook.feature_todo.domain.use_cases.UpdateCheckListUseCase
 import com.example.notebook.feature_todo.presentation.todo.TodoEvents
 import com.example.notebook.feature_todo.presentation.todo.TodoState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
@@ -40,18 +41,6 @@ class TodoViewModel
         getAllTodos()
     }
 
-
-    fun update(todo: Todo ) {
-        allTodos =  todoState.value.todo
-        allTodos.indexOf(todo)
-        val indexOfTodoToUpdate = _todoState.value.todo.indexOfFirst{
-            it.id == todo.id
-        }
-
-        Log.d("update index = ","${indexOfTodoToUpdate}")
-        Log.d("TAG","alltodo list = ${allTodos.size}")
-
-    }
     @OptIn(FlowPreview::class)
     private fun getAllTodos() {
 
@@ -95,7 +84,11 @@ class TodoViewModel
         }
     }
 
-    fun onTaskDelete(task: Todo, item: ChecklistItem){
-        _todoState.value
+    fun onTaskDelete(task: Todo){
+        viewModelScope.launch(Dispatchers.IO) {
+
+            todoUseCases.deleTodoUseCase.invoke(task)
+        }
+
     }
 }

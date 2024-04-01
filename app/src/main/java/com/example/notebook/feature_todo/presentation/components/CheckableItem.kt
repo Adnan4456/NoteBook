@@ -42,6 +42,7 @@ fun CheckableItem(
     vm: AddTodoViewModel = hiltViewModel()
 ) {
     var currentPos by remember { mutableStateOf(0) }
+
     var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver){
         mutableStateOf(TextFieldValue(item.title))
     }

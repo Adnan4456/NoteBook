@@ -52,7 +52,8 @@ fun TodoItem(
         )
     ){
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .background(
                     color = colorResource(id = R.color.all_notes_item)
                 )
@@ -96,10 +97,15 @@ fun TodoItem(
                     )
 
                     Spacer(modifier = Modifier.width(8.dp))
-                    Icon(imageVector =Icons.Default.Delete ,
-                        contentDescription = "",
-                        tint = Color.Red
-                    )
+                    IconButton(onClick = {
+                        viewModel.onTaskDelete(task = mytask)
+                    }) {
+                        Icon(imageVector =Icons.Default.Delete ,
+                            contentDescription = "",
+                            tint = Color.Red
+                        )
+                    }
+
                 }
             }
             Divider(

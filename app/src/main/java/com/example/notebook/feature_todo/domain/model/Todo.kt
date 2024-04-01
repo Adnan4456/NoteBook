@@ -27,6 +27,8 @@ data class Todo(
 //    @Embedded
     val checklist: List<ChecklistItem>,
 
+    val completed : Boolean = false,
+
     val isBookMarked : Boolean = false,
     val isSecrete: Boolean = false,
 

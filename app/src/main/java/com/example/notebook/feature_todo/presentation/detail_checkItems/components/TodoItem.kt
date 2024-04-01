@@ -83,19 +83,24 @@ fun TodoItem(
                         ),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+
                     Spacer(modifier = Modifier.width(8.dp))
+
                     Icon(imageVector =Icons.Default.Check ,
                         contentDescription = "",
                         tint = Color.Green
                     )
+
                     Spacer(modifier = Modifier.width(8.dp))
+
                     Icon(imageVector =Icons.Default.Edit ,
                         contentDescription = "",
                         tint = Color.Blue
                     )
 
                     Spacer(modifier = Modifier.width(8.dp))
-                    Icon(imageVector =Icons.Default.Delete ,
+                    Icon(
+                        imageVector =Icons.Default.Delete ,
                         contentDescription = "",
                         tint = Color.Red
                     )
@@ -140,8 +145,8 @@ fun TodoItem(
                 .height(8.dp)
                 .background(
                     color = colorResource(id = R.color.all_notes_item)
-                ))
-
+                )
+            )
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()

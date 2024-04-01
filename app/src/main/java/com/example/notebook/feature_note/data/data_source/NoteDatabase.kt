@@ -13,7 +13,7 @@ import com.example.notebook.feature_todo.domain.model.Todo
 @TypeConverters(Converters::class)
 @Database(
     entities = [Note::class , Todo::class],
-    version = 4,
+    version = 1,
     exportSchema = false
 )
 abstract class NoteDatabase: RoomDatabase() {

@@ -26,8 +26,8 @@ interface TodoDao {
     @Delete
     suspend fun deleteTodo(todo: Todo)
 
-//    @Query("Update Todo SET checklist = :checklistItem where id = :todoID")
-//    suspend fun updateChecklistItem(todoID: Int,checklistItem: ChecklistItem)
+    @Query("Update Todo SET checklist = :checklistItem where id = :todoID")
+    suspend fun updateChecklistItem(todoID: Int,checklistItem: List<ChecklistItem>)
 
 
     @Query("Select * from Todo WHERE isBookMarked = 1 and isSecrete = 0")

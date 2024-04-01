@@ -1,5 +1,6 @@
 package com.example.notebook.feature_todo.presentation.edit_todo.ui
 
+import android.util.Log
 import android.widget.Checkable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
@@ -92,6 +93,7 @@ class AddTodoViewModel
         val index = checkList.indexOfFirst {
             item.uid == it.uid
         }
+//
         checkList[index] = item.copy(isCompleted = checked)
     }
     fun onAddCheckable(item: ChecklistItem? =null){

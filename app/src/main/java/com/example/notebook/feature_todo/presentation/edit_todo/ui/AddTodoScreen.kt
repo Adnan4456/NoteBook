@@ -430,7 +430,6 @@ fun AddTodoScreen(
                             )
                         }
                     }
-
                 }
             }
             else {
