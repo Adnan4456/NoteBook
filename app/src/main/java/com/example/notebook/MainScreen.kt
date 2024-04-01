@@ -34,7 +34,7 @@ fun MainScreen(
     firbaseAuth: FirebaseAuth
 ){
 
-    val showFloatingButton by remember {
+    var showFloatingButton by remember {
         mutableStateOf(false)
     }
     val navController  = rememberNavController()
@@ -72,7 +72,9 @@ fun MainScreen(
         },
 
         bottomBar = {
-            NavigationBar(navController , showFloatingButton)
+            NavigationBar(navController , showFloatingButton ,{
+                showFloatingButton = it
+            } )
         }
             ){innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)){
@@ -82,7 +84,7 @@ fun MainScreen(
 }
 
 @Composable
-fun NavigationBar(navController: NavHostController, showFloatingButton: Boolean){
+fun NavigationBar(navController: NavHostController, showFloatingButton: Boolean , onChange: (Boolean) ->Unit){
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -95,7 +97,7 @@ fun NavigationBar(navController: NavHostController, showFloatingButton: Boolean)
     val bottomBarDestination = screenList.any { it.route == currentDestination?.route }
 
     if(bottomBarDestination){
-        showFloatingButton = true
+        onChange(true)
         NavigationBar(
             modifier = Modifier.height(70.dp),
             containerColor = Color.White,
@@ -108,6 +110,9 @@ fun NavigationBar(navController: NavHostController, showFloatingButton: Boolean)
                     navController = navController)
             }
         }
+    }
+    else {
+        onChange(false)
     }
 }
 
