@@ -21,13 +21,13 @@ interface TodoDao {
     fun getTodoById(id: Int):Todo?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTodo(todo: Todo)
+    suspend fun insertTodo(todo: Todo):Long
 
     @Delete
-    suspend fun deleteTodo(todo: Todo)
+    suspend fun deleteTodo(todo: Todo):Int
 
     @Query("Update Todo SET checklist = :checklistItem where id = :todoID")
-    suspend fun updateChecklistItem(todoID: Int,checklistItem: List<ChecklistItem>)
+    suspend fun updateChecklistItem(todoID: Int,checklistItem: List<ChecklistItem>) :Int
 
 
     @Query("Select * from Todo WHERE isBookMarked = 1 and isSecrete = 0")

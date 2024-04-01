@@ -139,7 +139,7 @@ fun TodoItem(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(text = mytask.date.toString())
-                    Text(text = mytask.timestamp.toString())
+                    Text(text = viewModel.LongToTime(mytask.timestamp!!))
                 }
             }
             Spacer(modifier = Modifier
@@ -157,14 +157,7 @@ fun TodoItem(
             ) {
                 if (mytask.checklist.size>0){
                     ShowCheckListItem(mytask.checklist.get(0))
-//                TestCheckItems(mytask.checklist.get(0),
-//                onStatusChange = { newValue ->
-//                    Log.d("CheckItems", "New value of TextField: $newValue")
-//                    viewModel.update(mytask)
-//                },
-//                onValueChange = {
-//                 Log.d("Title","new title${it}")
-//                })
+
                 }
                 Spacer(modifier = Modifier.height(2.dp))
                 if (mytask.checklist.size>1){

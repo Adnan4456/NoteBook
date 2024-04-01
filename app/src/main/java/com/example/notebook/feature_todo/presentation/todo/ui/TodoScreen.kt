@@ -22,6 +22,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.notebook.R
 import com.example.notebook.feature_note.presentation.util.BottomBarScreen
 import com.example.notebook.feature_todo.presentation.todo.components.TodoItem
+import java.util.concurrent.TimeUnit
 
 
 @Composable
@@ -51,7 +52,6 @@ fun TodoScreen(
                 ){task ->
                     TodoItem(
                         modifier = Modifier.clickable {
-//                            navController.navigate(BottomBarScreen.TodoDetailScreen.route)
                         },
                         mytask = task,
                     navController)

@@ -25,12 +25,12 @@ class TodoRepositoryImpl
 //        return dao.getTodoById(id)
     }
 
-    override suspend fun insertTodo(todo: Todo) {
-         dao.insertTodo(todo)
+    override suspend fun insertTodo(todo: Todo):Long {
+        return dao.insertTodo(todo)
     }
 
-     override suspend fun deleteTodo(todo: Todo) {
-       dao.deleteTodo(todo)
+     override suspend fun deleteTodo(todo: Todo):Int {
+       return dao.deleteTodo(todo)
     }
 
     override  fun getBookMarkedTodo(): Flow<List<Todo>> {
@@ -41,7 +41,7 @@ class TodoRepositoryImpl
         return dao.getSecretTodo()
     }
 
-    override suspend fun updatechecklistItem(todo_id: Int, checklistItem: List<ChecklistItem>) {
+    override suspend fun updatechecklistItem(todo_id: Int, checklistItem: List<ChecklistItem>): Int {
         return dao.updateChecklistItem(todo_id , checklistItem)
     }
 }

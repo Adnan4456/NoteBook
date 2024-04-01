@@ -24,6 +24,11 @@ class AddTodoViewModel
         )
     :ViewModel() {
 
+    var totalTimeInMillis  = mutableStateOf(-1L)
+
+    private val _result = mutableStateOf(-1L)
+    var result = _result
+
     private var _title = mutableStateOf("")
     var title = _title
 
@@ -51,9 +56,6 @@ class AddTodoViewModel
     private val _checkList = mutableStateListOf<ChecklistItem>()
     var checkList:SnapshotStateList<ChecklistItem> = _checkList
 
-//    private val _checkables = mutableStateListOf<Checkable>()
-//    val checkables: SnapshotStateList<Checkable> = _checkables
-
     private val newId: Long
         get(){
             return System.currentTimeMillis()
@@ -62,7 +64,6 @@ class AddTodoViewModel
         _title.value = title
     }
 
-
     fun setDescription(description:String){
         _description.value = description
     }
@@ -70,13 +71,6 @@ class AddTodoViewModel
     fun onFocusGot(item: ChecklistItem) {
         _currentFocusRequestId.value = item.uid
     }
-
-
-//    fun onBackPressed() {
-//        navigation.scope { navHostController, lifecycleOwner,toaster ->
-//            navHostController.navigateUp()
-//        }
-//    }
 
     fun onCheckableDelete(item: ChecklistItem) {
         checkList.remove(item)
@@ -93,7 +87,7 @@ class AddTodoViewModel
         val index = checkList.indexOfFirst {
             item.uid == it.uid
         }
-//
+
         checkList[index] = item.copy(isCompleted = checked)
     }
     fun onAddCheckable(item: ChecklistItem? =null){
@@ -122,17 +116,31 @@ class AddTodoViewModel
 
         viewModelScope.launch {
             //make TodoClass object and pass into repository
-            todoUseCases.addTodoUseCase.invoke(
+            val result = todoUseCases.addTodoUseCase.invoke(
                 Todo(
                     title = title.value,
                     description =  description.value,
-                    date = "24-03-2024",
-                    timestamp = newId,
+                    date = _date.value,
+                    timestamp = totalTimeInMillis.value,
                     checklist = checkList,
                     isSecrete = false,
                     isBookMarked = false,
                 )
             )
+            if(result >0){
+                _result.value = result
+            }
         }
+    }
+
+    fun resetAllVariable(){
+        _result.value = -1
+        _description.value = ""
+        _title.value = ""
+        _date.value = ""
+        _time.value = ""
+        _checkList.clear()
+        _currentFocusRequestId.value = -1
+        _alarmSet.value = false
     }
 }

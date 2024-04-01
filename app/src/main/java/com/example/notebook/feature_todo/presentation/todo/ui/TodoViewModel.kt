@@ -18,19 +18,18 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
 class TodoViewModel
 @Inject constructor(
     private val todoUseCases: TodoUseCases,
-    private val  updateCheckListUseCase:UpdateCheckListUseCase
     ):ViewModel() {
 
 
     private val _todoState =  mutableStateOf(TodoState())
     val todoState: State<TodoState> = _todoState
-    private lateinit var  allTodos: List<Todo>
 
     val _stateList = MutableStateFlow(TodoState())
 
@@ -41,7 +40,14 @@ class TodoViewModel
         getAllTodos()
     }
 
-    @OptIn(FlowPreview::class)
+    fun LongToTime(longValue: Long):String{
+        // Calculate hours and minutes
+        val hours = TimeUnit.SECONDS.toHours(longValue)
+        val minutes = TimeUnit.SECONDS.toMinutes(longValue) % 60
+
+        // Format the time
+        return String.format("%02d:%02d", hours, minutes)
+    }
     private fun getAllTodos() {
 
         getTodoJob?.cancel()
@@ -76,10 +82,9 @@ class TodoViewModel
 
             }
             is TodoEvents.EditTodo -> {
-                Log.d("TAG","todo that will update ${event.todo.title}")
+
             }
             is TodoEvents.EditCheckItem -> {
-                Log.d("checkitem = ","todo title = ${event.todo.title}    andchecklist title = ${event.checkItemList.title}")
             }
         }
     }
