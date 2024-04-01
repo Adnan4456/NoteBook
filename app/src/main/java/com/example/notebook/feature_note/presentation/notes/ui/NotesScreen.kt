@@ -45,38 +45,13 @@ fun NotesScreen(
 
 
     Scaffold(
-//        floatingActionButtonPosition = FabPosition.Center,
-//        floatingActionButton = {
-//
-//            Box(){
-//
-//                FilterView(
-//                    items = listOf(
-//                        FilterFabMenuItem("Note", R.drawable.ic_note),
-//                        FilterFabMenuItem("Todo", R.drawable.ic_todo)
-//                    ),
-//                    modifier = Modifier
-//                        .align(Alignment.Center)
-//                        .size(80.dp)
-//                        .offset(y = 50.dp),
-//                    navController
-//                )
-//            }
-//
-//        },
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         },
         topBar = {
             ToolBar(state , viewModel ,  navController , firbaseAuth)
-//            topAppBar()
         }
     ) {innerPadding ->
-//        Box(
-//            modifier = Modifier.background(
-//               color = Color.White.copy(alpha = .7f)
-//            )
-//        ){
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -89,85 +64,6 @@ fun NotesScreen(
             Header(Modifier.padding(0.dp),
                 navController)
         }
-
-//            Column(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(innerPadding)
-//                    .padding(16.dp),
-//            ) {
-//                Row(
-//                    modifier = Modifier.fillMaxWidth(),
-//                    horizontalArrangement = Arrangement.SpaceBetween,
-//                    verticalAlignment = Alignment.CenterVertically
-//                ) {
-//
-//                    Row( verticalAlignment = Alignment.CenterVertically) {
-//
-//                        IconButton(onClick = {
-//                            viewModel.onEvent(NotesEvent.ToggleOrderSection)
-//                        },
-//                        ) {
-//                            Icon(
-//                                imageVector = Icons.Default.Sort,
-//                                contentDescription = "Sort Note"
-//                            )
-//                        }
-//
-//                        Text(
-//                            text = stringResource(id = R.string.notetitle),
-//                            style = MaterialTheme.typography.bodyLarge,
-//                            textAlign = TextAlign.Center,
-//                            modifier = Modifier.weight(1f))
-//
-//                        IconButton(
-//                            onClick = {
-//                                firbaseAuth.signOut()
-//                                navController.navigate(route ="auth_graph"){
-//                                    popUpTo("home_graph"){
-//                                        inclusive = false
-//                                    }
-//                                }
-//                            },
-//                        ) {
-//                            Icon(
-//                                imageVector = Icons.Default.Logout,
-//                                contentDescription = "Log Out"
-//                            )
-//                        }
-//                    }
-//                }
-//
-//                Spacer(modifier = Modifier.height(18.dp))
-//                SearchBar { query ->
-//                    viewModel.onSearchQueryChanged(query)
-//                }
-//                AnimatedVisibility(
-//                    visible = state.isOrderSectionVisible,
-//                    enter = slideInVertically {
-//
-//                        with(density) { -40.dp.roundToPx() }
-//                    } + expandVertically(
-//                        expandFrom = Alignment.Top
-//                    ) + fadeIn(
-//                        initialAlpha = 0.4f
-//                    ),
-//                    exit = slideOutVertically() + shrinkVertically() + fadeOut()
-//                ) {
-//                    OrderSection(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .padding(vertical = 16.dp),
-//                        noteOrder = state.noteOrder,
-//                        onOrderChange = {
-//                            viewModel.onEvent(NotesEvent.Order(it))
-//                        }
-//                    )
-//                }
-//
-//                Header(navController)
-//            }
-//        }
     }
 }
 @Composable
