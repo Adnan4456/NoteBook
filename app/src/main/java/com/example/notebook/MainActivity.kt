@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
+import com.example.notebook.navigation.Graph
 import com.example.notebook.navigation.RootNavigationGraph
 import com.example.notebook.ui.theme.NoteBookTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -33,6 +34,7 @@ class MainActivity : ComponentActivity() {
 
         installSplashScreen()
 
+
         setContent {
 
             val window = rememberWindowSizeClass()
@@ -50,7 +52,13 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     val navController  = rememberNavController()
-                    RootNavigationGraph(navController = navController ,firebaseAuth = firbaseAuth)
+                    if(firbaseAuth.currentUser != null) {
+                        navController.navigate( Graph.HOME)
+                    }else
+                    {
+                        RootNavigationGraph(navController = navController ,firebaseAuth = firbaseAuth)
+                    }
+
                 }
             }
         }
