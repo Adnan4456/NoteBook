@@ -1,11 +1,7 @@
 package com.example.notebook.feature_todo.presentation.edit_todo.ui
 
 import android.annotation.SuppressLint
-import android.app.TimePickerDialog
 import android.util.Log
-import android.widget.DatePicker
-import android.widget.Space
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -13,7 +9,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -30,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.notebook.R
-import com.example.notebook.feature_note.presentation.add_edit_note.AddEditNoteEvent
 import com.example.notebook.feature_todo.presentation.components.CheckableItem
 import com.example.notebook.feature_todo.presentation.components.TimePickerDialog
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -38,6 +31,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -331,9 +325,16 @@ fun AddTodoScreen(
 
                                 viewModel.time.value = "${timePickerState.hour}" + ":${timePickerState.minute}"
                                 viewModel.showTimePickerDialog.value = false
+
                                 val totalTimeInMinutes = timePickerState.hour * 60 * timePickerState.minute
-                                Log.d("Time = ","${totalTimeInMinutes * 60L }")
-                                viewModel.totalTimeInMillis.value = totalTimeInMinutes * 60L
+
+                                val milliSeconds = TimeUnit.SECONDS.toMillis(TimeUnit.HOURS.toSeconds(timePickerState.hour.toLong()+
+                                TimeUnit.MINUTES.toSeconds(timePickerState.minute.toLong())))
+
+                                val totalTimeInMillis = totalTimeInMinutes * 60 * 1000L
+
+
+                                viewModel.totalTimeInMillis.value = totalTimeInMillis
                             }
                         ){
                             TimePicker(

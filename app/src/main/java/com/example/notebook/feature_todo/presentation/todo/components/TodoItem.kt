@@ -139,7 +139,7 @@ fun TodoItem(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(text = mytask.date.toString())
-                    Text(text = viewModel.LongToTime(mytask.timestamp!!))
+                    Text(text = viewModel.convertLongToTime(mytask.timestamp!!))
                 }
             }
             Spacer(modifier = Modifier

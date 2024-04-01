@@ -18,6 +18,8 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -40,14 +42,15 @@ class TodoViewModel
         getAllTodos()
     }
 
-    fun LongToTime(longValue: Long):String{
-        // Calculate hours and minutes
-        val hours = TimeUnit.SECONDS.toHours(longValue)
-        val minutes = TimeUnit.SECONDS.toMinutes(longValue) % 60
 
-        // Format the time
-        return String.format("%02d:%02d", hours, minutes)
+    fun convertLongToTime(time: Long): String {
+        val date = Date(time)
+        val format = SimpleDateFormat("HH:mm")
+        format.setTimeZone(TimeZone.getTimeZone("GMT"))
+        return format.format(date)
     }
+
+
     private fun getAllTodos() {
 
         getTodoJob?.cancel()

@@ -121,6 +121,7 @@ class AddTodoViewModel
                     title = title.value,
                     description =  description.value,
                     date = _date.value,
+//                    timestamp = newId,
                     timestamp = totalTimeInMillis.value,
                     checklist = checkList,
                     isSecrete = false,
