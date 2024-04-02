@@ -9,9 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.notebook.R
 
 
 @Composable
@@ -22,15 +24,18 @@ fun LoadingDialogBox(
     if (showDialog) {
         Dialog(
             onDismissRequest = { onDismiss() },
-            DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
+            DialogProperties(dismissOnBackPress = false,
+                dismissOnClickOutside = false)
         ) {
             Box(
                 contentAlignment= Alignment.Center,
                          modifier = Modifier
-                        .size(100.dp)
-                        .background(Color.White, shape = RoundedCornerShape(8.dp))
+                             .size(100.dp)
+                             .background(Color.White, shape = RoundedCornerShape(8.dp))
                 ) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(
+                        color = colorResource(id = R.color.main_color),
+                    )
                 }
             }
         }

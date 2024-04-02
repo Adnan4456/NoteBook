@@ -72,7 +72,7 @@ fun MainScreen(
         },
 
         bottomBar = {
-            NavigationBar(navController , showFloatingButton ,{
+            NavigationBar(navController  ,{
                 showFloatingButton = it
             } )
         }
@@ -84,7 +84,7 @@ fun MainScreen(
 }
 
 @Composable
-fun NavigationBar(navController: NavHostController, showFloatingButton: Boolean , onChange: (Boolean) ->Unit){
+fun NavigationBar(navController: NavHostController, onChange: (Boolean) ->Unit){
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination

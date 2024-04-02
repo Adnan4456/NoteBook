@@ -36,15 +36,12 @@ fun TodoItem(
     modifier: Modifier,
     mytask: Todo,
     navController: NavController,
-   viewModel: TodoViewModel = hiltViewModel()
+    viewModel: TodoViewModel = hiltViewModel()
 ) {
 
     Card (
         modifier = modifier
             .fillMaxWidth()
-            .background(
-                color = colorResource(id = R.color.all_notes_item)
-            )
             .padding(8.dp),
         elevation = CardDefaults.cardElevation(
             focusedElevation = 10.dp,
@@ -63,9 +60,6 @@ fun TodoItem(
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .background(
-                        color = colorResource(id = R.color.all_notes_item)
-                    )
                     .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -95,8 +89,6 @@ fun TodoItem(
                         contentDescription = "",
                         tint = Color.Blue
                     )
-
-                    Spacer(modifier = Modifier.width(8.dp))
                     IconButton(onClick = {
                         viewModel.onTaskDelete(task = mytask)
                     }) {
@@ -162,15 +154,6 @@ fun TodoItem(
                 Spacer(modifier = Modifier.height(2.dp))
                 if (mytask.checklist.size>1){
                     ShowCheckListItem(mytask.checklist.get(1))
-//                TestCheckItems(mytask.checklist.get(1),
-//                onStatusChange = {newValue ->
-//                    Log.d("CheckItems", "New value of TextField: $newValue")
-////                    viewModel.onEvent(TodoEvents.EditCheckItem(mytask , mytask.checklist.get(1)))
-//                                 },
-//                    onValueChange = {
-//                        Log.d("Title","new title${it}")
-//                    }
-//                )
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))

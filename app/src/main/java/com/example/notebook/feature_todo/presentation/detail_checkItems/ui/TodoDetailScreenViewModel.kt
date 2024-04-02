@@ -75,7 +75,7 @@ class TodoDetailScreenViewModel
                     _date.value = _todoState.value.todo!!.date!!
                     _time.value = _todoState.value.todo!!.timestamp!!.toString()
                     _taskCompleted.value = todoState.value.todo!!.completed
-                    Log.d("TAG", "Task  = ${_taskCompleted.value}")
+//                    Log.d("TAG", "Task  = ${_taskCompleted.value}")
                 }
             }
         }
@@ -86,7 +86,7 @@ class TodoDetailScreenViewModel
     fun onCheckableDelete(item: ChecklistItem) {
 
         _checkList.remove(item)
-        Log.d("TAG","list size = ${_checkList.size}")
+//        Log.d("TAG","list size = ${_checkList.size}")
         updateTodo()
     }
 
@@ -137,6 +137,7 @@ class TodoDetailScreenViewModel
                         checklist = _checkList
                     )
                 )
+                taskCompleted.value = false
             }
             else
             {
@@ -145,19 +146,6 @@ class TodoDetailScreenViewModel
                     checklistItem = _checkList
                 )
             }
-
-
-//            todoUseCases.addTodoUseCase.invoke(
-//                Todo(
-//                    title = _title.value,
-//                    description = _description.value,
-//                    checklist = _checkList,
-//                    date = _date.value,
-//                    timestamp = _time.value.toLong(),
-//                    isBookMarked = false,
-//                    isSecrete =  false
-//                )
-//            )
         }
     }
 }

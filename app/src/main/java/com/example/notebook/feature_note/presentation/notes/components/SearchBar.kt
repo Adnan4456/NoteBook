@@ -40,9 +40,6 @@ fun SearchBar(
     SearchBar(
         modifier= Modifier
             .fillMaxWidth(),
-//        colors = SearchBarDefaults.colors(
-//            containerColor = Color.White
-//        ),
         colors = SearchBarDefaults.colors(
             containerColor = Color.White
         ),

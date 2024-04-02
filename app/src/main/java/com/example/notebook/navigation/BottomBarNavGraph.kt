@@ -69,7 +69,6 @@ fun BottomNavGraph(
         }
         composable(route = BottomBarScreen.BookMarkedScreen.route){
             BookMarkedScreen(navController = navController)
-//            MainScreentesting()
         }
 
         composable(route = BottomBarScreen.AddTodoScreen.route){
@@ -91,7 +90,7 @@ fun BottomNavGraph(
                 }
             )
         ){
-            TodoDetailScreen(navController)
+            TodoDetailScreen()
         }
         composable(route = BottomBarScreen.SecretNotes.route){
 
