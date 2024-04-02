@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 
 import androidx.navigation.NavDestination
@@ -49,12 +50,15 @@ fun MainScreen(
     }
 
     Scaffold (
-        Modifier.
-        background(color = Color.White),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                color = colorResource(id = R.color.all_notes_bg)
+            ),
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {
             if (showFloatingButton){
-                Box(){
+                Box{
 
                     FilterView(
                         items = listOf(
@@ -68,16 +72,22 @@ fun MainScreen(
                     )
                 }
             }
-
         },
 
         bottomBar = {
-            NavigationBar(navController  ,{
+            NavigationBar(
+                navController  ,{
                 showFloatingButton = it
             } )
         }
             ){innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)){
+        Box(
+            modifier = Modifier
+                .padding(innerPadding)
+                .background(
+                    color = colorResource(id = R.color.all_notes_bg)
+                )
+        ){
             BottomNavGraph(navController = navController , firbaseAuth =firbaseAuth )
         }
     }
@@ -99,9 +109,10 @@ fun NavigationBar(navController: NavHostController, onChange: (Boolean) ->Unit){
     if(bottomBarDestination){
         onChange(true)
         NavigationBar(
-            modifier = Modifier.height(70.dp),
-            containerColor = Color.White,
-            tonalElevation = 8.dp
+            modifier = Modifier
+                .height(80.dp),
+            containerColor = colorResource(id = R.color.all_notes_bg).copy(.5f),
+            tonalElevation = 16.dp
         ) {
             screenList.forEach { screen ->
                 AddItem(

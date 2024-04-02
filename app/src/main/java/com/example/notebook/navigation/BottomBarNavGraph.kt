@@ -11,7 +11,6 @@ import com.example.notebook.feature_note.presentation.bookmarked_notes.BookMarke
 import com.example.notebook.feature_note.presentation.notes.ui.NotesScreen
 import com.example.notebook.feature_note.presentation.util.BottomBarScreen
 import com.example.notebook.feature_secret_note.presentation.ui.SecretNotes
-import com.example.notebook.feature_todo.domain.model.Todo
 import com.example.notebook.feature_todo.presentation.edit_todo.ui.AddTodoScreen
 import com.example.notebook.feature_todo.presentation.todo.ui.TodoDetailScreen
 import com.example.notebook.feature_todo.presentation.todo.ui.TodoScreen
