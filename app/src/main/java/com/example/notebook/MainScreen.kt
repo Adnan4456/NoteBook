@@ -8,7 +8,6 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -49,46 +48,48 @@ fun MainScreen(
         )
     }
 
-    Scaffold (
+    Surface(
         modifier = Modifier
-            .fillMaxSize()
-            .background(
-                color = colorResource(id = R.color.all_notes_bg)
-            ),
-        floatingActionButtonPosition = FabPosition.Center,
-        floatingActionButton = {
-            if (showFloatingButton){
-                Box{
-
-                    FilterView(
-                        items = listOf(
-                            FilterFabMenuItem("Note", R.drawable.ic_note),
-                            FilterFabMenuItem("Todo", R.drawable.ic_todo)
-                        ),
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .offset(y = 50.dp),
-                        navController
-                    )
-                }
-            }
-        },
-
-        bottomBar = {
-            NavigationBar(
-                navController  ,{
-                showFloatingButton = it
-            } )
-        }
-            ){innerPadding ->
-        Box(
+            .fillMaxSize(),
+        color =  colorResource(id = R.color.all_notes_bg)
+    ){
+        Scaffold (
             modifier = Modifier
-                .padding(innerPadding)
-                .background(
-                    color = colorResource(id = R.color.all_notes_bg)
-                )
-        ){
-            BottomNavGraph(navController = navController , firbaseAuth =firbaseAuth )
+                .fillMaxSize(),
+            floatingActionButtonPosition = FabPosition.Center,
+            floatingActionButton = {
+                if (showFloatingButton){
+                    Box{
+
+                        FilterView(
+                            items = listOf(
+                                FilterFabMenuItem("Note", R.drawable.ic_note),
+                                FilterFabMenuItem("Todo", R.drawable.ic_todo)
+                            ),
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .offset(y = 50.dp),
+                            navController
+                        )
+                    }
+                }
+            },
+            bottomBar = {
+                NavigationBar(
+                    navController  ,{
+                        showFloatingButton = it
+                    } )
+            }
+        ){innerPadding ->
+            Box(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .background(
+                        color = colorResource(id = R.color.all_notes_bg)
+                    )
+            ){
+                BottomNavGraph(navController = navController , firbaseAuth =firbaseAuth )
+            }
         }
     }
 }
@@ -111,7 +112,7 @@ fun NavigationBar(navController: NavHostController, onChange: (Boolean) ->Unit){
         NavigationBar(
             modifier = Modifier
                 .height(80.dp),
-            containerColor = colorResource(id = R.color.all_notes_bg).copy(.5f),
+            containerColor = colorResource(id = R.color.all_notes_bg).copy(.9f),
             tonalElevation = 16.dp
         ) {
             screenList.forEach { screen ->

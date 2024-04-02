@@ -42,17 +42,11 @@ fun NotesScreen(
 
     Surface(
         modifier = Modifier
-            .fillMaxSize()
-            .background(
-                color = colorResource(id = R.color.all_notes_bg)
-            )
+            .fillMaxSize(),
     ) {
         Scaffold(
             modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    color = colorResource(id = R.color.all_notes_bg)
-                ),
+                .fillMaxSize(),
             snackbarHost = {
                 SnackbarHost(hostState = snackbarHostState)
             },
@@ -64,10 +58,6 @@ fun NotesScreen(
                 modifier = Modifier
                     .padding(innerPadding)
                     .padding(8.dp)
-                    .background(
-                        colorResource(id = R.color.all_notes_bg)
-                    )
-
             ) {
                 SearchBar { query ->
                     viewModel.onSearchQueryChanged(query)
@@ -92,10 +82,7 @@ fun ToolBar(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
-            .background(
-                color = colorResource(id = R.color.all_notes_bg)
-            ),
+            .padding(8.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
