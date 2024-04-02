@@ -35,15 +35,18 @@ fun TodoScreen(
 ){
 
     val state = viewModel.todoState.value
-//    val mylist = viewModel._stateList.collectAsState()
 
     Column(
-        modifier = Modifier.fillMaxSize()
-            .padding(8.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
+
+        Spacer(modifier = Modifier.height(30.dp))
+
         Text(text = "Todo ",
         style = TextStyle(
-            fontSize = 18.sp,
+            fontSize = 24.sp,
             fontWeight = FontWeight.Bold
         )
         )
@@ -53,11 +56,7 @@ fun TodoScreen(
         }
         else
         {
-            LazyColumn(
-//                modifier = Modifier.background(
-//                    color = colorResource(id = R.color.all_notes_item)
-//                    )
-            ){
+            LazyColumn{
                 items(
                     state.todo
                 ){task ->
