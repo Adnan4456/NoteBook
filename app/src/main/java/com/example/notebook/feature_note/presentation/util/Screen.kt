@@ -12,7 +12,6 @@ sealed class BottomBarScreen(
     val route: String,
     val icon: ImageVector? = null
 ){
-//    object BottomBarScreen: BottomBarScreen("main_screen")
     object NotesScreen: BottomBarScreen("Home" ,"notes_screen", icon = Icons.Default.Home)
     object AddEditNoteScreen: BottomBarScreen("add_edit_notes_screen" , "add_edit_notes_screen")
     object BookMarkedScreen:BottomBarScreen("bookmark" , "bookmark",icon = Icons.Default.Bookmark)
