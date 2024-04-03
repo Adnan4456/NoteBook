@@ -1,37 +1,3 @@
-#### NoteBook
-
-### Note Creation:
-Users can create new notes, enabling them to capture and organize their thoughts or information efficiently.
-
-### Sorting Options:
-Implemented sorting functionality, allowing users to arrange their notes based on various criteria such as date, title, and color. This enhances the user's ability to manage and find specific notes easily.
-
-### Note Editing:
-Enabled users to edit existing notes, providing the flexibility to update or modify the content as needed.
-
-### Note Deletion:
-Implemented the ability for users to delete notes, facilitating the decluttering of the app and allowing users to manage their content effectively.
-
-### Undo Feature with Snackbar:
-Integrated an undo feature that appears in a Snackbar after a note deletion. This allows users to quickly undo their deletion action, preventing accidental data loss and providing a safety net for users.
-
-### Firebase Auth
-Login and Sign up and Forget password  with Firebase Auth. 
-
-### Clean Architecture:
-Implemented Clean Architecture principles to separate concerns and maintain a clear separation of business logic, presentation, and data layers. This promotes maintainability, testability, and scalability of the application.
-
-### MVVM (Model-View-ViewModel) Design Pattern:
-Adopted the MVVM design pattern to organize and structure the application, facilitating the separation of UI logic from business logic and promoting a more modular and maintainable codebase.
-
-### Room database 
-Implementd Room database to store Notes locally.
-
-### UI State Handling in ViewModel:
-Managed UI state efficiently by utilizing ViewModels to handle the presentation logic, ensuring a seamless and reactive user experience.
-
-### Hilt for Dependency Injection:
-Incorporated Hilt, a dependency injection library for Android, to simplify and streamline dependency management. This ensures a more modular and maintainable codebase, promoting testability and scalability.
 
 ### Multi-Screen Size Support:
 Designed the app to dynamically adapt to various screen sizes, providing a consistent user experience across different Android devices.
