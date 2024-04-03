@@ -44,5 +44,4 @@ Integrated German language support, making the app accessible to a broader audie
 ### Dark and Light Theme Modes:
 Implemented a versatile theming system that allows users to switch between dark and light themes based on their preferences. This enhances usability and caters to diverse user preferences.
 
-https://github.com/Adnan4456/NoteBook/assets/82003540/b5cb7f0e-90bc-4dfa-9f3d-7c6ae53a1a02
 
