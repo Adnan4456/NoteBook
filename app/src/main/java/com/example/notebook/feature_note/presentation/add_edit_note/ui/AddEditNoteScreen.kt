@@ -88,13 +88,13 @@ fun AddEditNoteScreen(
     }
 
 
-    val state = rememberRichTextState()
-    val stateTitle = rememberRichTextState()
-    val titleSize = MaterialTheme.typography.displaySmall.fontSize
-    val subtitleSize = MaterialTheme.typography.titleLarge.fontSize
-    var selectedImage by remember {
-        mutableStateOf<Uri?>(null)
-    }
+//    val state = rememberRichTextState()
+//    val stateTitle = rememberRichTextState()
+//    val titleSize = MaterialTheme.typography.displaySmall.fontSize
+//    val subtitleSize = MaterialTheme.typography.titleLarge.fontSize
+//    var selectedImage by remember {
+//        mutableStateOf<Uri?>(null)
+//    }
 
     var inputStream: InputStream
 

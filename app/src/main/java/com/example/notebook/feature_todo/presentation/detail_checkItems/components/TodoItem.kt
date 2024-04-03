@@ -21,15 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.example.notebook.R
-import com.example.notebook.feature_note.presentation.util.BottomBarScreen
 import com.example.notebook.feature_todo.domain.model.Todo
 import com.example.notebook.feature_todo.presentation.detail_checkItems.ui.TodoDetailScreenViewModel
-import com.example.notebook.feature_todo.presentation.todo.TodoEvents
-import com.example.notebook.feature_todo.presentation.todo.components.ShowCheckListItem
-import com.example.notebook.feature_todo.presentation.todo.ui.TodoViewModel
 
 @Composable
 fun TodoItem(
@@ -37,6 +31,12 @@ fun TodoItem(
     viewModel: TodoDetailScreenViewModel = hiltViewModel()
 ) {
 
+
+//    if(viewModel.taskCompleted.value){
+//        DialogBox(showDialog = viewModel.taskCompleted.value) {
+////               showDialogbox = false
+//        }
+//    }
     Card (
         modifier = Modifier
             .fillMaxWidth()

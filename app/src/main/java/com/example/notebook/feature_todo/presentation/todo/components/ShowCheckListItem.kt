@@ -1,66 +1,51 @@
 package com.example.notebook.feature_todo.presentation.todo.components
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.example.notebook.feature_todo.domain.model.ChecklistItem
-import com.example.notebook.feature_todo.domain.model.Todo
-
-
-@OptIn(ExperimentalMaterial3Api::class)
+import com.example.notebook.R
 @Composable
 fun ShowCheckListItem(
     checkList: ChecklistItem
 ) {
 
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        ),
-        elevation = CardDefaults.cardElevation(
-            focusedElevation = 10.dp,
-            defaultElevation = 8.dp
-        )
-    ) {
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f),
+                .height(20.dp),
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
         ){
 
             Checkbox(
                 checked = checkList.isCompleted ,
                 onCheckedChange ={
-
-            }
+                },
+                colors = CheckboxDefaults.colors(
+                    checkedColor = colorResource(id = R.color.main_color)
+                )
             )
 
-            TextField(
-                enabled = false,
-                modifier= Modifier.fillMaxWidth(),
-                value = checkList.title,
-                onValueChange = {
-
-            },
-                colors = TextFieldDefaults.textFieldColors(
-                    containerColor = Color.White,
-                    disabledIndicatorColor = Color.Transparent,
-                    errorIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.White,
-                    unfocusedIndicatorColor = Color.Transparent,
-                ),
-            )
+            Text(
+                text = checkList.title,
+                modifier = if(checkList.isCompleted)Modifier
+                    .drawBehind {
+                        drawLine(
+                            color = Color.Black,
+                            start = Offset(0f, size.height / 2),
+                            end = Offset(size.width, size.height / 2),
+                            strokeWidth = 1.dp.toPx()
+                        )
+                    }
+                else Modifier)
         }
-    }
 }

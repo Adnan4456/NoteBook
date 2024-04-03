@@ -37,12 +37,12 @@ class AddEditNoteViewModel
 
     var editorContentState by mutableStateOf(RichTextState())
         private set
-    fun updateTitleEditorState(newState: RichTextState) {
-        editorTitleState = newState
-    }
-    fun updateContentEditorState(newState: RichTextState){
-        editorContentState = newState
-    }
+//    fun updateTitleEditorState(newState: RichTextState) {
+//        editorTitleState = newState
+//    }
+//    fun updateContentEditorState(newState: RichTextState){
+//        editorContentState = newState
+//    }
 
     private val _isBookmarked = mutableStateOf(false)
 
@@ -74,17 +74,8 @@ class AddEditNoteViewModel
 
                     noteUseCase.getNote(noteId)?.also {note ->
                         currentNoteId = note.id
-//                        _noteTitle.value = noteTitle.value.copy(
-//                            text = note.title,
-//                            isHintVisible = false
-//                        )
                         editorTitleState.setHtml(note.title)
                         editorContentState.setHtml(note.content)
-//                        _noteContent.value = _noteContent.value.copy(
-//                            text = note.content,
-//                            isHintVisible = false
-//                        )
-//                        _noteColor.value = note.color
                         _isBookmarked.value = note.isBookMarked
                         _isSecret.value = note.isSecrete
                          bitmap.value = note.imageBitmap

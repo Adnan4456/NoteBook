@@ -1,7 +1,6 @@
 package com.example.notebook.feature_note.presentation.notes.ui
 
-import FilterFabMenuItem
-import FilterView
+
 import android.annotation.SuppressLint
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -13,8 +12,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -41,30 +40,35 @@ fun NotesScreen(
     val state = viewModel.state.value
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val density = LocalDensity.current
-
-
-    Scaffold(
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
-        },
-        topBar = {
-            ToolBar(state , viewModel ,  navController , firbaseAuth)
-        }
-    ) {innerPadding ->
-        Column(
+    Surface(
+        modifier = Modifier
+            .fillMaxSize(),
+    ) {
+        Scaffold(
             modifier = Modifier
-                .padding(innerPadding)
-                .padding(8.dp)
-        ) {
-            SearchBar { query ->
-                viewModel.onSearchQueryChanged(query)
+                .fillMaxSize(),
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState)
+            },
+            topBar = {
+                ToolBar(state , viewModel ,  navController , firbaseAuth)
             }
-            Spacer(modifier = Modifier.height(4.dp))
-            Header(Modifier.padding(0.dp),
-                navController)
+        ) {innerPadding ->
+            Column(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .padding(8.dp)
+            ) {
+                SearchBar { query ->
+                    viewModel.onSearchQueryChanged(query)
+                }
+                Spacer(modifier = Modifier.height(4.dp))
+                Header(Modifier.padding(0.dp),
+                    navController)
+            }
         }
     }
+
 }
 @Composable
 fun ToolBar(

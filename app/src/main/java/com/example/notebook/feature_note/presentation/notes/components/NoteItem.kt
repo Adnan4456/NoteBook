@@ -1,26 +1,19 @@
 package com.example.notebook.feature_note.presentation.notes.components
 
 
-import android.os.Build
-import android.text.Html
-import android.text.Spanned
-import android.util.Log
-import android.widget.Toast
+
 import androidx.compose.animation.animateContentSize
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 
-import androidx.compose.material.icons.outlined.BookmarkAdd
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
@@ -33,28 +26,22 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.notebook.R
-import com.example.notebook.components.NormalTextComponent
 import com.example.notebook.components.formatTimestamp
 import com.example.notebook.feature_note.domain.model.Note
 import com.mohamedrejeb.richeditor.model.rememberRichTextState
-import com.mohamedrejeb.richeditor.ui.material3.RichTextEditor
-import com.mohamedrejeb.richeditor.ui.material3.RichTextEditorDefaults
 
 data class DropDownItem(
     val text:String,
     val icon: ImageVector
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteItem(
     note: Note,
@@ -131,20 +118,8 @@ fun NoteItem(
                 horizontalAlignment = Alignment.Start
 
             ) {
-//                Card (
-//                    colors = CardDefaults.cardColors(
-//                    ),
-//                    elevation =CardDefaults.cardElevation(
-//                        defaultElevation = 8.dp,
-//                        pressedElevation = 4.dp,
-//                        focusedElevation = 6.dp
-//                    ),
-//                    shape = RoundedCornerShape(8.dp)
-//                ){
-//
-//
-//                }
-//
+
+
                 if(note.imageBitmap != null){
                     AsyncImage(
                         model = note.imageBitmap,
@@ -155,20 +130,7 @@ fun NoteItem(
                             .height(150.dp)
                     )
                 }
-//                Row(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(8.dp)
-//                        .onSizeChanged {
-//                            itemHeight = with(density) {
-//                                it.height.toDp()
-//                            }
-//                        },
-//
-//                    verticalAlignment = Alignment.CenterVertically,
-//                    horizontalArrangement = Arrangement.SpaceBetween
-//                ){
-//                }
+
                 Column(
                     modifier = Modifier.padding(8.dp)
                 ) {
@@ -176,12 +138,12 @@ fun NoteItem(
                     Text(text = stateTitle.annotatedString.toString() ,
                         style = TextStyle(
                             fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold
                         )
                     )
 
                     Spacer(modifier = Modifier.height(4.dp))
                     if(note.imageBitmap == null){
+                        Spacer(modifier = Modifier.height(4.dp))
                         Divider()
                         Spacer(modifier = Modifier.height(4.dp))
                     }
@@ -191,7 +153,6 @@ fun NoteItem(
                             fontSize = 14.sp),
                         maxLines =  if (expanded) 7 else 2,
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
                 }
 
                 Text(
@@ -201,6 +162,9 @@ fun NoteItem(
                         fontSize = 12.sp),
                     maxLines =  1,
                 )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -213,16 +177,15 @@ fun NoteItem(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
 
-                    TextButton(
+                    OutlinedButton(
                         onClick = {
                             expanded = !expanded
-                        })
-                    {
+                    }) {
+
                         Text(text = if (expanded) "Read Less" else "Read More" ,
                             style = TextStyle(
                                 color = Color.Black,
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold
+                                fontSize = 12.sp,
                             )
                         )
                     }

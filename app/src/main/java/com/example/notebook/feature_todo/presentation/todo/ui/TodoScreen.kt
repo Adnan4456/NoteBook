@@ -13,7 +13,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieAnimation
@@ -32,21 +35,28 @@ fun TodoScreen(
 ){
 
     val state = viewModel.todoState.value
-    val mylist = viewModel._stateList.collectAsState()
 
-    Column() {
-        Text(text = "Todo ")
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+
+        Spacer(modifier = Modifier.height(30.dp))
+
+        Text(text = "Todo ",
+        style = TextStyle(
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold
+        )
+        )
         if(state.todo.isEmpty()){
 
             NoNotesImage()
         }
         else
         {
-            LazyColumn(
-                modifier = Modifier.background(
-                    color = colorResource(id = R.color.all_notes_item)
-                    )
-            ){
+            LazyColumn{
                 items(
                     state.todo
                 ){task ->
