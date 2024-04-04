@@ -31,6 +31,9 @@ This project seamlessly integrates Firebase Authentication, a robust and secure 
 <br>
 <br>
 <img
+  src = "https://github.com/Adnan4456/NoteBook/assets/82003540/62e3bc96-7a7c-4a1d-9c89-a0749d04d192"
+     width="200" height="400">
+<img
   src = "https://github.com/Adnan4456/NoteBook/assets/82003540/06ab5d94-3284-4a4f-a9a5-9ca982d50201" 
   width="200" height="400" >   <img  
     src = "https://github.com/Adnan4456/NoteBook/assets/82003540/9cebbf75-4c85-40f2-bfe6-9721c7acec69"    
@@ -43,9 +46,6 @@ This project seamlessly integrates Firebase Authentication, a robust and secure 
  * Text Editor is used to style their notes 
 
 <br>
-<img
-  src = "https://github.com/Adnan4456/NoteBook/assets/82003540/62e3bc96-7a7c-4a1d-9c89-a0749d04d192"
-     width="200" height="400">
      
 <img 
 
