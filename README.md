@@ -18,11 +18,16 @@ Implemented a versatile theming system that allows users to switch between dark 
 
 <img
   src = "https://github.com/Adnan4456/NoteBook/assets/82003540/06ab5d94-3284-4a4f-a9a5-9ca982d50201" 
-  width="200" height="400" >                        <img  src = "https://github.com/Adnan4456/NoteBook/assets/82003540/9cebbf75-4c85-40f2-bfe6-9721c7acec69"     width="200" height="400" >
-
-
-
-![Screenshot_20240403-221428](https://github.com/Adnan4456/NoteBook/assets/82003540/9cebbf75-4c85-40f2-bfe6-9721c7acec69)
+  width="200" height="400" >   <img  
+                                 src = "https://github.com/Adnan4456/NoteBook/assets/82003540/9cebbf75-4c85-40f2-bfe6-9721c7acec69"    
+                                 width="200" height="400" >
+                                <img  
+                                 src = "https://github.com/Adnan4456/NoteBook/assets/82003540/9cebbf75-4c85-40f2-bfe6-9721c7acec69"    
+                                 width="200" height="400" >
+                                 
+  <img  
+                                 src = "https://github.com/Adnan4456/NoteBook/assets/82003540/9cebbf75-4c85-40f2-bfe6-9721c7acec69"    
+                                 width="200" height="400" >
 ![Screenshot_20240403-221700](https://github.com/Adnan4456/NoteBook/assets/82003540/f203f004-9d21-49eb-a262-180d2c24452c)
 ![Screenshot_20240403-221508](https://github.com/Adnan4456/NoteBook/assets/82003540/3e6dbf24-79e1-445e-932c-ed36c53c1396)
 ![Screenshot_20240403-221439](https://github.com/Adnan4456/NoteBook/assets/82003540/abfc2248-6316-42ae-afdc-5d0568d43e09)
