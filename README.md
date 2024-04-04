@@ -23,9 +23,7 @@ Implemented a versatile theming system that allows users to switch between dark 
                                  width="200" height="400" >
                                 <img  
     src = "https://github.com/Adnan4456/NoteBook/assets/82003540/f203f004-9d21-49eb-a262-180d2c24452c"    
-                                 width="200" height="400" > <img  
-      src = "https://github.com/Adnan4456/NoteBook/assets/82003540/3e6dbf24-79e1-445e-932c-ed36c53c1396"    
-                                 width="200" height="400" > <img  
+                                 width="200" height="400" >  <img  
       src = "https://github.com/Adnan4456/NoteBook/assets/82003540/abfc2248-6316-42ae-afdc-5d0568d43e09"    
                                  width="200" height="400" >         <img  
       src = "https://github.com/Adnan4456/NoteBook/assets/82003540/2cd2a6aa-6bbe-4848-9f2a-39d5c9168a56"    
