@@ -7,23 +7,17 @@ src = "https://github.com/Adnan4456/NoteBook/assets/82003540/6b59c268-8f8b-4c19-
 
 The Jetpack application boasts a sophisticated architecture built upon Clean Architecture and MVVM principles, enabling seamless integration of Firebase Authentication for secure user login and signup. Users can effortlessly create, customize, and manage notes with features including text styling, image insertion, and privacy settings. Additionally, the application supports Todo list creation and task management, allowing users to mark tasks as completed. Leveraging Kotlin coroutines and flows for asynchronous operations and Hilt for dependency injection ensures optimal performance and scalability. Navigation components facilitate smooth transitions between screens, while adherence to Clean Architecture promotes code maintainability and testability, culminating in a robust and user-centric application experience.
 
-### Multi-Screen Size Support:
-Designed the app to dynamically adapt to various screen sizes, providing a consistent user experience across different Android devices.
+<hr>
 
-### Landscape and Portrait Mode Handling:
-Implemented robust handling for both landscape and portrait modes, ensuring a smooth transition and optimal user experience in different device orientations.
-
-### German Language Support:
-Integrated German language support, making the app accessible to a broader audience and enhancing user engagement by providing a localized experience.
-
-### Dark and Light Theme Modes:
-Implemented a versatile theming system that allows users to switch between dark and light themes based on their preferences. This enhances usability and caters to diverse user preferences.
-
+### Firebase User Authentication Integration
+This project seamlessly integrates Firebase Authentication, a robust and secure user authentication service, to manage user authentication processes. Firebase Authentication simplifies user management, offering features such as sign-up, sign-in, password reset, and third-party authentication options.
 <img
   src = "https://github.com/Adnan4456/NoteBook/assets/82003540/06ab5d94-3284-4a4f-a9a5-9ca982d50201" 
   width="200" height="400" >   <img  
     src = "https://github.com/Adnan4456/NoteBook/assets/82003540/9cebbf75-4c85-40f2-bfe6-9721c7acec69"    
                                  width="200" height="400" >
+ ### Notes 
+
                                 <img  
     src = "https://github.com/Adnan4456/NoteBook/assets/82003540/f203f004-9d21-49eb-a262-180d2c24452c"    
                                  width="200" height="400" > <img  
