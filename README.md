@@ -60,8 +60,7 @@ This project seamlessly integrates Firebase Authentication, a robust and secure 
    <img 
     src ="https://github.com/Adnan4456/NoteBook/assets/82003540/e48b1d24-8deb-470f-8995-e97094050eb7"
      width="200" height="400" >
-
-    <img 
+     <img 
     src ="https://github.com/Adnan4456/NoteBook/assets/82003540/45a4b68a-8ae0-4aa9-9799-06ba8ad960fa"
      width="200" height="400" >
 
