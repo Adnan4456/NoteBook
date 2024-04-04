@@ -30,12 +30,16 @@ The Jetpack application boasts a sophisticated architecture built upon Clean Arc
 This project seamlessly integrates Firebase Authentication, a robust and secure user authentication service, to manage user authentication processes. Firebase Authentication simplifies user management, offering features such as sign-up, sign-in, password reset, and third-party authentication options.
 <br>
 <br>
+<img 
+  src = "https://github.com/Adnan4456/NoteBook/assets/82003540/b49c8443-abfb-4dcf-80d0-7daa73685819"
+    width="200" height="400">
 <img
   src = "https://github.com/Adnan4456/NoteBook/assets/82003540/62e3bc96-7a7c-4a1d-9c89-a0749d04d192"
      width="200" height="400">
 <img
   src = "https://github.com/Adnan4456/NoteBook/assets/82003540/06ab5d94-3284-4a4f-a9a5-9ca982d50201" 
-  width="200" height="400" >   <img  
+  width="200" height="400" >  
+  <img  
     src = "https://github.com/Adnan4456/NoteBook/assets/82003540/9cebbf75-4c85-40f2-bfe6-9721c7acec69"    
                                  width="200" height="400" >
  ### Notes 
