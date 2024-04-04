@@ -11,7 +11,7 @@ The Jetpack application boasts a sophisticated architecture built upon Clean Arc
 
 ### Features 
 * Add and Edit Notes
-* Notes can be bookmarked and hidde
+* Notes can be bookmarked and hide
 * Text Editor is used to style the note and to add image
 * Add and Edit  Todos
 
