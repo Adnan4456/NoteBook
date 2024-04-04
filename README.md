@@ -42,6 +42,10 @@ This project seamlessly integrates Firebase Authentication, a robust and secure 
   <img  
     src = "https://github.com/Adnan4456/NoteBook/assets/82003540/9cebbf75-4c85-40f2-bfe6-9721c7acec69"    
                                  width="200" height="400" >
+      <img
+      src = "https://github.com/Adnan4456/NoteBook/assets/82003540/4ddc9e7e-192b-4aaf-8bf7-07e025e75238"
+           width="200" height="400" >             
+
  ### Notes 
  * User can add notes and image as notes.
  * User can search and sort notes.
