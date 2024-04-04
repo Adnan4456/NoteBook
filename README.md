@@ -17,7 +17,7 @@ Integrated German language support, making the app accessible to a broader audie
 Implemented a versatile theming system that allows users to switch between dark and light themes based on their preferences. This enhances usability and caters to diverse user preferences.
 
 <img
-  src = "https://github.com/Adnan4456/NoteBook/assets/82003540/06ab5d94-3284-4a4f-a9a5-9ca982d50201"     width="100" height="100"
+  src = "https://github.com/Adnan4456/NoteBook/assets/82003540/06ab5d94-3284-4a4f-a9a5-9ca982d50201"     width="100" height="100" >
 
 ![Screenshot_20240403-221248](https://github.com/Adnan4456/NoteBook/assets/82003540/06ab5d94-3284-4a4f-a9a5-9ca982d50201)
 ![Screenshot_20240403-221428](https://github.com/Adnan4456/NoteBook/assets/82003540/9cebbf75-4c85-40f2-bfe6-9721c7acec69)
