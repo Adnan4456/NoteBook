@@ -46,12 +46,7 @@ This project seamlessly integrates Firebase Authentication, a robust and secure 
       src = "https://github.com/Adnan4456/NoteBook/assets/82003540/4ddc9e7e-192b-4aaf-8bf7-07e025e75238"
            width="200" height="400" >             
 
- ### Notes 
- * User can add notes and image as notes.
- * User can search and sort notes.
- * User can add notes to faviourite and hidden them.
- * Room database is used to store all notes.
- * Text Editor is used to style their notes 
+ ### Notes Screenshoots
 
 <br>
      <img  
@@ -68,5 +63,17 @@ This project seamlessly integrates Firebase Authentication, a robust and secure 
     src ="https://github.com/Adnan4456/NoteBook/assets/82003540/094cec7c-ccab-44c9-adda-dd7925650825"
      width="200" height="400" >
     
+<br>
 
+ ### Todo Screenshoots
+
+<br>
+
+  <img 
+    src ="https://github.com/Adnan4456/NoteBook/assets/82003540/68f4dd9d-dd3f-442a-b62a-95cb769c9b87"
+     width="200" height="400" >
+
+     <img 
+    src ="https://github.com/Adnan4456/NoteBook/assets/82003540/09979f14-38e0-436e-a456-0b1249fcc5cd"
+     width="200" height="400" >
 
