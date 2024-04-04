@@ -19,11 +19,11 @@ This project seamlessly integrates Firebase Authentication, a robust and secure 
     src = "https://github.com/Adnan4456/NoteBook/assets/82003540/9cebbf75-4c85-40f2-bfe6-9721c7acec69"    
                                  width="200" height="400" >
  ### Notes 
- User can add notes and image as notes.
- User can search and sort notes.
- User can add notes to faviourite and hidden them.
- Room database is used to store all notes.
- Text Editor is used to style their notes 
+ **User can add notes and image as notes.
+ **User can search and sort notes.
+ **User can add notes to faviourite and hidden them.
+ **Room database is used to store all notes.
+ **Text Editor is used to style their notes 
 
 <br>
 <img 
