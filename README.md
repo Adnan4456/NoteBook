@@ -14,6 +14,8 @@ The Jetpack application boasts a sophisticated architecture built upon Clean Arc
 * Notes can be bookmarked and hide
 * Text Editor is used to style the note and to add image
 * Add and Edit  Todos
+* User can search notes 
+* Sort notes according to  Date
 
 ### Technologies
 * Material design 3
