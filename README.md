@@ -18,13 +18,17 @@ The Jetpack application boasts a sophisticated architecture built upon Clean Arc
 * Sort notes according to  Date
 
 ### Technologies
+* Jetpack compose
+* Navigation
+* Coroutines
+* Kotlin Flow
 * Material design 3
 * MVVM
 * Clean architecture
-* Hilt
+* Hilt 
 * Room database
 * Rich Text Editor
-* Speech to Text
+* Speech to Text for voice search
 
 ### Firebase User Authentication Integration
 This project seamlessly integrates Firebase Authentication, a robust and secure user authentication service, to manage user authentication processes. Firebase Authentication simplifies user management, offering features such as sign-up, sign-in, password reset, and third-party authentication options.
