@@ -73,6 +73,8 @@ This project seamlessly integrates Firebase Authentication, a robust and secure 
     
 <br>
 
+<hr>
+
  ### Todo Screenshoots
 
 <br>
