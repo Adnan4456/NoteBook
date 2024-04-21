@@ -1,8 +1,6 @@
 <img 
 src = "https://github.com/Adnan4456/NoteBook/assets/82003540/6b59c268-8f8b-4c19-a3d1-3ad4c5417791" >
 
-<hr>
-
 ### All-in-one
 
 The Jetpack application boasts a sophisticated architecture built upon Clean Architecture and MVVM principles, enabling seamless integration of Firebase Authentication for secure user login and signup. Users can effortlessly create, customize, and manage notes with features including text styling, image insertion, and privacy settings. Additionally, the application supports Todo list creation and task management, allowing users to mark tasks as completed. Leveraging Kotlin coroutines and flows for asynchronous operations and Hilt for dependency injection ensures optimal performance and scalability. Navigation components facilitate smooth transitions between screens, while adherence to Clean Architecture promotes code maintainability and testability, culminating in a robust and user-centric application experience.
