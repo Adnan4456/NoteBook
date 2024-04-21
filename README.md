@@ -20,6 +20,7 @@ The Jetpack application boasts a sophisticated architecture built upon Clean Arc
 ### Technologies
 * Jetpack compose
 * Navigation
+* Animation
 * Coroutines
 * Kotlin Flow
 * Material design 3
