@@ -15,6 +15,7 @@ The Jetpack application boasts a sophisticated architecture built upon Clean Arc
 * Add and Edit  Todos
 * User can search notes 
 * Sort notes according to  Date
+<hr>
 
 ### Technologies
 * Jetpack compose
@@ -29,6 +30,7 @@ The Jetpack application boasts a sophisticated architecture built upon Clean Arc
 * Room database
 * Rich Text Editor
 * Speech to Text for voice search
+<hr>
 
 ### Firebase User Authentication Integration
 This project seamlessly integrates Firebase Authentication, a robust and secure user authentication service, to manage user authentication processes. Firebase Authentication simplifies user management, offering features such as sign-up, sign-in, password reset, and third-party authentication options.
@@ -49,6 +51,8 @@ This project seamlessly integrates Firebase Authentication, a robust and secure 
       <img
       src = "https://github.com/Adnan4456/NoteBook/assets/82003540/4ddc9e7e-192b-4aaf-8bf7-07e025e75238"
            width="200" height="400" >             
+
+<hr>
 
  ### Notes Screenshoots
 
