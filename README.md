@@ -24,6 +24,7 @@ The Jetpack application boasts a sophisticated architecture built upon Clean Arc
 * Coroutines
 * Kotlin Flow
 * Material design 3
+* Custom color picker
 * MVVM
 * Clean architecture
 * Hilt 
