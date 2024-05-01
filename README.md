@@ -33,6 +33,7 @@ The Jetpack application boasts a sophisticated architecture built upon Clean Arc
 * Room database
 * Rich Text Editor
 * Speech to Text for voice search
+* CI/CD  pipeline Github actions
 <hr>
 
 ### Firebase User Authentication Integration
