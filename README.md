@@ -9,6 +9,7 @@ The Jetpack application boasts a sophisticated architecture built upon Clean Arc
 <hr>
 
 ### Features 
+* User can login and SignUp firebase
 * Add and Edit Notes
 * Notes can be bookmarked and hide
 * Text Editor is used to style the note and to add image
@@ -18,8 +19,9 @@ The Jetpack application boasts a sophisticated architecture built upon Clean Arc
 <hr>
 
 ### Technologies
-* Jetpack compose
-* Navigation
+* Jetpack compose UI
+* Firebase Auth
+* Nested Navigation
 * Animation
 * Coroutines
 * Kotlin Flow
