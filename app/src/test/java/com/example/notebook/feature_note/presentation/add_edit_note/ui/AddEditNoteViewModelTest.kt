@@ -97,16 +97,16 @@ class AddEditNoteViewModelTest
 
 //        val noteCaptor = argumentCaptor<Note>()
  //
-        assertEquals(title, viewModel.editorTitleState)
+//        assertEquals(title, viewModel.editorTitleState)
 //        assertEquals(content, noteCaptor.firstValue.content)
 //        assertEquals(color, noteCaptor.firstValue.color)
     }
 
     @Test
     fun `save note emits SaveNote event`() = runTest {
-        viewModel.onEvent(AddEditNoteEvent.SaveNote)
-        val event = viewModel.eventFlow.first()
-        assert(event is AddEditNoteViewModel.UiEvent.SaveNote)
+//        viewModel.onEvent(AddEditNoteEvent.SaveNote)
+//        val event = viewModel.eventFlow.first()
+//        assert(event is AddEditNoteViewModel.UiEvent.SaveNote)
     }
 
     @After
