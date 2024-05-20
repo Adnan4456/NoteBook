@@ -38,11 +38,7 @@ fun SearchBar(
     SearchBar(
         modifier= Modifier
             .fillMaxWidth(),
-//            .border(
-////                width = 1.dp,
-////                shape = RoundedCornerShape(10.dp),
-//                BorderStroke(1.dp, Color.LightGray)
-//            ),
+
         colors = SearchBarDefaults.colors(
 //            containerColor = colorResource(id = R.color.white).copy(.9f),
         ),

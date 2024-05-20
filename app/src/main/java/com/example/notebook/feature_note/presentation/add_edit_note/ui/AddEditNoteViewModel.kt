@@ -119,7 +119,6 @@ class AddEditNoteViewModel
 
                 viewModelScope.launch {
                     try {
-
                         noteUseCase.addNoteUseCase(
                             Note(
 //                                title = noteTitle.value.text,
