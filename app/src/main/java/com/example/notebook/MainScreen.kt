@@ -8,11 +8,13 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
@@ -111,7 +113,9 @@ fun NavigationBar(navController: NavHostController, onChange: (Boolean) ->Unit){
         onChange(true)
         NavigationBar(
             modifier = Modifier
-                .height(80.dp),
+                .height(80.dp)
+                .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
+                ),
             containerColor = colorResource(id = R.color.all_notes_bg).copy(.9f),
             tonalElevation = 16.dp
         ) {

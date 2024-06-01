@@ -3,9 +3,7 @@ package com.example.notebook.feature_note.presentation.notes.components
 import android.annotation.SuppressLint
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -40,10 +38,11 @@ fun SearchBar(
     SearchBar(
         modifier= Modifier
             .fillMaxWidth(),
+
         colors = SearchBarDefaults.colors(
-            containerColor = colorResource(id = R.color.white).copy(.9f),
+//            containerColor = colorResource(id = R.color.white).copy(.9f),
         ),
-        shape = RoundedCornerShape(16.dp),
+//        shape = RoundedCornerShape(16.dp),
         query = query,
         onQueryChange = {
             query  = it
@@ -68,14 +67,15 @@ fun SearchBar(
                 modifier = Modifier.padding(8.dp)
             ) {
 
-                Icon(imageVector = Icons.Default.Mic, contentDescription = "")
+                Icon(
+                    imageVector = Icons.Default.Mic, contentDescription = "")
 
                 Spacer(modifier = Modifier.width(8.dp))
                 if (active){
                     Icon(
                         modifier = Modifier.clickable {
 
-                            if (query.isEmpty()){
+                            if (query.isEmpty() ){
                                 active = false
                                 focusManager.clearFocus()
                             }else
