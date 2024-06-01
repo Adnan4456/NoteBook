@@ -10,6 +10,7 @@ The Jetpack application boasts a sophisticated architecture built upon Clean Arc
 
 ### Features 
 * User can login and SignUp firebase
+* Reset password firebasebase auth
 * Add and Edit Notes
 * Notes can be bookmarked and hide
 * Text Editor is used to style the note and to add image
