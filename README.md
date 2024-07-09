@@ -30,6 +30,7 @@ The Jetpack application boasts a sophisticated architecture built upon Clean Arc
 * Custom color picker
 * MVVM
 * Clean architecture
+* Event and State design pattern 
 * Localization
 * Hilt 
 * Room database
